@@ -40,7 +40,11 @@ export default function Piutang() {
   };
 
   useEffect(() => {
-    dispatch(fetchDataApi());
+    setloading(true);
+    dispatch(fetchDataApi()).then((res) => {
+      setfilterData(res);
+      setloading(false);
+    });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dispatch]);
 

@@ -12,8 +12,14 @@ export default function App() {
     <Switch>
       <Gate exact path="/login" component={Login}></Gate>
       <Authenticated exact path="/" component={Home}></Authenticated>
-      <Gate exact path="/list-unbill" component={Unbill}></Gate>
-      <Gate exact path="/list-piutang" component={Piutang}></Gate>
+      <Authenticated
+        exact
+        path="/list-unbill"
+        component={Unbill}></Authenticated>
+      <Authenticated
+        exact
+        path="/list-piutang"
+        component={Piutang}></Authenticated>
 
       <Gate exact path="/*" component={NotFound}></Gate>
     </Switch>
