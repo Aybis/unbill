@@ -1,0 +1,11 @@
+export const LIST_PIUTANG = 'LIST_PIUTANG';
+export const TEMPORARY = 'TEMPORARY';
+export const PAGE = 'PAGE';
+export const CURRENT_PAGE = 'CURRENT_PAGE';
+export const PIUTANG_SELECTED = 'PIUTANG_SELECTED';
+export const BULAN = 'BULAN';
+export const TAHUN = 'TAHUN';
+export const LOADING = 'LOADING';
+export const MESSAGE = 'MESSAGE';
+export const ERROR = 'ERROR';
+export const STATUS = 'STATUS';
