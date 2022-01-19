@@ -1,10 +1,10 @@
 import { convertDate } from '../../helpers/ConvertDate';
-import * as type from '../types/unbill';
+import * as type from '../types/invoice';
 
 const initialState = {
-  listUnbill: {},
+  listInvoice: {},
   temporary: {},
-  unbillSelected: {},
+  invoiceSelected: {},
   page: {},
   current_page: {},
   bulan: convertDate('bulan'),
@@ -18,13 +18,13 @@ const initialState = {
 // eslint-disable-next-line import/no-anonymous-default-export
 export default function (state = initialState, action) {
   switch (action.type) {
-    case type.LIST_UNBILL:
+    case type.LIST_INVOICE:
       return {
         ...state,
         listUnbill: action.payload ?? {},
       };
 
-    case type.UNBILL_SELECTED:
+    case type.INVOICE_SELECTED:
       return {
         ...state,
         unbillSelected: action.payload ?? {},

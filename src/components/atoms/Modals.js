@@ -55,7 +55,7 @@ export default function Modal({
             leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95">
             <div
               className={[
-                'inline-block  align-bottom bg-white p-3 shadow-xl transform transition-all h-auto',
+                'inline-block  align-bottom bg-white p-3 shadow-xl transform transition-all h-auto w-xl',
                 margin ? 'mx-4 rounded-xl  max-w-full' : 'rounded-t-xl w-full',
               ].join(' ')}>
               <div className="p-2">

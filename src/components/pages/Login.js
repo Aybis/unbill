@@ -153,13 +153,6 @@ export default function Login({ history }) {
               </button>
             </div>
           </div>
-          <div className="relative inset-x-0 mb-10 -mt-6">
-            <Link
-              to={'/forget'}
-              className="absolute right-0 top-0 text-sm text-right cursor-pointer text-zinc-500 text-opacity-50 hover:text-blue-800 transition duration-300">
-              Forgot password?
-            </Link>
-          </div>
 
           <button
             disabled={isSubmit}

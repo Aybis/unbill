@@ -1,8 +1,15 @@
-import { DatabaseIcon, DocumentAddIcon } from '@heroicons/react/solid';
+import { DocumentAddIcon, DocumentIcon } from '@heroicons/react/solid';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import swal from 'sweetalert';
 import { fetchDataApi } from '../../redux/actions/piutang';
-import { Loading, TableBody, TableContent, TableHeading } from '../atoms';
+import {
+  Loading,
+  Modals,
+  TableBody,
+  TableContent,
+  TableHeading,
+} from '../atoms';
 import { Layout } from '../includes';
 import { Pagination } from '../molecules';
 
@@ -11,6 +18,8 @@ export default function Piutang() {
   const PIUTANG = useSelector((state) => state.piutang);
   const [search, setsearch] = useState('');
   const [loading, setloading] = useState(false);
+  const [isSubmit, setIsSubmit] = useState(false);
+  const [showModal, setShowModal] = useState(false);
   const [filterData, setfilterData] = useState(PIUTANG?.listPiutang);
 
   const [state, setstate] = useState({
@@ -19,6 +28,8 @@ export default function Piutang() {
     currentPage: null,
     totalPages: null,
   });
+
+  const handlerOpenModalUpload = () => {};
 
   const onPageChanged = (data) => {
     const { currentPage, totalPages, pageLimit } = data;
@@ -39,6 +50,16 @@ export default function Piutang() {
     }, 400);
   };
 
+  const handlerSubmit = (event) => {
+    event.preventDefault();
+    setIsSubmit(true);
+    setTimeout(() => {
+      setIsSubmit(false);
+      swal('Yeay!', 'Upload File Berhasil!', 'success');
+      setShowModal(false);
+    }, 400);
+  };
+
   useEffect(() => {
     setloading(true);
     dispatch(fetchDataApi()).then((res) => {
@@ -50,8 +71,8 @@ export default function Piutang() {
 
   return (
     <Layout titlePage="List Piutang">
-      <div className="relative w-full my-8 p-2">
-        <div className="relative flex justify-between items-center mb-8">
+      <div className="relative w-full my-8 px-4 py-6 rounded-md bg-white">
+        <div className="relative flex justify-between items-center mb-6">
           <div className="relative">
             <input
               type="text"
@@ -59,22 +80,22 @@ export default function Piutang() {
               value={search}
               onChange={handlerSerachKaryawan}
               placeholder="Search"
-              className="border border-zinc-200 bg-white px-4 py-3 font-medium rounded-md shadow shadow-slate-200/50 focus:border-blue-600 transition-all duration-300 ease-in-out placeholder:opacity-40"
+              className="border border-zinc-200 bg-white px-4 py-2 font-medium rounded-md shadow shadow-slate-200/50 focus:border-blue-600 transition-all duration-300 ease-in-out placeholder:opacity-40 text-sm"
             />
           </div>
-          <button className=" rounded-md shadow-md shadow-blue-500/50 bg-blue-600 hover:bg-blue-700 transition-all duration-300 ease-in-out px-4 py-3 text-white font-semibold flex justify-center items-center gap-2">
+          <button
+            onClick={() => setShowModal(true)}
+            className="text-sm rounded-md shadow-md shadow-blue-500/50 bg-blue-600 hover:bg-blue-700 transition-all duration-300 ease-in-out px-4 py-2 text-white font-semibold flex justify-center items-center gap-2">
             <DocumentAddIcon className="h-5" />
             Upload File
           </button>
         </div>
         {PIUTANG.loading || loading ? (
-          <div className="flex justify-center items-center mt-24">
+          <div className="flex justify-center items-center mt-14">
             <Loading color={'text-blue-600'} height={6} width={6} />
           </div>
         ) : (
-          <div
-            className="overflow-auto relative max-w-full"
-            style={{ height: '38rem' }}>
+          <div className="overflow-auto relative max-w-full">
             <TableHeading
               theading={[
                 'No',
@@ -99,15 +120,8 @@ export default function Piutang() {
                       {index + 1}
                     </TableContent>
                     <TableContent addClassChild={'flex flex-col gap-2'}>
-                      <button className="flex justify-center items-center  flex-1 w-40 gap-2 bg-green-500 px-3  py-2 rounded-md text-white font-semibold">
-                        <DatabaseIcon className="h-5 " /> Detail Piutang
-                      </button>
-                      <button className="flex gap-2 justify-center items-center bg-indigo-500 px-3 w-40 py-2 rounded-md text-white font-semibold">
-                        <DatabaseIcon className="h-5 " /> List Invoice
-                      </button>
-                      <button className="flex justify-center items-center gap-2 bg-blue-500 px-3 w-40 py-2 rounded-md text-white font-semibold">
-                        <DocumentAddIcon className="h-5" />
-                        File
+                      <button className="hover:bg-green-700 transition-all duration-300 ease-in-out flex justify-center items-center  flex-1 w-40 gap-2 bg-green-500 px-3  py-2 rounded-md text-white font-semibold">
+                        <DocumentIcon className="h-5 " /> Detail Piutang
                       </button>
                     </TableContent>
                     <TableContent>{item.uid}</TableContent>
@@ -159,6 +173,41 @@ export default function Piutang() {
           </div>
         )}
       </div>
+
+      <Modals
+        open={showModal}
+        handlerClose={setShowModal}
+        title={'Upload File Data Piutang'}
+        position="center">
+        <form className="mt-8" onSubmit={handlerSubmit}>
+          <div className="relative">
+            <label
+              htmlFor="cover-photo"
+              className="block text-left mb-4 text-sm font-medium text-gray-700">
+              Upload File
+            </label>
+            <div className="mt-1 flex justify-start px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded">
+              <input
+                name="file-upload"
+                accept=".xlsx, .xls, .csv"
+                type="file"
+                className="focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 px-6 py-2 border border-transparent rounded-md"
+              />
+            </div>
+          </div>
+          <div className="pt-4 flex">
+            <button
+              type="submit"
+              disabled={isSubmit}
+              className="disabled:bg-opacity-40 inline-flex justify-center gap-2 py-2 px-8 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+              {isSubmit && (
+                <Loading color={'text-white'} height={5} width={5} />
+              )}
+              Upload
+            </button>
+          </div>
+        </form>
+      </Modals>
     </Layout>
   );
 }

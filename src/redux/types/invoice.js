@@ -1,6 +1,6 @@
 export const TEMPORARY = 'TEMPORARY';
-export const LIST_UNBILL = 'LIST_UNBILL';
-export const UNBILL_SELECTED = 'UNBILL_SELECTED';
+export const LIST_INVOICE = 'LIST_INVOICE';
+export const INVOICE_SELECTED = 'INVOICE_SELECTED';
 export const BULAN = 'BULAN';
 export const TAHUN = 'TAHUN';
 export const LOADING = 'LOADING';

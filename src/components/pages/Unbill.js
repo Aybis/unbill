@@ -1,18 +1,23 @@
-import { DatabaseIcon, DocumentAddIcon } from '@heroicons/react/solid';
+import {
+  DatabaseIcon,
+  DocumentAddIcon,
+  SearchIcon,
+} from '@heroicons/react/solid';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchDataApi } from '../../redux/actions/piutang';
+import { fetchDataUnbill } from '../../redux/actions/unbill';
 import { Loading, TableBody, TableContent, TableHeading } from '../atoms';
 import { Layout } from '../includes';
 import { Pagination } from '../molecules';
 
 export default function Piutang() {
   const dispatch = useDispatch();
-  const PIUTANG = useSelector((state) => state.piutang);
+  const UNBILL = useSelector((state) => state.unbill);
   const [search, setsearch] = useState('');
   const [loading, setloading] = useState(false);
-  const [filterData, setfilterData] = useState(PIUTANG?.listPiutang);
-
+  const [filterData, setfilterData] = useState(UNBILL?.listUnbill);
+  console.log(UNBILL);
   const [state, setstate] = useState({
     allUsers: filterData,
     currentUsers: [],
@@ -27,10 +32,10 @@ export default function Piutang() {
     setstate({ currentPage, currentUsers, totalPages });
   };
 
-  const handlerSerachKaryawan = (event) => {
+  const handlerSearchData = (event) => {
     setloading(true);
     setsearch(event.target.value);
-    let result = PIUTANG?.listPiutang.filter(
+    let result = UNBILL?.listUnbill.filter(
       (item) => item.strain.toLowerCase().search(event.target.value) !== -1,
     );
     setfilterData(result);
@@ -39,31 +44,41 @@ export default function Piutang() {
     }, 400);
   };
 
+  const handlerClickData = (event, item) => {
+    console.log(event.target.name);
+    console.log(item);
+  };
+
   useEffect(() => {
     setloading(true);
-    dispatch(fetchDataApi()).then((res) => {
+    dispatch(fetchDataUnbill()).then((res) => {
       setfilterData(res);
-      setloading(false);
     });
+    setloading(false);
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dispatch]);
 
   return (
     <Layout titlePage="List Unbill">
       <div className="relative w-full my-8 p-2">
-        <div className="relative flex justify-between items-center mb-8">
+        <div className="relative flex gap-4 items-center mb-4">
           <div className="relative">
+            <SearchIcon className="absolute top-2 h-5 w-5 left-4 text-zinc-400" />
             <input
               type="text"
               name="search"
               value={search}
-              onChange={handlerSerachKaryawan}
+              onChange={handlerSearchData}
               placeholder="Search"
-              className="border border-zinc-200 bg-white px-4 py-3 font-medium rounded-md shadow shadow-slate-200/50 focus:border-blue-600 transition-all duration-300 ease-in-out placeholder:opacity-40"
+              className="border text-sm border-zinc-200 bg-white pl-10 px-4 py-2 font-medium rounded-md shadow shadow-slate-200/50 focus:border-blue-600 transition-all duration-300 ease-in-out placeholder:opacity-40"
             />
           </div>
+          <button className="text-sm px-6 py-2 rounded-md text-white bg-blue-600 font-medium hover:bg-blue-700 transition-all duration-300 ease-in-out">
+            Search
+          </button>
         </div>
-        {PIUTANG.loading || loading ? (
+        {UNBILL.loading || loading ? (
           <div className="flex justify-center items-center mt-24">
             <Loading color={'text-blue-600'} height={6} width={6} />
           </div>
@@ -76,18 +91,16 @@ export default function Piutang() {
                 'No',
                 'Action',
                 'uid',
-                'strain',
-                'cannabinoid_abbreviation',
-                'cannabinoid',
-                'terpene',
-                'medical_use',
-                'health_benefit',
-                'category',
-                'type',
-                'buzzword',
-                'brand',
+                'username',
+                'first_name',
+                'last_name',
+                'gender',
+                'phone_number',
+                'social_insurance_number',
+                'email',
+                'date_of_birth',
               ]}>
-              {PIUTANG.listPiutang.length > 0 &&
+              {UNBILL?.listUnbill?.length > 0 &&
                 state.currentUsers.map((item, index) => (
                   <TableBody key={Math.random()}>
                     <TableContent
@@ -95,28 +108,35 @@ export default function Piutang() {
                       {index + 1}
                     </TableContent>
                     <TableContent addClassChild={'flex flex-col gap-2'}>
-                      <button className="flex justify-center items-center  flex-1 w-40 gap-2 bg-green-500 px-3  py-2 rounded-md text-white font-semibold">
-                        <DatabaseIcon className="h-5 " /> Detail Piutang
+                      <button
+                        onClick={(e) => handlerClickData(e, item)}
+                        name="piutang"
+                        className="flex justify-center items-center  flex-1 w-40 gap-2 bg-green-500 px-3  py-2 rounded-md text-white font-semibold">
+                        <DatabaseIcon className="h-5 " /> List Piutang
                       </button>
-                      <button className="flex gap-2 justify-center items-center bg-indigo-500 px-3 w-40 py-2 rounded-md text-white font-semibold">
+                      <button
+                        onClick={(e) => handlerClickData(e, item)}
+                        name="invoice"
+                        className="flex gap-2 justify-center items-center bg-indigo-500 px-3 w-40 py-2 rounded-md text-white font-semibold">
                         <DatabaseIcon className="h-5 " /> List Invoice
                       </button>
-                      <button className="flex justify-center items-center gap-2 bg-blue-500 px-3 w-40 py-2 rounded-md text-white font-semibold">
+                      <button
+                        onClick={(e) => handlerClickData(e, item)}
+                        name="file"
+                        className="flex justify-center items-center gap-2 bg-blue-500 px-3 w-40 py-2 rounded-md text-white font-semibold">
                         <DocumentAddIcon className="h-5" />
-                        File
+                        Update File
                       </button>
                     </TableContent>
                     <TableContent>{item.uid}</TableContent>
-                    <TableContent>{item.strain}</TableContent>
-                    <TableContent>{item.cannabinoid_abbreviation}</TableContent>
-                    <TableContent>{item.cannabinoid}</TableContent>
-                    <TableContent>{item.terpene}</TableContent>
-                    <TableContent>{item.medical_use}</TableContent>
-                    <TableContent>{item.health_benefit}</TableContent>
-                    <TableContent>{item.category}</TableContent>
-                    <TableContent>{item.type}</TableContent>
-                    <TableContent>{item.buzzword}</TableContent>
-                    <TableContent>{item.brand}</TableContent>
+                    <TableContent>{item.username}</TableContent>
+                    <TableContent>{item.first_name}</TableContent>
+                    <TableContent>{item.last_name}</TableContent>
+                    <TableContent>{item.gender}</TableContent>
+                    <TableContent>{item.phone_number}</TableContent>
+                    <TableContent>{item.social_insurance_number}</TableContent>
+                    <TableContent>{item.email}</TableContent>
+                    <TableContent>{item.date_of_birth}</TableContent>
                   </TableBody>
                 ))}
             </TableHeading>
