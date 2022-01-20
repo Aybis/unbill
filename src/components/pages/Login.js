@@ -2,7 +2,6 @@ import { EyeIcon, EyeOffIcon } from '@heroicons/react/solid';
 import { motion } from 'framer-motion';
 import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { Link } from 'react-router-dom';
 import swal from 'sweetalert';
 import { userLogin } from '../../redux/actions/user';
 import { Loading } from '../atoms';

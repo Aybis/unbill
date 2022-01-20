@@ -1,5 +1,4 @@
 import axios from 'axios';
-import billing from '../../configs/api/billing';
 import * as type from '../types/unbill';
 
 export const setListUnbill = (data) => ({
