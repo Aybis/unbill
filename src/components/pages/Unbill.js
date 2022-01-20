@@ -5,59 +5,46 @@ import {
 } from '@heroicons/react/solid';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchDataApi } from '../../redux/actions/piutang';
-import { fetchDataUnbill } from '../../redux/actions/unbill';
+import { useHistory } from 'react-router-dom';
+import { fetchDataUnbill, setUnbilSelected } from '../../redux/actions/unbill';
 import { Loading, TableBody, TableContent, TableHeading } from '../atoms';
 import { Layout } from '../includes';
-import { Pagination } from '../molecules';
 
 export default function Piutang() {
   const dispatch = useDispatch();
   const UNBILL = useSelector((state) => state.unbill);
-  const [search, setsearch] = useState('');
+  const [didMount, setDidMount] = useState(false);
   const [loading, setloading] = useState(false);
-  const [filterData, setfilterData] = useState(UNBILL?.listUnbill);
-  console.log(UNBILL);
-  const [state, setstate] = useState({
-    allUsers: filterData,
-    currentUsers: [],
-    currentPage: null,
-    totalPages: null,
-  });
-
-  const onPageChanged = (data) => {
-    const { currentPage, totalPages, pageLimit } = data;
-    const offset = (currentPage - 1) * pageLimit;
-    const currentUsers = filterData.slice(offset, offset + pageLimit);
-    setstate({ currentPage, currentUsers, totalPages });
-  };
-
-  const handlerSearchData = (event) => {
-    setloading(true);
-    setsearch(event.target.value);
-    let result = UNBILL?.listUnbill.filter(
-      (item) => item.strain.toLowerCase().search(event.target.value) !== -1,
-    );
-    setfilterData(result);
-    setTimeout(() => {
-      setloading(false);
-    }, 400);
-  };
+  const history = useHistory();
 
   const handlerClickData = (event, item) => {
-    console.log(event.target.name);
-    console.log(item);
+    let name = event.target.name;
+    dispatch(setUnbilSelected(item));
+    if (name === 'piutang') {
+      history.push(`piutang/${item.uid}`);
+    }
+    if (name === 'invoice') {
+      history.push(`invoice/${item.uid}`);
+    }
+    if (name === 'file') {
+      history.push(`file/${item.uid}`);
+    }
   };
 
   useEffect(() => {
     setloading(true);
-    dispatch(fetchDataUnbill()).then((res) => {
-      setfilterData(res);
-    });
+    dispatch(fetchDataUnbill());
     setloading(false);
-
+    setDidMount(true);
+    return () => {
+      setDidMount(false);
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dispatch]);
+
+  if (!didMount) {
+    return null;
+  }
 
   return (
     <Layout titlePage="List Unbill">
@@ -68,8 +55,6 @@ export default function Piutang() {
             <input
               type="text"
               name="search"
-              value={search}
-              onChange={handlerSearchData}
               placeholder="Search"
               className="border text-sm border-zinc-200 bg-white pl-10 px-4 py-2 font-medium rounded-md shadow shadow-slate-200/50 focus:border-blue-600 transition-all duration-300 ease-in-out placeholder:opacity-40"
             />
@@ -101,7 +86,7 @@ export default function Piutang() {
                 'date_of_birth',
               ]}>
               {UNBILL?.listUnbill?.length > 0 &&
-                state.currentUsers.map((item, index) => (
+                UNBILL?.listUnbill.map((item, index) => (
                   <TableBody key={Math.random()}>
                     <TableContent
                       addClassChild={'px-8 flex justify-center items-center'}>
@@ -140,38 +125,6 @@ export default function Piutang() {
                   </TableBody>
                 ))}
             </TableHeading>
-          </div>
-        )}
-        {loading ? (
-          ''
-        ) : (
-          <div className="flex justify-between items-center mt-4">
-            {filterData.length > 0 ? (
-              state.currentPage && (
-                <span className="text-xs lg:text-base current-page d-inline-block h-100 pl-4 text-gray-400">
-                  Page{' '}
-                  <span className="ml-1 font-semibold text-gray-800">
-                    {state.currentPage}
-                  </span>{' '}
-                  /{' '}
-                  <span className="font-semibold text-gray-600">
-                    {state.totalPages}
-                  </span>{' '}
-                  -{' '}
-                  <span className="font-semibold text-gray-600">
-                    {filterData.length} data
-                  </span>
-                </span>
-              )
-            ) : (
-              <p className="text-center w-full">Tidak ada data</p>
-            )}
-            <Pagination
-              totalRecords={filterData.length ?? 0}
-              pageLimit={10}
-              pageNeighbours={1}
-              onPageChanged={onPageChanged}
-            />
           </div>
         )}
       </div>

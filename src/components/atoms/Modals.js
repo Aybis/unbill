@@ -60,7 +60,7 @@ export default function Modal({
               ].join(' ')}>
               <div className="p-2">
                 <div className="flex justify-between items-center mb-4">
-                  <h1 className="text-left text-zinc-800 text-lg font-semibold ">
+                  <h1 className="text-left text-zinc-800 text-lg font-semibold capitalize">
                     {title}
                   </h1>
                   <XIcon

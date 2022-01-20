@@ -1,0 +1,10 @@
+export const TEMPORARY = 'TEMPORARY';
+export const LIST_LOP = 'LIST_LOP';
+export const LOP_SELECTED = 'LOP_SELECTED';
+export const TYPE_FORM = 'TYPE_FORM';
+export const BULAN = 'BULAN';
+export const TAHUN = 'TAHUN';
+export const LOADING = 'LOADING';
+export const MESSAGE = 'MESSAGE';
+export const ERROR = 'ERROR';
+export const STATUS = 'STATUS';

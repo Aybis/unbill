@@ -6,3 +6,5 @@ export { default as GroupInputRadio } from './GroupInputRadio';
 export { default as Pagination } from './Pagination';
 export { default as SectionFilterMonthYear } from './SectionFilterMonthYear';
 export { default as SectionHeaderPage } from './SectionHeaderPage';
+export { default as FormLop } from './FormLop';
+export { default as FormUploadFile } from './FormUploadFile';

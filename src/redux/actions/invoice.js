@@ -1,3 +1,4 @@
+import billing from '../../configs/api/billing';
 import * as type from '../types/invoice';
 
 export const setListInvoice = (data) => ({
@@ -29,3 +30,19 @@ export const setStatus = (data) => ({
   type: type.STATUS,
   payload: data,
 });
+
+export const fetchInvoiceByIO = async (data) => {
+  try {
+    const result = await billing.listInvoice({
+      params: {
+        io: data,
+      },
+    });
+
+    console.log(result);
+    return result;
+  } catch (error) {
+    console.log(error);
+    return error;
+  }
+};

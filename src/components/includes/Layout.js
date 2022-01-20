@@ -29,7 +29,7 @@ export default function Layout({ children, titlePage }) {
               {/* Your content */}
 
               <div className="relative p-8">
-                <h1 className="text-2xl text-zinc-800 font-semibold">
+                <h1 className="text-2xl text-zinc-800 font-semibold capitalize">
                   {titlePage}
                 </h1>
                 {children}

@@ -5,14 +5,20 @@ import { toAbsoluteUrl } from '../../helpers/Assets';
 const sidebarNavigation = [
   { name: 'Dashboard', href: '/', icon: ChartBarIcon, current: true },
   {
-    name: 'List Unbill',
-    href: '/list-unbill',
+    name: 'Unbill',
+    href: '/unbill',
     icon: ClipboardListIcon,
     current: false,
   },
   {
-    name: 'List Piutang',
-    href: '/list-piutang',
+    name: 'Piutang',
+    href: '/piutang',
+    icon: ClipboardListIcon,
+    current: false,
+  },
+  {
+    name: 'LOP',
+    href: '/lop',
     icon: ClipboardListIcon,
     current: false,
   },
@@ -42,9 +48,9 @@ export default function Sidebar() {
               to={item.href}
               className={classNames(
                 path === item.href
-                  ? 'bg-zinc-800 text-white'
-                  : 'text-zinc-400 hover:bg-zinc-800 hover:text-white',
-                'group w-full p-3 rounded-md flex flex-col items-center text-xs font-medium',
+                  ? 'bg-zinc-800 text-white font-semibold'
+                  : 'text-zinc-400 hover:bg-zinc-800 hover:text-white font-medium',
+                'group w-full p-3 rounded-md flex flex-col items-center text-xs ',
               )}
               aria-current={path === item.href ? 'page' : undefined}>
               <item.icon

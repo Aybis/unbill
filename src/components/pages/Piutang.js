@@ -1,8 +1,18 @@
-import { DocumentAddIcon, DocumentIcon } from '@heroicons/react/solid';
+import {
+  ArrowLeftIcon,
+  DocumentAddIcon,
+  DocumentIcon,
+} from '@heroicons/react/solid';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useHistory, useParams } from 'react-router-dom';
 import swal from 'sweetalert';
-import { fetchDataApi } from '../../redux/actions/piutang';
+import {
+  fetchDataApi,
+  fetchDataTableHeaderPiutang,
+  setPiutangSelected,
+  setTypePage,
+} from '../../redux/actions/piutang';
 import {
   Loading,
   Modals,
@@ -14,8 +24,12 @@ import { Layout } from '../includes';
 import { Pagination } from '../molecules';
 
 export default function Piutang() {
+  const { id } = useParams();
   const dispatch = useDispatch();
+  const history = useHistory();
+  const [didMount, setDidMount] = useState(false);
   const PIUTANG = useSelector((state) => state.piutang);
+  const UNBILL = useSelector((state) => state.unbill);
   const [search, setsearch] = useState('');
   const [loading, setloading] = useState(false);
   const [isSubmit, setIsSubmit] = useState(false);
@@ -29,7 +43,17 @@ export default function Piutang() {
     totalPages: null,
   });
 
-  const handlerOpenModalUpload = () => {};
+  const handlerClikData = (event, item) => {
+    dispatch(setPiutangSelected(item));
+    let name = event.target.name;
+    if (name === 'preview') {
+      dispatch(setTypePage('preview'));
+    }
+    if (name === 'update') {
+      dispatch(setTypePage('update'));
+    }
+    history.push(`/preview-piutang/${item.uid}`);
+  };
 
   const onPageChanged = (data) => {
     const { currentPage, totalPages, pageLimit } = data;
@@ -62,15 +86,41 @@ export default function Piutang() {
 
   useEffect(() => {
     setloading(true);
+    fetchDataTableHeaderPiutang();
     dispatch(fetchDataApi()).then((res) => {
       setfilterData(res);
       setloading(false);
     });
+    setDidMount(true);
+    return () => {
+      setDidMount(false);
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dispatch]);
 
+  if (!didMount) {
+    return null;
+  }
   return (
-    <Layout titlePage="List Piutang">
+    <Layout titlePage={`List Piutang `}>
+      {id && (
+        <>
+          <span
+            onClick={() => history.goBack()}
+            className="relative cursor-pointer flex w-fit mt-4 gap-2 pb-1 items-center hover:border-zinc-500 border-b-2 border-transparent transition-all duration-300 ease-in-out">
+            <ArrowLeftIcon className="text-zinc-800 h-4" />
+            <span className="text-sm font-medium">Kembali</span>
+          </span>
+          <div className="relative mt-8 p-4 rounded-md text-white flex justify-center items-center bg-blue-500 shadow-lg shadow-blue-400/50">
+            <h1 className="text-xl font-semibold">
+              {UNBILL.unbillSelected.id} -{' '}
+              {UNBILL.unbillSelected.first_name +
+                ' ' +
+                UNBILL.unbillSelected.last_name}
+            </h1>
+          </div>
+        </>
+      )}
       <div className="relative w-full my-8 px-4 py-6 rounded-md bg-white">
         <div className="relative flex justify-between items-center mb-6">
           <div className="relative">
@@ -83,12 +133,14 @@ export default function Piutang() {
               className="border border-zinc-200 bg-white px-4 py-2 font-medium rounded-md shadow shadow-slate-200/50 focus:border-blue-600 transition-all duration-300 ease-in-out placeholder:opacity-40 text-sm"
             />
           </div>
-          <button
-            onClick={() => setShowModal(true)}
-            className="text-sm rounded-md shadow-md shadow-blue-500/50 bg-blue-600 hover:bg-blue-700 transition-all duration-300 ease-in-out px-4 py-2 text-white font-semibold flex justify-center items-center gap-2">
-            <DocumentAddIcon className="h-5" />
-            Upload File
-          </button>
+          {!id && (
+            <button
+              onClick={() => setShowModal(true)}
+              className="text-sm rounded-md shadow-md shadow-blue-500/50 bg-blue-600 hover:bg-blue-700 transition-all duration-300 ease-in-out px-4 py-2 text-white font-semibold flex justify-center items-center gap-2">
+              <DocumentAddIcon className="h-5" />
+              Upload File
+            </button>
+          )}
         </div>
         {PIUTANG.loading || loading ? (
           <div className="flex justify-center items-center mt-14">
@@ -120,8 +172,17 @@ export default function Piutang() {
                       {index + 1}
                     </TableContent>
                     <TableContent addClassChild={'flex flex-col gap-2'}>
-                      <button className="hover:bg-green-700 transition-all duration-300 ease-in-out flex justify-center items-center  flex-1 w-40 gap-2 bg-green-500 px-3  py-2 rounded-md text-white font-semibold">
-                        <DocumentIcon className="h-5 " /> Detail Piutang
+                      <button
+                        onClick={(e) => handlerClikData(e, item)}
+                        name="preview"
+                        className="hover:bg-green-700 transition-all duration-300 ease-in-out flex justify-center items-center  flex-1 w-40 gap-2 bg-green-500 px-3  py-2 rounded-md text-white font-semibold">
+                        <DocumentIcon className="h-5 " /> Preview Piutang
+                      </button>
+                      <button
+                        name="update"
+                        onClick={(e) => handlerClikData(e, item)}
+                        className="hover:bg-blue-700 transition-all duration-300 ease-in-out flex justify-center items-center  flex-1 w-40 gap-2 bg-blue-500 px-3  py-2 rounded-md text-white font-semibold">
+                        <DocumentIcon className="h-5 " /> Update Piutang
                       </button>
                     </TableContent>
                     <TableContent>{item.uid}</TableContent>

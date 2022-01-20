@@ -1,5 +1,7 @@
 export const LIST_PIUTANG = 'LIST_PIUTANG';
+export const TABLE_HEADER = 'TABLE_HEADER';
 export const TEMPORARY = 'TEMPORARY';
+export const TYPE_PAGE = 'TYPE_PAGE';
 export const PAGE = 'PAGE';
 export const CURRENT_PAGE = 'CURRENT_PAGE';
 export const PIUTANG_SELECTED = 'PIUTANG_SELECTED';

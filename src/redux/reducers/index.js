@@ -6,11 +6,12 @@ import user from './user';
 import piutang from './piutang';
 import unbill from './unbill';
 import invoice from './invoice';
+import lop from './lop';
 
 const persistConfig = {
   key: 'root',
   storage,
-  whitelist: ['user', 'piutang', 'unbill', 'invoice'],
+  whitelist: ['user', 'piutang', 'unbill', 'invoice', 'lop'],
 };
 
 const rootReducer = combineReducers({
@@ -18,6 +19,7 @@ const rootReducer = combineReducers({
   piutang,
   unbill,
   invoice,
+  lop,
 });
 
 export default persistReducer(persistConfig, rootReducer);

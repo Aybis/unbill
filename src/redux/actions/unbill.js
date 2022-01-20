@@ -1,4 +1,5 @@
 import axios from 'axios';
+import billing from '../../configs/api/billing';
 import * as type from '../types/unbill';
 
 export const setListUnbill = (data) => ({
@@ -35,7 +36,7 @@ export const fetchDataUnbill = () => async (dispatch) => {
   dispatch(setLoading(true));
   try {
     const data = await axios.get(
-      'https://random-data-api.com/api/users/random_user?size=100',
+      'https://random-data-api.com/api/users/random_user?size=10',
     );
     dispatch(setListUnbill(data.data));
     dispatch(setLoading(false));
@@ -46,3 +47,17 @@ export const fetchDataUnbill = () => async (dispatch) => {
   }
   dispatch(setLoading(false));
 };
+
+// export const fetchDataPiutangByIO = (data) => async (dsipatch) => {
+//   try {
+//     const data = await billing.listPiutangByIo({
+//       params: {
+//         io: data,
+//       },
+//     });
+//     console.log(data);
+//   } catch (error) {
+//     console.log(error);
+//     return error;
+//   }
+// };

@@ -8,3 +8,4 @@ export { default as TableContent } from './TableContent';
 export { default as TableHeading } from './TableHeading';
 export { default as Textarea } from './Textarea';
 export { default as Time } from './Time';
+export { default as Input } from './Input';

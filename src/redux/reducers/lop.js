@@ -1,12 +1,11 @@
 import { convertDate } from '../../helpers/ConvertDate';
-import * as type from '../types/piutang';
+import * as type from '../types/lop';
 
 const initialState = {
-  listPiutang: {},
-  tableHeader: {},
-  temporaray: {},
-  piutangSelected: {},
-  typePage: '',
+  listLop: {},
+  temporary: {},
+  lopSelected: {},
+  typeForm: '',
   page: {},
   current_page: {},
   bulan: convertDate('bulan'),
@@ -20,20 +19,28 @@ const initialState = {
 // eslint-disable-next-line import/no-anonymous-default-export
 export default function (state = initialState, action) {
   switch (action.type) {
-    case type.LIST_PIUTANG:
+    case type.LIST_LOP:
       return {
         ...state,
-        listPiutang: action.payload ?? {},
+        listLop: action.payload ?? {},
       };
-    case type.TABLE_HEADER:
+
+    case type.LOP_SELECTED:
       return {
         ...state,
-        tableHeader: action.payload ?? {},
+        lopSelected: action.payload ?? {},
       };
-    case type.PIUTANG_SELECTED:
+
+    case type.TYPE_FORM:
       return {
         ...state,
-        piutangSelected: action.payload ?? {},
+        typeForm: action.payload ?? {},
+      };
+
+    case type.TEMPORARY:
+      return {
+        ...state,
+        temporary: action.payload ?? {},
       };
 
     case type.TAHUN:
@@ -46,12 +53,6 @@ export default function (state = initialState, action) {
       return {
         ...state,
         bulan: action.payload,
-      };
-
-    case type.TYPE_PAGE:
-      return {
-        ...state,
-        typePage: action.payload,
       };
 
     case type.MESSAGE:
