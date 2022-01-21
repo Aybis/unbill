@@ -137,7 +137,7 @@ export default function PreviewUnbill() {
                   <TableBody key={name}>
                     <TableContent>{index + 1}</TableContent>
                     <TableContent addClassChild={'uppercase'}>
-                      {name[0].replace(/_/g, ' ')}
+                      {name[0].split('_').join(' ').split('status').join(' ')}
                     </TableContent>
                     <TableContent>
                       {name[1] === '' ? '-' : name[1]}

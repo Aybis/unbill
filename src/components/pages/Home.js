@@ -47,8 +47,20 @@ export default function Home() {
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.9 }}
               key={Math.random()}
-              className="flex cursor-pointer bg-white rounded-lg shadow shadow-zinc-200/50 h-44 p-4">
-              Test
+              className="flex justify-center items-center cursor-pointer bg-white rounded-lg shadow shadow-zinc-200/50 h-44 p-4">
+              Anonymous
+            </motion.div>
+          ))}
+        </div>
+
+        <div className="grid grid-cols-2 gap-4 my-12">
+          {Array.from({ length: 4 }).map((item) => (
+            <motion.div
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.9 }}
+              key={Math.random()}
+              className="flex justify-center items-center cursor-pointer bg-white rounded-lg shadow shadow-zinc-200/50 h-44 p-4">
+              Anonymous
             </motion.div>
           ))}
         </div>

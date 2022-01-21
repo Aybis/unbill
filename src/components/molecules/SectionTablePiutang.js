@@ -15,34 +15,28 @@ export default function SectionTablePiutang({
       <div className="overflow-auto relative max-w-full border-b-2 border-zinc-200">
         <TableHeading
           theading={['No', 'Action'].concat(
-            PIUTANG.loading
-              ? ''
-              : PIUTANG?.tableHeader?.filter(
+            PIUTANG?.tableHeader?.length > 0
+              ? PIUTANG?.tableHeader?.filter(
                   (item) =>
                     item !== 'id' &&
                     item !== 'created_at' &&
                     item !== 'updated_at',
-                ),
+                )
+              : '',
           )}>
           {PIUTANG.loading ? (
             <TableBody>
               <TableContent
-                rowSpan={PIUTANG?.tableHeader?.length + 2}
-                colSpan={PIUTANG?.tableHeader?.length + 2}>
+                rowSpan={PIUTANG.loading ? 2 : PIUTANG?.tableHeader?.length + 2}
+                colSpan={
+                  PIUTANG.loading ? 2 : PIUTANG?.tableHeader?.length + 2
+                }>
                 <div className="flex justify-center items-center mt-14">
                   <Loading color={'text-blue-600'} height={6} width={6} />
                 </div>
               </TableContent>
             </TableBody>
-          ) : PIUTANG?.listPiutang?.length < 1 ? (
-            <TableBody>
-              <TableContent
-                rowSpan={PIUTANG?.tableHeader?.length + 2}
-                colSpan={PIUTANG?.tableHeader?.length + 2}>
-                Tidak Ada Data
-              </TableContent>
-            </TableBody>
-          ) : (
+          ) : PIUTANG?.listPiutang?.length > 0 ? (
             PIUTANG?.listPiutang?.map((item) => {
               return (
                 <TableBody key={Math.random()}>
@@ -73,6 +67,16 @@ export default function SectionTablePiutang({
                 </TableBody>
               );
             })
+          ) : (
+            <TableBody>
+              <TableContent
+                rowSpan={PIUTANG.loading ? 2 : PIUTANG?.tableHeader?.length + 2}
+                colSpan={
+                  PIUTANG.loading ? 2 : PIUTANG?.tableHeader?.length + 2
+                }>
+                Tidak Ada Data
+              </TableContent>
+            </TableBody>
           )}
         </TableHeading>
       </div>

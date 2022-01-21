@@ -112,7 +112,7 @@ export default function Lop() {
             handlerClick={handlerClickData}
             name={'create'}
             moreClass={'gap-2'}>
-            <DocumentAddIcon className="h-5" /> Create LOP
+            <DocumentAddIcon className="h-5" /> Tambah LOP
           </Button>
 
           <Button
@@ -147,7 +147,7 @@ export default function Lop() {
                         name={'update'}
                         moreClass={'gap-2'}
                         handlerClick={(e) => handlerClickData(e, item)}>
-                        <PencilAltIcon className="h-5" /> Update LOP
+                        <PencilAltIcon className="h-5" /> Ubah LOP
                       </Button>
                     </div>
                   </TableContent>

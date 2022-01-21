@@ -59,9 +59,9 @@ export default function Unbill() {
         <div className="overflow-auto relative max-w-full border-b-2 border-zinc-200">
           <TableHeading
             theading={['No', 'Action'].concat(
-              UNBILL.loading
-                ? ''
-                : UNBILL?.tableHeader?.filter((item) => item !== 'id'),
+              UNBILL?.tableHeader?.length > 0
+                ? UNBILL?.tableHeader?.filter((item) => item !== 'id')
+                : '',
             )}>
             {UNBILL.loading ? (
               <TableBody>
@@ -73,15 +73,7 @@ export default function Unbill() {
                   </div>
                 </TableContent>
               </TableBody>
-            ) : UNBILL?.listUnbill?.length < 1 ? (
-              <TableBody>
-                <TableContent
-                  rowSpan={UNBILL?.tableHeader.length + 2}
-                  colSpan={UNBILL?.tableHeader.length + 2}>
-                  Tidak Ada Data
-                </TableContent>
-              </TableBody>
-            ) : (
+            ) : UNBILL?.listUnbill?.length > 0 ? (
               UNBILL?.listUnbill?.map((item) => {
                 return (
                   <TableBody key={Math.random()}>
@@ -106,6 +98,14 @@ export default function Unbill() {
                   </TableBody>
                 );
               })
+            ) : (
+              <TableBody>
+                <TableContent
+                  rowSpan={UNBILL?.tableHeader.length + 2}
+                  colSpan={UNBILL?.tableHeader.length + 2}>
+                  Tidak Ada Data
+                </TableContent>
+              </TableBody>
             )}
           </TableHeading>
         </div>
