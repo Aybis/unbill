@@ -2,7 +2,6 @@ import {
   DocumentAddIcon,
   DocumentIcon,
   PencilAltIcon,
-  TrashIcon,
 } from '@heroicons/react/solid';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
