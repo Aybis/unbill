@@ -3,7 +3,7 @@ import React from 'react';
 import { Loading } from '.';
 
 export default function Button({
-  type,
+  type = 'in',
   name,
   value,
   moreClass,
@@ -17,8 +17,10 @@ export default function Button({
     classBackground = 'bg-blue-600 shadow-blue-500/50 hover:bg-blue-500';
   } else if (type === 'out') {
     classBackground = 'bg-red-500  shadow-red-500/50 hover:bg-red-700';
-  } else {
-    classBackground = 'bg-blue-600 shadow-blue-500/50 hover:bg-blue-500';
+  } else if (type === 'edit') {
+    classBackground = 'bg-green-600 shadow-green-500/50 hover:bg-green-700';
+  } else if (type === 'view') {
+    classBackground = 'bg-indigo-600 shadow-indigo-500/50 hover:bg-indigo-700';
   }
 
   return (
@@ -30,8 +32,8 @@ export default function Button({
       onClick={handlerClick ?? undefined}
       name={name}
       className={[
-        `font-semibold px-4 py-2 shadow-md text-center rounded-md  text-white flex justify-center items-center transition-all duration-300 ease-in-out`,
-        isSubmit && 'bg-opacity-50',
+        `disabled:bg-opacity-40 font-semibold px-4 py-2 shadow-md text-center rounded-md  text-white flex justify-center items-center transition-all duration-300 ease-in-out`,
+        isSubmit && 'cursor-not-allowed',
         classBackground,
         moreClass,
       ].join(' ')}>

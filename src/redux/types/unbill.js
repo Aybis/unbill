@@ -1,6 +1,8 @@
 export const TEMPORARY = 'TEMPORARY';
 export const LIST_UNBILL = 'LIST_UNBILL';
+export const TABLE_HEADER = 'TABLE_HEADER';
 export const UNBILL_SELECTED = 'UNBILL_SELECTED';
+export const ALL_PAGE = 'ALL_PAGE';
 export const BULAN = 'BULAN';
 export const TAHUN = 'TAHUN';
 export const LOADING = 'LOADING';

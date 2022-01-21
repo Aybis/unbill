@@ -46,3 +46,15 @@ export const fetchInvoiceByIO = async (data) => {
     return error;
   }
 };
+
+export const fetchDataTableHeaderInvoice = () => async (dispatch) => {
+  try {
+    const data = await billing.headerTableInvoice();
+    console.log(data);
+
+    return data.data;
+  } catch (err) {
+    console.log('error: ', err);
+    return err;
+  }
+};

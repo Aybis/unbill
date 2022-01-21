@@ -8,6 +8,7 @@ import Piutang from './components/pages/Piutang';
 import PreviewFile from './components/pages/PreviewFile';
 import PreviewInvoice from './components/pages/PreviewInvoice';
 import PreviewPiutang from './components/pages/PreviewPiutang';
+import PreviewUnbill from './components/pages/PreviewUnbill';
 import Unbill from './components/pages/Unbill';
 import Authenticated from './middleware/Authenticated';
 import Gate from './middleware/Gate';
@@ -20,6 +21,10 @@ export default function App() {
       <Authenticated exact path="/unbill" component={Unbill}></Authenticated>
       <Authenticated exact path="/piutang" component={Piutang}></Authenticated>
       <Authenticated exact path="/lop" component={Lop}></Authenticated>
+      <Authenticated
+        exact
+        path="/unbill/:id"
+        component={PreviewUnbill}></Authenticated>
       <Authenticated
         exact
         path="/invoice/:io"

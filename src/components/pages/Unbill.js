@@ -1,40 +1,35 @@
-import {
-  DatabaseIcon,
-  DocumentAddIcon,
-  SearchIcon,
-} from '@heroicons/react/solid';
+import { DocumentIcon } from '@heroicons/react/solid';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { fetchDataUnbill, setUnbilSelected } from '../../redux/actions/unbill';
-import { Loading, TableBody, TableContent, TableHeading } from '../atoms';
+import {
+  Button,
+  Loading,
+  TableBody,
+  TableContent,
+  TableHeading,
+} from '../atoms';
 import { Layout } from '../includes';
+import { SectionPagination } from '../molecules';
 
-export default function Piutang() {
-  const dispatch = useDispatch();
-  const UNBILL = useSelector((state) => state.unbill);
-  const [didMount, setDidMount] = useState(false);
-  const [loading, setloading] = useState(false);
+export default function Unbill() {
   const history = useHistory();
+  const dispatch = useDispatch();
+  const [didMount, setDidMount] = useState(false);
+  const UNBILL = useSelector((state) => state.unbill);
 
-  const handlerClickData = (event, item) => {
-    let name = event.target.name;
+  const handlerPagination = async (item) => {
+    await dispatch(fetchDataUnbill(item));
+  };
+
+  const handlerClickDetail = (item) => {
     dispatch(setUnbilSelected(item));
-    if (name === 'piutang') {
-      history.push(`piutang/${item.uid}`);
-    }
-    if (name === 'invoice') {
-      history.push(`invoice/${item.uid}`);
-    }
-    if (name === 'file') {
-      history.push(`file/${item.uid}`);
-    }
+    history.push(`/unbill/${item.id}`);
   };
 
   useEffect(() => {
-    setloading(true);
     dispatch(fetchDataUnbill());
-    setloading(false);
     setDidMount(true);
     return () => {
       setDidMount(false);
@@ -47,85 +42,83 @@ export default function Piutang() {
   }
 
   return (
-    <Layout titlePage="List Unbill">
-      <div className="relative w-full my-8 p-2">
-        <div className="relative flex gap-4 items-center mb-4">
+    <Layout titlePage={`List Unbill `}>
+      <div className="relative w-full my-8 px-4 py-6 rounded-md bg-white">
+        <div className="relative flex justify-between items-center mb-6">
           <div className="relative">
-            <SearchIcon className="absolute top-2 h-5 w-5 left-4 text-zinc-400" />
             <input
               type="text"
               name="search"
+              defaultValue={''}
               placeholder="Search"
-              className="border text-sm border-zinc-200 bg-white pl-10 px-4 py-2 font-medium rounded-md shadow shadow-slate-200/50 focus:border-blue-600 transition-all duration-300 ease-in-out placeholder:opacity-40"
+              className="border border-zinc-200 bg-white px-4 py-2 font-medium rounded-md shadow shadow-slate-200/50 focus:border-blue-600 transition-all duration-300 ease-in-out placeholder:opacity-40 text-sm"
             />
           </div>
-          <button className="text-sm px-6 py-2 rounded-md text-white bg-blue-600 font-medium hover:bg-blue-700 transition-all duration-300 ease-in-out">
-            Search
-          </button>
         </div>
-        {UNBILL.loading || loading ? (
-          <div className="flex justify-center items-center mt-24">
-            <Loading color={'text-blue-600'} height={6} width={6} />
-          </div>
-        ) : (
-          <div
-            className="overflow-auto relative max-w-full"
-            style={{ height: '38rem' }}>
-            <TableHeading
-              theading={[
-                'No',
-                'Action',
-                'uid',
-                'username',
-                'first_name',
-                'last_name',
-                'gender',
-                'phone_number',
-                'social_insurance_number',
-                'email',
-                'date_of_birth',
-              ]}>
-              {UNBILL?.listUnbill?.length > 0 &&
-                UNBILL?.listUnbill.map((item, index) => (
+
+        <div className="overflow-auto relative max-w-full border-b-2 border-zinc-200">
+          <TableHeading
+            theading={['No', 'Action'].concat(
+              UNBILL.loading
+                ? ''
+                : UNBILL?.tableHeader?.filter((item) => item !== 'id'),
+            )}>
+            {UNBILL.loading ? (
+              <TableBody>
+                <TableContent
+                  rowSpan={UNBILL?.tableHeader.length + 2}
+                  colSpan={UNBILL?.tableHeader.length + 2}>
+                  <div className="flex justify-center items-center mt-14">
+                    <Loading color={'text-blue-600'} height={6} width={6} />
+                  </div>
+                </TableContent>
+              </TableBody>
+            ) : UNBILL?.listUnbill?.length < 1 ? (
+              <TableBody>
+                <TableContent
+                  rowSpan={UNBILL?.tableHeader.length + 2}
+                  colSpan={UNBILL?.tableHeader.length + 2}>
+                  Tidak Ada Data
+                </TableContent>
+              </TableBody>
+            ) : (
+              UNBILL?.listUnbill?.map((item) => {
+                return (
                   <TableBody key={Math.random()}>
-                    <TableContent
-                      addClassChild={'px-8 flex justify-center items-center'}>
-                      {index + 1}
+                    <TableContent>{item.id}</TableContent>
+                    <TableContent>
+                      <Button
+                        handlerClick={() => handlerClickDetail(item)}
+                        type={'view'}
+                        moreClass={'gap-2'}>
+                        <DocumentIcon className="h-4" /> Detail Unbill
+                      </Button>
                     </TableContent>
-                    <TableContent addClassChild={'flex flex-col gap-2'}>
-                      <button
-                        onClick={(e) => handlerClickData(e, item)}
-                        name="piutang"
-                        className="flex justify-center items-center  flex-1 w-40 gap-2 bg-green-500 px-3  py-2 rounded-md text-white font-semibold">
-                        <DatabaseIcon className="h-5 " /> List Piutang
-                      </button>
-                      <button
-                        onClick={(e) => handlerClickData(e, item)}
-                        name="invoice"
-                        className="flex gap-2 justify-center items-center bg-indigo-500 px-3 w-40 py-2 rounded-md text-white font-semibold">
-                        <DatabaseIcon className="h-5 " /> List Invoice
-                      </button>
-                      <button
-                        onClick={(e) => handlerClickData(e, item)}
-                        name="file"
-                        className="flex justify-center items-center gap-2 bg-blue-500 px-3 w-40 py-2 rounded-md text-white font-semibold">
-                        <DocumentAddIcon className="h-5" />
-                        Update File
-                      </button>
-                    </TableContent>
-                    <TableContent>{item.uid}</TableContent>
-                    <TableContent>{item.username}</TableContent>
-                    <TableContent>{item.first_name}</TableContent>
-                    <TableContent>{item.last_name}</TableContent>
-                    <TableContent>{item.gender}</TableContent>
-                    <TableContent>{item.phone_number}</TableContent>
-                    <TableContent>{item.social_insurance_number}</TableContent>
-                    <TableContent>{item.email}</TableContent>
-                    <TableContent>{item.date_of_birth}</TableContent>
+                    {UNBILL.tableHeader
+                      .filter((item) => item !== 'id')
+                      .map((nameField) => {
+                        return (
+                          <TableContent key={Math.random()}>
+                            {item[nameField] === '' ? '-' : item[nameField]}
+                          </TableContent>
+                        );
+                      })}
                   </TableBody>
-                ))}
-            </TableHeading>
-          </div>
+                );
+              })
+            )}
+          </TableHeading>
+        </div>
+
+        {UNBILL?.listUnbill?.length > 0 ? (
+          <SectionPagination
+            currentPage={UNBILL?.allPage?.current_page}
+            perPage={UNBILL?.allPage?.per_page}
+            total={UNBILL?.allPage?.total}
+            handlerClick={handlerPagination}
+          />
+        ) : (
+          ' '
         )}
       </div>
     </Layout>

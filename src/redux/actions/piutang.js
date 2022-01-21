@@ -1,4 +1,3 @@
-import axios from 'axios';
 import billing from '../../configs/api/billing';
 import * as type from '../types/piutang';
 
@@ -8,12 +7,17 @@ export const setListPiutang = (data) => ({
 });
 
 export const setTableHeader = (data) => ({
-  type: type.LIST_PIUTANG,
+  type: type.TABLE_HEADER,
   payload: data,
 });
 
 export const setPiutangSelected = (data) => ({
   type: type.PIUTANG_SELECTED,
+  payload: data,
+});
+
+export const settAllPage = (data) => ({
+  type: type.ALL_PAGE,
   payload: data,
 });
 
@@ -41,42 +45,84 @@ export const setStatus = (data) => ({
   payload: data,
 });
 
-export const fetchDataApi = () => async (dispatch) => {
+export const fetchDataPiutang = (data) => async (dispatch) => {
   dispatch(setLoading(true));
-  const result = await axios
-    .get('https://random-data-api.com/api/cannabis/random_cannabis?size=20')
+
+  const result = await billing
+    .listPiutang({
+      params: {
+        page: data ?? 1,
+      },
+    })
     .then((res) => {
-      dispatch(setListPiutang(res.data));
+      dispatch(settAllPage(res.data));
+      dispatch(setListPiutang(res.data.data));
       return res.data;
     })
     .catch((err) => {
-      dispatch(setError(true));
-      return err;
+      console.log(err);
     });
-  dispatch(setLoading(false));
 
+  dispatch(setLoading(false));
   return result;
 };
 
-export const fetchDataTableHeaderPiutang = async (dispatch) => {
+export const fetchDataTableHeaderPiutang = () => async (dispatch) => {
   try {
     const data = await billing.headerPiutangTable();
-    // dispatch(setListUnbill(data.data));
+    dispatch(setTableHeader(data.data));
 
     return data.data;
   } catch (err) {
-    console.log('error: ', err.response);
+    console.log('error: ', err);
+    return err;
   }
 };
 
-export const fetchDataPiutangByIO = (data) => async (dsipatch) => {
+export const fetchDataPiutangByIO = (data, page) => async (dispatch) => {
+  dispatch(setLoading(true));
   try {
-    const data = await axios.get(
-      'https://random-data-api.com/api/cannabis/random_cannabis?size=10',
-    );
-    console.log(data);
+    const result = await billing.listPiutangByIo({
+      params: {
+        io: data,
+        page: page ?? 1,
+      },
+    });
+    dispatch(settAllPage(result.data));
+    dispatch(setListPiutang(result.data.data));
+    dispatch(setLoading(false));
+    return result;
   } catch (error) {
     console.log(error);
+    dispatch(setLoading(false));
+
     return error;
+  }
+};
+
+export const uploadFileData = (data) => async (dispatch) => {
+  try {
+    const result = await billing.uploadFilePiutang(data, {
+      onUploadProgress: (progressEvent) => {
+        dispatch(
+          setStatus(
+            'Upload Progress ' +
+              Math.round((progressEvent.loaded / progressEvent.total) * 100) +
+              '%',
+          ),
+        );
+      },
+    });
+    return {
+      status: result.status,
+      message: result.data.message,
+      data: {},
+    };
+  } catch (error) {
+    return {
+      status: error.status,
+      message: error.data.message ?? 'Something Happened!',
+      data: null,
+    };
   }
 };

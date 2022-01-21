@@ -8,3 +8,6 @@ export { default as SectionFilterMonthYear } from './SectionFilterMonthYear';
 export { default as SectionHeaderPage } from './SectionHeaderPage';
 export { default as FormLop } from './FormLop';
 export { default as FormUploadFile } from './FormUploadFile';
+export { default as SectionPagination } from './SectionPagination';
+export { default as SectionBarPreview } from './SectionBarPreview';
+export { default as SectionTablePiutang } from './SectionTablePiutang';

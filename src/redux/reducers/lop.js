@@ -6,7 +6,7 @@ const initialState = {
   temporary: {},
   lopSelected: {},
   typeForm: '',
-  page: {},
+  allPage: {},
   current_page: {},
   bulan: convertDate('bulan'),
   tahun: convertDate('tahun'),
@@ -29,6 +29,12 @@ export default function (state = initialState, action) {
       return {
         ...state,
         lopSelected: action.payload ?? {},
+      };
+
+    case type.ALL_PAGE:
+      return {
+        ...state,
+        allPage: action.payload ?? {},
       };
 
     case type.TYPE_FORM:

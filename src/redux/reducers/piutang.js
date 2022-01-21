@@ -6,9 +6,12 @@ const initialState = {
   tableHeader: {},
   temporaray: {},
   piutangSelected: {},
+  progressUpload: 'idle',
   typePage: '',
-  page: {},
-  current_page: {},
+  allPage: {},
+  prevPage: {},
+  nextPage: {},
+  currentPage: {},
   bulan: convertDate('bulan'),
   tahun: convertDate('tahun'),
   loading: false,
@@ -52,6 +55,26 @@ export default function (state = initialState, action) {
       return {
         ...state,
         typePage: action.payload,
+      };
+    case type.ALL_PAGE:
+      return {
+        ...state,
+        allPage: action.payload,
+      };
+    case type.CURRENT_PAGE:
+      return {
+        ...state,
+        currentPage: action.payload,
+      };
+    case type.NEXT_PAGE:
+      return {
+        ...state,
+        nextPage: action.payload,
+      };
+    case type.PREV_PAGE:
+      return {
+        ...state,
+        prevPage: action.payload,
       };
 
     case type.MESSAGE:

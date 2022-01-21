@@ -12,12 +12,16 @@ export default function Input({
   type = 'text',
   required = true,
   inputClassName,
+  addClassLabel,
 }) {
   return (
     <div className="relative">
       <label
         htmlFor="first-name"
-        className="block text-sm font-medium text-zinc-700 capitalize">
+        className={[
+          'block text-sm font-medium text-zinc-700 ',
+          addClassLabel ?? 'capitalize',
+        ].join(' ')}>
         {label}
       </label>
       <div className="mt-2">

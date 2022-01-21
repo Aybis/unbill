@@ -1,4 +1,4 @@
-import axios from 'axios';
+import billing from '../../configs/api/billing';
 import * as type from '../types/unbill';
 
 export const setListUnbill = (data) => ({
@@ -8,6 +8,11 @@ export const setListUnbill = (data) => ({
 
 export const setUnbilSelected = (data) => ({
   type: type.UNBILL_SELECTED,
+  payload: data,
+});
+
+export const setAllPage = (data) => ({
+  type: type.ALL_PAGE,
   payload: data,
 });
 
@@ -31,32 +36,21 @@ export const setStatus = (data) => ({
   payload: data,
 });
 
-export const fetchDataUnbill = () => async (dispatch) => {
+export const fetchDataUnbill = (data) => async (dispatch) => {
   dispatch(setLoading(true));
+
   try {
-    const data = await axios.get(
-      'https://random-data-api.com/api/users/random_user?size=10',
-    );
-    dispatch(setListUnbill(data.data));
+    const result = await billing.listUnbill({
+      params: {
+        page: data,
+      },
+    });
+
+    dispatch(setAllPage(result.data));
+    dispatch(setListUnbill(result.data.data));
     dispatch(setLoading(false));
-
-    return data.data;
-  } catch (err) {
-    console.log('error: ', err.response);
+    return result;
+  } catch (error) {
+    return error;
   }
-  dispatch(setLoading(false));
 };
-
-// export const fetchDataPiutangByIO = (data) => async (dsipatch) => {
-//   try {
-//     const data = await billing.listPiutangByIo({
-//       params: {
-//         io: data,
-//       },
-//     });
-//     console.log(data);
-//   } catch (error) {
-//     console.log(error);
-//     return error;
-//   }
-// };

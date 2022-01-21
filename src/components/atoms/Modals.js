@@ -64,8 +64,13 @@ export default function Modal({
                     {title}
                   </h1>
                   <XIcon
-                    onClick={() => handlerClose(false)}
-                    className="h-5 text-zinc-500 cursor-pointer"
+                    onClick={() => handlerClose(dontClose)}
+                    className={[
+                      'h-5 text-zinc-500 ',
+                      dontClose
+                        ? 'cursor-not-allowed bg-zinc-300'
+                        : 'cursor-pointer',
+                    ]}
                   />
                 </div>
                 <div>{children}</div>
