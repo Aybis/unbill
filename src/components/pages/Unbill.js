@@ -60,7 +60,9 @@ export default function Unbill() {
           <TableHeading
             theading={['No', 'Action'].concat(
               UNBILL?.tableHeader?.length > 0
-                ? UNBILL?.tableHeader?.filter((item) => item !== 'id')
+                ? UNBILL?.tableHeader
+                    ?.filter((item) => item !== 'id')
+                    .map((item) => item.split('_').join(' '))
                 : '',
             )}>
             {UNBILL.loading ? (

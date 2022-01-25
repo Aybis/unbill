@@ -42,12 +42,14 @@ export default function SectionTablePiutang({ fromPage = 'piutang' }) {
             PIUTANG.loading
               ? 2
               : PIUTANG?.tableHeader?.length > 0
-              ? PIUTANG?.tableHeader?.filter(
-                  (item) =>
-                    item !== 'id' &&
-                    item !== 'created_at' &&
-                    item !== 'updated_at',
-                )
+              ? PIUTANG?.tableHeader
+                  ?.filter(
+                    (item) =>
+                      item !== 'id' &&
+                      item !== 'created_at' &&
+                      item !== 'updated_at',
+                  )
+                  .map((item) => item.split('_').join(' '))
               : '',
           )}>
           {PIUTANG.loading ? (
