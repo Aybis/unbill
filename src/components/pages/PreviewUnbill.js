@@ -86,7 +86,9 @@ export default function PreviewUnbill() {
     const result = await dispatch(
       updateStatusDokumen({
         io: UNBILL?.unbillSelected.ref_key,
-        name: UNBILL?.dokumenSelected?.name?.toLowerCase() + '_status',
+        name:
+          UNBILL?.dokumenSelected?.name?.toLowerCase().split(' ').join('_') +
+          '_status',
         value: statusDokumen,
       }),
     );
@@ -133,7 +135,7 @@ export default function PreviewUnbill() {
     formData.append('io', io);
     formData.append(
       'name',
-      UNBILL.dokumenSelected.name.toLowerCase() + '_link',
+      UNBILL.dokumenSelected.name.toLowerCase().split(' ').join('_') + '_link',
     );
     formData.append('file', formFile.file, formFile.file.name);
     setisSubmit(true);
