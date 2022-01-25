@@ -23,7 +23,7 @@ export default function App() {
       <Authenticated exact path="/lop" component={Lop}></Authenticated>
       <Authenticated
         exact
-        path="/unbill/:id"
+        path="/unbill/:io"
         component={PreviewUnbill}></Authenticated>
       <Authenticated
         exact

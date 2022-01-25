@@ -167,6 +167,7 @@ export default function Lop() {
             currentPage={LOP?.allPage?.current_page}
             perPage={LOP?.allPage?.per_page}
             total={LOP?.allPage?.total}
+            lastPage={LOP?.allPage?.last_page}
             handlerClick={handlerClickPagination}
           />
         ) : (

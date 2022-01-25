@@ -1,21 +1,47 @@
 import { DocumentIcon } from '@heroicons/react/solid';
 import React from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import { SectionPagination } from '.';
+import {
+  fetchDataPiutang,
+  fetchDataPiutangByIO,
+  setPiutangSelected,
+  setTypePage,
+} from '../../redux/actions/piutang';
 import { Loading, TableBody, TableContent, TableHeading } from '../atoms';
 
-export default function SectionTablePiutang({
-  handlerPagination,
-  handlerClickDetail,
-}) {
+export default function SectionTablePiutang({ fromPage = 'piutang' }) {
+  const history = useHistory();
+  const dispatch = useDispatch();
   const PIUTANG = useSelector((state) => state.piutang);
+  const UNBILL = useSelector((state) => state.unbill);
+
+  const handlerPagination = async (item) => {
+    if (fromPage === 'piutang') {
+      await dispatch(fetchDataPiutang(item));
+    } else {
+      await dispatch(
+        fetchDataPiutangByIO(UNBILL?.unbillSelected?.ref_key, item),
+      );
+    }
+  };
+
+  const handlerClickDetail = (item) => {
+    dispatch(setPiutangSelected(item));
+    dispatch(setTypePage('preview'));
+
+    history.push(`/preview-piutang/${item.id}`);
+  };
 
   return (
     <div className="relative w-full my-8 rounded-md bg-white">
       <div className="overflow-auto relative max-w-full border-b-2 border-zinc-200">
         <TableHeading
           theading={['No', 'Action'].concat(
-            PIUTANG?.tableHeader?.length > 0
+            PIUTANG.loading
+              ? 2
+              : PIUTANG?.tableHeader?.length > 0
               ? PIUTANG?.tableHeader?.filter(
                   (item) =>
                     item !== 'id' &&
@@ -87,6 +113,7 @@ export default function SectionTablePiutang({
           perPage={PIUTANG?.allPage?.per_page}
           total={PIUTANG?.allPage?.total}
           handlerClick={handlerPagination}
+          lastPage={PIUTANG?.allPage?.last_page}
         />
       ) : (
         ' '

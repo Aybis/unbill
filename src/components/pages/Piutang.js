@@ -6,8 +6,6 @@ import swal from 'sweetalert';
 import {
   fetchDataPiutang,
   fetchDataTableHeaderPiutang,
-  setPiutangSelected,
-  setTypePage,
   uploadFileData,
 } from '../../redux/actions/piutang';
 import { setStatus } from '../../redux/actions/unbill';
@@ -29,13 +27,6 @@ export default function Piutang() {
   const [isSubmit, setIsSubmit] = useState(false);
   const [showModal, setShowModal] = useState(false);
 
-  const handlerClickDetail = (item) => {
-    dispatch(setPiutangSelected(item));
-    dispatch(setTypePage('preview'));
-
-    history.push(`/preview-piutang/${item.id}`);
-  };
-
   const handlerChangeFile = (event) => {
     setForm({
       file: event.target.files[0],
@@ -52,10 +43,6 @@ export default function Piutang() {
     });
   };
 
-  const handlerPagination = async (item) => {
-    await dispatch(fetchDataPiutang(item));
-  };
-
   const handlerSubmit = async (event) => {
     const formData = new FormData();
     event.preventDefault();
@@ -65,6 +52,8 @@ export default function Piutang() {
     try {
       const result = await dispatch(uploadFileData(formData));
       if (result.status === 200) {
+        dispatch(fetchDataTableHeaderPiutang());
+        dispatch(fetchDataPiutang());
         swal('Yeay!', result.message, 'success');
       } else {
         swal('Oh No!', result.message, 'error');
@@ -130,10 +119,7 @@ export default function Piutang() {
           )}
         </div>
 
-        <SectionTablePiutang
-          handlerClickDetail={handlerClickDetail}
-          handlerPagination={handlerPagination}
-        />
+        <SectionTablePiutang />
       </div>
 
       <Modals

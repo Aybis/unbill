@@ -97,7 +97,6 @@ export const fetchDataLop = (data) => async (dispatch) => {
 export const createLop = (data) => async (dispatch) => {
   try {
     const result = await billing.insertLop(data);
-    console.log('insert', result);
     return {
       status: result.status,
       message: result.data.message,
@@ -113,18 +112,15 @@ export const createLop = (data) => async (dispatch) => {
 };
 
 export const updateLop = (data, form) => async (dispatch) => {
-  console.log(data, form);
   axios.defaults.headers.post['Content-Type'] = 'application/json';
   try {
     const result = await billing.updateLop(data, form);
-    console.log('update', result);
     return {
       status: result.status,
       message: result.data.message,
       data: {},
     };
   } catch (error) {
-    console.log(error.response);
     return {
       status: error?.response?.status ?? 400,
       message: error?.response?.data?.message ?? 'Something Happened!',

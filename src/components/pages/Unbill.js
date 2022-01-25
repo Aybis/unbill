@@ -25,7 +25,7 @@ export default function Unbill() {
 
   const handlerClickDetail = (item) => {
     dispatch(setUnbilSelected(item));
-    history.push(`/unbill/${item.id}`);
+    history.push(`/unbill/${item.ref_key}`);
   };
 
   useEffect(() => {
@@ -68,7 +68,7 @@ export default function Unbill() {
                 <TableContent
                   rowSpan={UNBILL?.tableHeader.length + 2}
                   colSpan={UNBILL?.tableHeader.length + 2}>
-                  <div className="flex justify-center items-center mt-14">
+                  <div className="flex justify-start items-center">
                     <Loading color={'text-blue-600'} height={6} width={6} />
                   </div>
                 </TableContent>
@@ -115,6 +115,7 @@ export default function Unbill() {
             currentPage={UNBILL?.allPage?.current_page}
             perPage={UNBILL?.allPage?.per_page}
             total={UNBILL?.allPage?.total}
+            lastPage={UNBILL?.allPage?.last_page}
             handlerClick={handlerPagination}
           />
         ) : (

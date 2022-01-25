@@ -57,35 +57,39 @@ export default function FormLop({ handlerClose }) {
   };
 
   return (
-    <form onSubmit={handlerSubmit}>
-      <div className="flex flex-col gap-4 justify-start text-left">
-        <Input
-          label={'No. IO'}
-          value={form.io}
-          name={'io'}
-          handlerChange={(e) => handlerChange(e)}
-        />
-        <Input
-          label={'Description Project'}
-          value={form.deskripsi_project}
-          name={'deskripsi_project'}
-          handlerChange={(e) => handlerChange(e)}
-        />
-        <Input
-          label={'Unit'}
-          value={form.unit}
-          name={'unit'}
-          handlerChange={(e) => handlerChange(e)}
-        />
-      </div>
-      <div className="relative flex justify-start items-center mt-8 gap-4">
-        <Button isSubmit={isSubmit}>
-          {LOP.typeForm === 'create' ? 'Create' : 'Update'}
-        </Button>
+    <>
+      <form onSubmit={handlerSubmit}>
+        <div className="flex flex-col gap-4 justify-start text-left">
+          <Input
+            label={'No. IO'}
+            value={form.io}
+            name={'io'}
+            handlerChange={(e) => handlerChange(e)}
+          />
+          <Input
+            label={'Description Project'}
+            value={form.deskripsi_project}
+            name={'deskripsi_project'}
+            handlerChange={(e) => handlerChange(e)}
+          />
+          <Input
+            label={'Unit'}
+            value={form.unit}
+            name={'unit'}
+            handlerChange={(e) => handlerChange(e)}
+          />
+        </div>
+        <div className="relative flex justify-start items-center mt-8 gap-4">
+          <Button isSubmit={isSubmit}>
+            {LOP.typeForm === 'create' ? 'Create' : 'Update'}
+          </Button>
+        </div>
+      </form>
+      <div className="relative flex justify-end mt-5">
         <Button type={'out'} handlerClick={() => handlerClose(false)}>
           Cancel
         </Button>
       </div>
-    </form>
+    </>
   );
 }

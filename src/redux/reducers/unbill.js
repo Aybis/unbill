@@ -50,6 +50,8 @@ const initialState = {
     'unit_bisnis_pins',
   ],
   allPage: {},
+  listDokumen: {},
+  dokumenSelected: {},
   current_page: {},
   bulan: convertDate('bulan'),
   tahun: convertDate('tahun'),
@@ -68,10 +70,22 @@ export default function (state = initialState, action) {
         listUnbill: action.payload ?? [],
       };
 
+    case type.LIST_DOKUMEN:
+      return {
+        ...state,
+        listDokumen: action.payload ?? [],
+      };
+
     case type.UNBILL_SELECTED:
       return {
         ...state,
         unbillSelected: action.payload ?? {},
+      };
+
+    case type.DOKUMEN_SELECTED:
+      return {
+        ...state,
+        dokumenSelected: action.payload ?? {},
       };
 
     case type.TEMPORARY:

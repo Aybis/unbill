@@ -8,6 +8,7 @@ export default function FormUploadFile({
   status,
   form,
   handlerChangeFile,
+  typeFile = '.xlsx, .xls, .csv',
 }) {
   return (
     <form className="mt-8" onSubmit={handlerSubmit}>
@@ -20,7 +21,7 @@ export default function FormUploadFile({
         <div className="mt-1 flex justify-start px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded">
           <input
             name="file"
-            accept=".xlsx, .xls, .csv"
+            accept={typeFile}
             type="file"
             onChange={handlerChangeFile}
             className="focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 px-6 py-2 border border-transparent rounded-md"

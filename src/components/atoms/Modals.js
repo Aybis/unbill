@@ -77,7 +77,9 @@ export default function Modal({
                 <button
                   ref={completeButtonRef}
                   onClick={() => handlerClose(false)}
-                  className="bg-warmGray-100 opacity-0 -mt-4 h-0 w-0 hidden"></button>
+                  className="bg-warmGray-100 opacity-0 -mt-4 h-0 w-0">
+                  Cancel
+                </button>
               </div>
             </div>
           </Transition.Child>

@@ -60,7 +60,7 @@ export const fetchDataPiutang = (data) => async (dispatch) => {
       return res.data;
     })
     .catch((err) => {
-      console.log(err);
+      return err;
     });
 
   dispatch(setLoading(false));
@@ -74,12 +74,12 @@ export const fetchDataTableHeaderPiutang = () => async (dispatch) => {
 
     return data.data;
   } catch (err) {
-    console.log('error: ', err);
     return err;
   }
 };
 
 export const fetchDataPiutangByIO = (data, page) => async (dispatch) => {
+  dispatch(fetchDataTableHeaderPiutang());
   dispatch(setLoading(true));
   try {
     const result = await billing.listPiutangByIo({
@@ -93,7 +93,6 @@ export const fetchDataPiutangByIO = (data, page) => async (dispatch) => {
     dispatch(setLoading(false));
     return result;
   } catch (error) {
-    console.log(error);
     dispatch(setLoading(false));
 
     return error;

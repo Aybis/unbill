@@ -19,6 +19,7 @@ export default {
 
   // endpoint unbill
   listUnbill: (data) => axios.get('unbilled', data),
+  viewUnbillByIo: (data) => axios.get('unbilled/detail', data),
   updateKeterangan: (data) => axios.post('keterangan-unbilled/update', data),
 
   // endpoint lop
@@ -30,5 +31,7 @@ export default {
 
   // endpoint document
   updateDocument: (data) => axios.post('document/update', data),
-  uploadDocument: (data) => axios.post('document/upload', data),
+  uploadDocument: (data, handlerProgress) =>
+    axios.post('document/upload', data, handlerProgress),
+  listFileDocument: (data) => axios.get('document/detail', data),
 };
