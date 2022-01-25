@@ -204,8 +204,8 @@ export default function PreviewUnbill() {
           ) : (
             <TableHeading
               theading={['No', 'Nama Dokumen', 'Status', 'File', 'Action']}>
-              {UNBILL.listDokumen.length > 0
-                ? UNBILL.listDokumen.map((item, index) => (
+              {Object.entries(UNBILL?.listDokumen).length > 0
+                ? UNBILL?.listDokumen?.map((item, index) => (
                     <TableBody key={index}>
                       <TableContent>{index + 1}</TableContent>
                       <TableContent>{item.name}</TableContent>
