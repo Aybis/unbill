@@ -30,6 +30,8 @@ export default function SectionTablePiutang({ fromPage = 'piutang' }) {
     }
   };
 
+  const fieldRupiah = ['amount_in_dc', 'amt_in_loc_cur'];
+
   const handlerClickDetail = (item) => {
     dispatch(setPiutangSelected(item));
     dispatch(setTypePage('preview'));
@@ -91,6 +93,11 @@ export default function SectionTablePiutang({ fromPage = 'piutang' }) {
                         <TableContent key={Math.random()}>
                           {nameField === 'assignment'
                             ? parseInt(item[nameField])
+                            : fieldRupiah.indexOf(nameField) > -1
+                            ? parseInt(item[nameField])
+                              ? 'Rp ' +
+                                parseInt(item[nameField]).toLocaleString('id')
+                              : item[nameField]
                             : item[nameField]}
                         </TableContent>
                       );

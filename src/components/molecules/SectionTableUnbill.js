@@ -22,6 +22,20 @@ export default function SectionTableUnbill() {
     'catatan_sdv',
   ];
 
+  const rupiahTable = [
+    'sum_of_amt_in_loc_acur',
+    '1._<_1',
+    '2._1_-_3',
+    '3._4_-_6',
+    '4._7_-_12',
+    '5._>_12',
+    'grand_total',
+    'ar_unbilled_(>_2_bulan)',
+    'ar_current_(<_2_bulan)',
+    'billed_mtd',
+    'saldo_unbilled_mtd',
+  ];
+
   const handlerPagination = async (item) => {
     await dispatch(fetchDataUnbill(UNBILL.temporary, item));
   };
@@ -74,7 +88,13 @@ export default function SectionTableUnbill() {
                             : 'whitespace-nowrap'
                         }
                         key={Math.random()}>
-                        {item[nameField] === '' ? '-' : item[nameField]}
+                        {rupiahTable.indexOf(nameField) > -1
+                          ? parseInt(item[nameField]) > 0
+                            ? 'Rp ' + item[nameField].toLocaleString('id')
+                            : item[nameField]
+                          : item[nameField] === ''
+                          ? '-'
+                          : item[nameField]}
                       </TableContent>
                     );
                   })}
