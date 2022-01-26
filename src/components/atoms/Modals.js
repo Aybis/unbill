@@ -70,7 +70,7 @@ export default function Modal({
                       dontClose
                         ? 'cursor-not-allowed bg-zinc-300'
                         : 'cursor-pointer',
-                    ]}
+                    ].join(' ')}
                   />
                 </div>
                 <div>{children}</div>

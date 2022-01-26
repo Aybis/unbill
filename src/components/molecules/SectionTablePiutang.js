@@ -16,13 +16,16 @@ export default function SectionTablePiutang({ fromPage = 'piutang' }) {
   const dispatch = useDispatch();
   const PIUTANG = useSelector((state) => state.piutang);
   const UNBILL = useSelector((state) => state.unbill);
-
-  const handlerPagination = async (item) => {
+  const handlerPagination = (item) => {
     if (fromPage === 'piutang') {
-      await dispatch(fetchDataPiutang(item));
+      dispatch(fetchDataPiutang(UNBILL.temporary, item));
     } else {
-      await dispatch(
-        fetchDataPiutangByIO(UNBILL?.unbillSelected?.ref_key, item),
+      dispatch(
+        fetchDataPiutangByIO(
+          UNBILL?.unbillSelected?.ref_key,
+          UNBILL?.temporary,
+          item,
+        ),
       );
     }
   };

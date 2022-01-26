@@ -2,11 +2,29 @@ import { Dialog, Transition } from '@headlessui/react';
 import { XIcon } from '@heroicons/react/outline';
 import { ChartBarIcon, ClipboardListIcon } from '@heroicons/react/solid';
 import { Fragment } from 'react';
+import { Link } from 'react-router-dom';
+import { toAbsoluteUrl } from '../../helpers/Assets';
 
 const sidebarNavigation = [
-  { name: 'Dashboard', href: '#', icon: ChartBarIcon, current: true },
-  { name: 'List Unbill', href: '#', icon: ClipboardListIcon, current: false },
-  { name: 'List Piutang', href: '#', icon: ClipboardListIcon, current: false },
+  { name: 'Dashboard', href: '/', icon: ChartBarIcon, current: true },
+  {
+    name: 'Unbill',
+    href: '/unbill',
+    icon: ClipboardListIcon,
+    current: false,
+  },
+  {
+    name: 'Piutang',
+    href: '/piutang',
+    icon: ClipboardListIcon,
+    current: false,
+  },
+  {
+    name: 'LOP',
+    href: '/lop',
+    icon: ClipboardListIcon,
+    current: false,
+  },
 ];
 
 function classNames(...classes) {
@@ -36,7 +54,7 @@ export default function MobileMenu({ mobileMenuOpen, setMobileMenuOpen }) {
             leave="transition ease-in-out duration-300 transform"
             leaveFrom="translate-x-0"
             leaveTo="-translate-x-full">
-            <div className="relative max-w-xs w-full bg-indigo-700 pt-5 pb-4 flex-1 flex flex-col">
+            <div className="relative max-w-xs w-full bg-white pt-5 pb-4 flex-1 flex flex-col">
               <Transition.Child
                 as={Fragment}
                 enter="ease-in-out duration-300"
@@ -58,7 +76,7 @@ export default function MobileMenu({ mobileMenuOpen, setMobileMenuOpen }) {
               <div className="flex-shrink-0 px-4 flex items-center">
                 <img
                   className="h-8 w-auto"
-                  src="https://tailwindui.com/img/logos/workflow-mark.svg?color=white"
+                  src={toAbsoluteUrl('/assets/images/pins.png')}
                   alt="Workflow"
                 />
               </div>
@@ -66,13 +84,13 @@ export default function MobileMenu({ mobileMenuOpen, setMobileMenuOpen }) {
                 <nav className="h-full flex flex-col">
                   <div className="space-y-1">
                     {sidebarNavigation.map((item) => (
-                      <a
+                      <Link
                         key={item.name}
-                        href={item.href}
+                        to={item.href}
                         className={classNames(
                           item.current
-                            ? 'bg-indigo-800 text-white'
-                            : 'text-indigo-100 hover:bg-indigo-800 hover:text-white',
+                            ? 'bg-zinc-800 text-white'
+                            : 'text-zinc-400 hover:bg-zinc-800 hover:text-white',
                           'group py-2 px-3 rounded-md flex items-center text-sm font-medium',
                         )}
                         aria-current={item.current ? 'page' : undefined}>
@@ -80,13 +98,13 @@ export default function MobileMenu({ mobileMenuOpen, setMobileMenuOpen }) {
                           className={classNames(
                             item.current
                               ? 'text-white'
-                              : 'text-indigo-300 group-hover:text-white',
+                              : 'text-zinc-400 group-hover:text-white',
                             'mr-3 h-6 w-6',
                           )}
                           aria-hidden="true"
                         />
                         <span>{item.name}</span>
-                      </a>
+                      </Link>
                     ))}
                   </div>
                 </nav>

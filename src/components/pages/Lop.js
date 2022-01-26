@@ -10,6 +10,7 @@ import {
   fetchDataLop,
   setLopSelected,
   setStatus,
+  setTemporary,
   setTypeForm,
   uploadFileLop,
 } from '../../redux/actions/lop';
@@ -22,12 +23,18 @@ import {
   TableHeading,
 } from '../atoms';
 import { Layout } from '../includes';
-import { FormLop, FormUploadFile, SectionPagination } from '../molecules';
+import {
+  FormLop,
+  FormUploadFile,
+  SectionFormSearch,
+  SectionPagination,
+} from '../molecules';
 
 export default function Lop() {
   const LOP = useSelector((state) => state.lop);
   const dispatch = useDispatch();
   const [type, settype] = useState('');
+  const [keyword, setKeyword] = useState('');
   const [didMount, setDidMount] = useState(false);
   const [isSubmit, setisSubmit] = useState(false);
   const [titleModal, settitleModal] = useState('');
@@ -65,7 +72,7 @@ export default function Lop() {
   };
 
   const handlerClickPagination = (item) => {
-    dispatch(fetchDataLop(item));
+    dispatch(fetchDataLop(LOP.temporary, item));
   };
 
   const handlerUploadFile = async (event) => {
@@ -90,8 +97,20 @@ export default function Lop() {
     setisSubmit(false);
   };
 
+  const handlerRemoveSearch = () => {
+    setKeyword('');
+    dispatch(setTemporary(keyword));
+  };
+
+  const handlerSearch = (event) => {
+    event.preventDefault();
+    dispatch(setTemporary(keyword));
+    dispatch(fetchDataLop(keyword));
+  };
+
   useEffect(() => {
-    dispatch(fetchDataLop(1));
+    dispatch(setTemporary(''));
+    dispatch(fetchDataLop());
     setDidMount(true);
     return () => {
       setDidMount(false);
@@ -108,19 +127,27 @@ export default function Lop() {
       <div className="relative bg-white p-6 rounded-lg mt-12">
         <h1 className="text-zinc-800 font-semibold mb-8">List Data</h1>
         <div className="flex justify-between items-center">
-          <Button
-            handlerClick={handlerClickData}
-            name={'create'}
-            moreClass={'gap-2'}>
-            <DocumentAddIcon className="h-5" /> Tambah LOP
-          </Button>
+          <SectionFormSearch
+            keyword={keyword}
+            setKeyword={setKeyword}
+            handlerRemoveSearch={handlerRemoveSearch}
+            handlerSearch={handlerSearch}
+          />
+          <div className="relative flex gap-4">
+            <Button
+              handlerClick={handlerClickData}
+              name={'create'}
+              moreClass={'gap-2'}>
+              <DocumentAddIcon className="h-5" /> Tambah LOP
+            </Button>
 
-          <Button
-            handlerClick={handlerClickData}
-            name={'upload'}
-            moreClass={'gap-2'}>
-            <DocumentIcon className="h-5" /> Upload File
-          </Button>
+            <Button
+              handlerClick={handlerClickData}
+              name={'upload'}
+              moreClass={'gap-2'}>
+              <DocumentIcon className="h-5" /> Upload File
+            </Button>
+          </div>
         </div>
         <div className="relative mt-4 overflow-auto border-b-2 border-zinc-200">
           <TableHeading
@@ -138,7 +165,9 @@ export default function Lop() {
                 <TableBody key={item.id}>
                   <TableContent>{item.id}</TableContent>
                   <TableContent>{item.io}</TableContent>
-                  <TableContent>{item.descripsi_project}</TableContent>
+                  <TableContent addClassChild={'whitespace-normal'}>
+                    {item.deskripsi_project}
+                  </TableContent>
                   <TableContent>{item.unit}</TableContent>
                   <TableContent>
                     <div className="flex gap-2">

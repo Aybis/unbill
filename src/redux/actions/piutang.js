@@ -6,6 +6,11 @@ export const setListPiutang = (data) => ({
   payload: data,
 });
 
+export const setTemporary = (data) => ({
+  type: type.TEMPORARY,
+  payload: data,
+});
+
 export const setTableHeader = (data) => ({
   type: type.TABLE_HEADER,
   payload: data,
@@ -45,13 +50,14 @@ export const setStatus = (data) => ({
   payload: data,
 });
 
-export const fetchDataPiutang = (data) => async (dispatch) => {
+export const fetchDataPiutang = (keyword, page) => async (dispatch) => {
   dispatch(setLoading(true));
 
   const result = await billing
     .listPiutang({
       params: {
-        page: data ?? 1,
+        keyword: keyword ?? '',
+        page: page ?? 1,
       },
     })
     .then((res) => {
@@ -78,16 +84,18 @@ export const fetchDataTableHeaderPiutang = () => async (dispatch) => {
   }
 };
 
-export const fetchDataPiutangByIO = (data, page) => async (dispatch) => {
+export const fetchDataPiutangByIO = (io, keyword, page) => async (dispatch) => {
   dispatch(fetchDataTableHeaderPiutang());
   dispatch(setLoading(true));
   try {
     const result = await billing.listPiutangByIo({
       params: {
-        io: data,
+        io: io,
+        keyword: keyword,
         page: page ?? 1,
       },
     });
+    console.log(result.data);
     dispatch(settAllPage(result.data));
     dispatch(setListPiutang(result.data.data));
     dispatch(setLoading(false));
@@ -124,4 +132,25 @@ export const uploadFileData = (data) => async (dispatch) => {
       data: null,
     };
   }
+};
+
+export const searchDataPiutang = (data) => async (dispatch) => {
+  console.log(data);
+  const result = await billing
+    .searchListPiutang({
+      params: {
+        keyword: data ?? '',
+        page: data ?? 1,
+      },
+    })
+    .then((res) => {
+      console.log(res);
+      return res;
+    })
+    .catch((err) => {
+      console.log(err);
+      return err;
+    });
+
+  return result;
 };

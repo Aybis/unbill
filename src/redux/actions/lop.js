@@ -8,6 +8,11 @@ export const setListLop = (data) => ({
   payload: data,
 });
 
+export const setTemporary = (data) => ({
+  type: type.TEMPORARY,
+  payload: data,
+});
+
 export const setLopSelected = (data) => ({
   type: type.LOP_SELECTED,
   payload: data,
@@ -71,13 +76,14 @@ export const uploadFileLop = (data) => async (dispatch) => {
   }
 };
 
-export const fetchDataLop = (data) => async (dispatch) => {
+export const fetchDataLop = (keyword, page) => async (dispatch) => {
   dispatch(setLoading(true));
 
   const result = await billing
     .listLop({
       params: {
-        page: data,
+        keyword: keyword,
+        page: page,
       },
     })
     .then((res) => {

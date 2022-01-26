@@ -3,7 +3,7 @@ import * as type from '../types/lop';
 
 const initialState = {
   listLop: {},
-  temporary: {},
+  temporary: '',
   lopSelected: {},
   typeForm: '',
   allPage: {},
@@ -46,7 +46,7 @@ export default function (state = initialState, action) {
     case type.TEMPORARY:
       return {
         ...state,
-        temporary: action.payload ?? {},
+        temporary: action.payload,
       };
 
     case type.TAHUN:

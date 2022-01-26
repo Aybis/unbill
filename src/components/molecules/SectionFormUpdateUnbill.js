@@ -1,14 +1,18 @@
-import React, { useState } from 'react';
-import { useSelector } from 'react-redux';
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
+import swal from 'sweetalert';
+import {
+  updateKetaranganUnbill,
+  viewUnbillByIo,
+} from '../../redux/actions/unbill';
 import { Button, Input, Textarea } from '../atoms';
 
-export default function SectionFormUpdateUnbill({
-  handlerChange,
-  handlerSubmit,
-  form,
-}) {
+export default function SectionFormUpdateUnbill() {
+  const { io } = useParams();
+  const dispatch = useDispatch();
+  const [form, setform] = useState({});
   const [isUpdate, setisUpdate] = useState(false);
-
   const dataField = [
     'follow_up',
     'kendala_unbilled',
@@ -21,6 +25,48 @@ export default function SectionFormUpdateUnbill({
   ];
 
   const UNBILL = useSelector((state) => state.unbill);
+
+  // function change input type
+  const handlerChange = (event) => {
+    setform({
+      ...form,
+      [event.target.name]: event.target.value,
+    });
+  };
+
+  // collect variable name from data selected
+  const getListName = () => {
+    let data = {};
+    Object.entries(UNBILL.unbillSelected).map((item) => {
+      data[item[0]] = item[1];
+      return data;
+    });
+    // insert name of input to variable form
+    setform(data);
+  };
+
+  const handlerSubmit = async (event) => {
+    event.preventDefault();
+    form.io = io;
+    await updateKetaranganUnbill(form)
+      .then((res) => {
+        if (res.status === 200) {
+          swal('Yeay !', res.data.message, 'success');
+          dispatch(viewUnbillByIo(io));
+          setisUpdate(false);
+        } else {
+          swal('Oh No!', res.data.message, 'error');
+        }
+      })
+      .catch((err) => {
+        swal('Oh No!', err.data.message ?? 'Something Happened!', 'error');
+      });
+  };
+
+  useEffect(() => {
+    getListName();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [UNBILL]);
 
   return (
     <>
@@ -66,7 +112,6 @@ export default function SectionFormUpdateUnbill({
           </div>
         )}
       </form>
-
       {!isUpdate && (
         <div className="mt-8">
           <Button handlerClick={() => setisUpdate(true)} type="edit">

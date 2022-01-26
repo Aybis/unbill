@@ -14,7 +14,7 @@ export default function Layout({ children, titlePage }) {
         setMobileMenuOpen={setMobileMenuOpen}
       />
       {/* Content area */}
-      <div className="ml-32 flex-1 flex flex-col overflow-hidden bg-zinc-100">
+      <div className="ml-0 lg:ml-32 flex-1 flex flex-col overflow-hidden bg-zinc-100">
         <Header setMobileMenuOpen={setMobileMenuOpen} />
         {/* Main content */}
         <div className="flex-1 flex items-stretch overflow-hidden">

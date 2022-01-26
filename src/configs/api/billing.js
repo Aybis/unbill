@@ -22,16 +22,16 @@ export default {
   viewUnbillByIo: (data) => axios.get('unbilled/detail', data),
   updateKeterangan: (data) => axios.post('keterangan-unbilled/update', data),
 
-  // endpoint lop
-  uploadFileLop: (data, handlerProgress) =>
-    axios.post('lop/upload', data, handlerProgress),
-  insertLop: (data) => axios.post('lop', data),
-  listLop: (data) => axios.get('lop/list', data),
-  updateLop: (id, data) => axios.patch(`lop/${id}`, data),
-
   // endpoint document
   updateDocument: (data) => axios.post('document/update', data),
   uploadDocument: (data, handlerProgress) =>
     axios.post('document/upload', data, handlerProgress),
   listFileDocument: (data) => axios.get('document/detail', data),
+
+  // endpoint lop
+  listLop: (data) => axios.get('lop/list', data),
+  insertLop: (data) => axios.post('lop', data),
+  updateLop: (id, data) => axios.patch(`lop/${id}`, data),
+  uploadFileLop: (data, handlerProgress) =>
+    axios.post('lop/upload', data, handlerProgress),
 };

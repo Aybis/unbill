@@ -6,6 +6,11 @@ export const setListUnbill = (data) => ({
   payload: data,
 });
 
+export const setTemporary = (data) => ({
+  type: type.TEMPORARY,
+  payload: data,
+});
+
 export const setListDokumen = (data) => ({
   type: type.LIST_DOKUMEN,
   payload: data,
@@ -46,16 +51,16 @@ export const setStatus = (data) => ({
   payload: data,
 });
 
-export const fetchDataUnbill = (data) => async (dispatch) => {
+export const fetchDataUnbill = (keyword, page) => async (dispatch) => {
   dispatch(setLoading(true));
 
   try {
     const result = await billing.listUnbill({
       params: {
-        page: data,
+        page: page,
+        keyword: keyword,
       },
     });
-
     dispatch(setAllPage(result.data));
     dispatch(setListUnbill(result.data.data));
     dispatch(setLoading(false));
@@ -106,7 +111,6 @@ export const uploadStatusDokumen = (data) => async (dispatch) => {
         );
       },
     });
-    dispatch(setStatus(''));
     return {
       status: result.status,
       message: result.data.message,

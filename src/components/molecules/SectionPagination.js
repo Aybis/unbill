@@ -29,7 +29,7 @@ export default function SectionPagination({
         activePage={currentPage}
         itemsCountPerPage={perPage}
         totalItemsCount={total}
-        pageRangeDisplayed={10}
+        pageRangeDisplayed={6}
         onChange={handlerClick}
         firstPageText={'Pertama'}
         activeClass="text-zinc-50 bg-black"

@@ -4,7 +4,7 @@ import * as type from '../types/piutang';
 const initialState = {
   listPiutang: {},
   tableHeader: {},
-  temporaray: {},
+  temporary: '',
   piutangSelected: {},
   progressUpload: 'idle',
   typePage: '',
@@ -27,6 +27,11 @@ export default function (state = initialState, action) {
       return {
         ...state,
         listPiutang: action.payload ?? {},
+      };
+    case type.TEMPORARY:
+      return {
+        ...state,
+        temporary: action.payload ?? {},
       };
     case type.TABLE_HEADER:
       return {

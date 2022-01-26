@@ -6,12 +6,17 @@ import swal from 'sweetalert';
 import {
   fetchDataPiutang,
   fetchDataTableHeaderPiutang,
+  setTemporary,
   uploadFileData,
 } from '../../redux/actions/piutang';
 import { setStatus } from '../../redux/actions/unbill';
-import { Modals } from '../atoms';
+import { Button, Modals } from '../atoms';
 import { Layout } from '../includes';
-import { FormUploadFile, SectionTablePiutang } from '../molecules';
+import {
+  FormUploadFile,
+  SectionFormSearch,
+  SectionTablePiutang,
+} from '../molecules';
 
 export default function Piutang() {
   const { id } = useParams();
@@ -19,6 +24,7 @@ export default function Piutang() {
   const dispatch = useDispatch();
   const UNBILL = useSelector((state) => state.unbill);
   const PIUTANG = useSelector((state) => state.piutang);
+  const [keyword, setKeyword] = useState('');
   const [form, setForm] = useState({
     file: null,
     selected: false,
@@ -64,7 +70,19 @@ export default function Piutang() {
     setIsSubmit(false);
   };
 
+  const handlerRemoveSearch = () => {
+    setKeyword('');
+    dispatch(setTemporary(keyword));
+  };
+
+  const handlerSearch = (event) => {
+    event.preventDefault();
+    dispatch(setTemporary(keyword));
+    dispatch(fetchDataPiutang(keyword));
+  };
+
   useEffect(() => {
+    dispatch(setTemporary(''));
     dispatch(fetchDataTableHeaderPiutang());
     dispatch(fetchDataPiutang());
     setDidMount(true);
@@ -98,24 +116,19 @@ export default function Piutang() {
           </div>
         </>
       )}
-      <div className="relative w-full my-8 px-4 py-6 rounded-md bg-white">
+      <div className="relative w-full my-8 px-4 py-6 rounded-md bg-white overflow-auto">
         <div className="relative flex justify-between items-center mb-6">
-          <div className="relative">
-            <input
-              type="text"
-              name="search"
-              defaultValue={''}
-              placeholder="Search"
-              className="border border-zinc-200 bg-white px-4 py-2 font-medium rounded-md shadow shadow-slate-200/50 focus:border-blue-600 transition-all duration-300 ease-in-out placeholder:opacity-40 text-sm"
-            />
-          </div>
+          <SectionFormSearch
+            keyword={keyword}
+            setKeyword={setKeyword}
+            handlerRemoveSearch={handlerRemoveSearch}
+            handlerSearch={handlerSearch}
+          />
           {!id && (
-            <button
-              onClick={handlerModalUpload}
-              className="text-sm rounded-md shadow-md shadow-blue-500/50 bg-blue-600 hover:bg-blue-700 transition-all duration-300 ease-in-out px-4 py-2 text-white font-semibold flex justify-center items-center gap-2">
+            <Button handlerClick={handlerModalUpload}>
               <DocumentAddIcon className="h-5" />
               Upload File
-            </button>
+            </Button>
           )}
         </div>
 

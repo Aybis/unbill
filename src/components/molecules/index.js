@@ -13,3 +13,6 @@ export { default as SectionBarPreview } from './SectionBarPreview';
 export { default as SectionTablePiutang } from './SectionTablePiutang';
 export { default as SectionFormUpdateUnbill } from './SectionFormUpdateUnbill';
 export { default as SectionFormUpdateStatusUnbill } from './SectionFormUpdateStatusUnbill';
+export { default as SectionFormSearch } from './SectionFormSearch';
+export { default as SectionTableUnbill } from './SectionTableUnbill';
+export { default as SectionTableFile } from './SectionTableFile';

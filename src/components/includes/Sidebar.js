@@ -32,7 +32,7 @@ export default function Sidebar() {
   const { path } = useRouteMatch();
 
   return (
-    <div className="hidden w-32 bg-white fixed h-screen overflow-y-auto md:block border-r-2 border-zinc-100">
+    <div className="hidden w-0 lg:w-32 bg-white fixed h-screen overflow-y-auto md:block border-r-2 border-zinc-100">
       <div className="w-full py-6 flex flex-col items-center">
         <div className="flex-shrink-0 flex items-center">
           <img
