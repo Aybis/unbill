@@ -17,8 +17,8 @@ export default function TableContent({
       className={[addClassRow].join(' ')}>
       <div
         className={[
-          'px-6 py-3 text-sm font-medium text-gray-900',
-          addClassChild ?? 'whitespace-nowrap',
+          'px-6 py-3 text-sm font-medium text-gray-900 whitespace-nowrap',
+          addClassChild,
         ].join(' ')}>
         {children}
       </div>

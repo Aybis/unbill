@@ -10,6 +10,17 @@ export default function SectionTableUnbill() {
   const UNBILL = useSelector((state) => state.unbill);
   const history = useHistory();
   const dispatch = useDispatch();
+  const filterTable = [
+    'deskripsi_project',
+    'follow_up',
+    'kendala_unbilled',
+    'kendala_dokumen',
+    'kategori',
+    'catatan_bilco',
+    'catatan_ubis',
+    'catatan_operation',
+    'catatan_sdv',
+  ];
 
   const handlerPagination = async (item) => {
     await dispatch(fetchDataUnbill(UNBILL.temporary, item));
@@ -56,7 +67,13 @@ export default function SectionTableUnbill() {
                   .filter((item) => item !== 'id')
                   .map((nameField) => {
                     return (
-                      <TableContent key={Math.random()}>
+                      <TableContent
+                        addClassChild={
+                          filterTable.indexOf(nameField) > -1
+                            ? 'whitespace-pre-line'
+                            : 'whitespace-nowrap'
+                        }
+                        key={Math.random()}>
                         {item[nameField] === '' ? '-' : item[nameField]}
                       </TableContent>
                     );

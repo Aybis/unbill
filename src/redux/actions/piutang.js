@@ -95,7 +95,6 @@ export const fetchDataPiutangByIO = (io, keyword, page) => async (dispatch) => {
         page: page ?? 1,
       },
     });
-    console.log(result.data);
     dispatch(settAllPage(result.data));
     dispatch(setListPiutang(result.data.data));
     dispatch(setLoading(false));
@@ -135,7 +134,6 @@ export const uploadFileData = (data) => async (dispatch) => {
 };
 
 export const searchDataPiutang = (data) => async (dispatch) => {
-  console.log(data);
   const result = await billing
     .searchListPiutang({
       params: {
@@ -144,11 +142,9 @@ export const searchDataPiutang = (data) => async (dispatch) => {
       },
     })
     .then((res) => {
-      console.log(res);
       return res;
     })
     .catch((err) => {
-      console.log(err);
       return err;
     });
 
