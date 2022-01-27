@@ -14,8 +14,6 @@ import { Loading, TableBody, TableContent, TableHeading } from '../atoms';
 export default function SectionTablePiutang({ fromPage = 'piutang' }) {
   const history = useHistory();
   const dispatch = useDispatch();
-  let amount_in_dc = [];
-  let amt_in_loc_cur = [];
   const PIUTANG = useSelector((state) => state.piutang);
   const UNBILL = useSelector((state) => state.unbill);
   const handlerPagination = (item) => {
@@ -64,51 +62,13 @@ export default function SectionTablePiutang({ fromPage = 'piutang' }) {
                     item === 'id_invoice' ? 'id' : item.split('_').join(' '),
                   )
               : '',
-          )}
-          footer={
-            <TableBody addClass={'border-y-2 border-zinc-400 bg-blue-50'}>
-              <TableContent>Total</TableContent>
-              <TableContent>
-                Rp
-                {PIUTANG.loading
-                  ? 0
-                  : PIUTANG.listPiutang.length > 0
-                  ? PIUTANG.listPiutang.map((item) => {
-                      return amount_in_dc.push(item.amount_in_dc);
-                    })
-                  : 0}
-                {amount_in_dc.length > 0 &&
-                  amount_in_dc
-                    .reduce((curr, next) => curr + next)
-                    .toLocaleString('id')}
-              </TableContent>
-              <TableContent>
-                Rp
-                {PIUTANG.loading
-                  ? 0
-                  : PIUTANG.listPiutang.length > 0
-                  ? PIUTANG.listPiutang.map((item) => {
-                      return amt_in_loc_cur.push(item.amt_in_loc_cur);
-                    })
-                  : 0}
-                {amt_in_loc_cur.length > 0 &&
-                  amt_in_loc_cur
-                    .reduce((curr, next) => curr + next)
-                    .toLocaleString('id')}
-              </TableContent>
-              <TableContent
-                rowSpan={PIUTANG.loading ? 1 : PIUTANG?.tableHeader?.length - 3}
-                colSpan={
-                  PIUTANG.loading ? 1 : PIUTANG?.tableHeader?.length - 3
-                }></TableContent>
-            </TableBody>
-          }>
+          )}>
           {PIUTANG.loading ? (
             <TableBody>
               <TableContent
-                rowSpan={PIUTANG.loading ? 2 : PIUTANG?.tableHeader?.length + 2}
+                rowSpan={PIUTANG.loading ? 1 : PIUTANG?.tableHeader?.length + 2}
                 colSpan={
-                  PIUTANG.loading ? 2 : PIUTANG?.tableHeader?.length + 2
+                  PIUTANG.loading ? 1 : PIUTANG?.tableHeader?.length + 2
                 }>
                 <div className="flex justify-center items-center mt-14">
                   <Loading color={'text-blue-600'} height={6} width={6} />
@@ -154,9 +114,9 @@ export default function SectionTablePiutang({ fromPage = 'piutang' }) {
           ) : (
             <TableBody>
               <TableContent
-                rowSpan={PIUTANG.loading ? 2 : PIUTANG?.tableHeader?.length + 2}
+                rowSpan={PIUTANG.loading ? 1 : PIUTANG?.tableHeader?.length + 2}
                 colSpan={
-                  PIUTANG.loading ? 2 : PIUTANG?.tableHeader?.length + 2
+                  PIUTANG.loading ? 1 : PIUTANG?.tableHeader?.length + 2
                 }>
                 Tidak Ada Data
               </TableContent>

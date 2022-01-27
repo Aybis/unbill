@@ -67,9 +67,9 @@ export default function Login({ history }) {
   }
   return (
     <motion.div className="relative bg-white lg:bg-zinc-50 flex items-center justify-center inset-x-0 h-auto min-h-screen xl:h-full mx-auto">
-      <motion.div className="flex flex-col w-full xl:w-lg p-8 gap-4 items-start bg-white xl:rounded-lg xl:shadow-lg">
+      <motion.div className="flex flex-col w-full md:w-lg xl:w-lg p-8 gap-4 items-start bg-white xl:rounded-lg xl:shadow-lg">
         {/* Logo and Heading Dekstop */}
-        <div className="xl:flex justify-between w-full hidden">
+        <div className="md:flex justify-between w-full hidden">
           <img
             src={`${process.env.PUBLIC_URL}/assets/images/pins.png`}
             loading="lazy"
@@ -82,7 +82,7 @@ export default function Login({ history }) {
           src={`${process.env.PUBLIC_URL}/assets/images/pins.png`}
           loading="lazy"
           alt="logo"
-          className="transition-all duration-500 ease-in-out h-10 absolute top-4 right-4 xl:hidden"
+          className="transition-all duration-500 ease-in-out h-10 absolute top-4 right-4 md:hidden"
         />
 
         {/* Heading Login */}

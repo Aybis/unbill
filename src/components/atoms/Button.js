@@ -10,6 +10,7 @@ export default function Button({
   isSubmit = false,
   handlerClick = null,
   children,
+  isAnimated = false,
 }) {
   let classBackground;
 
@@ -25,9 +26,9 @@ export default function Button({
 
   return (
     <motion.button
-      initial={{ opacity: 0, y: -20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.3 }}
+      initial={isAnimated && { opacity: 0, y: -20 }}
+      animate={isAnimated && { opacity: 1, y: 0 }}
+      transition={isAnimated && { duration: 0.3 }}
       disabled={isSubmit}
       onClick={handlerClick ?? undefined}
       name={name}

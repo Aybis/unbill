@@ -40,6 +40,7 @@ export default function SectionKeteranganUpdate() {
   ];
 
   const UNBILL = useSelector((state) => state.unbill);
+  const USER = useSelector((state) => state.user);
 
   const handlerUpdateKeterangan = (item) => {
     console.log(item);
@@ -73,12 +74,14 @@ export default function SectionKeteranganUpdate() {
     event.preventDefault();
     form.io = io;
 
-    setisSubmit(false);
+    setisSubmit(true);
     await updateKetaranganUnbill(form)
       .then((res) => {
         if (res.status === 200) {
+          setShowModal(false);
           swal('Yeay !', res.data.message, 'success');
           dispatch(viewUnbillByIo(io));
+          setisSubmit(false);
         } else {
           swal('Oh No!', res.data.message, 'error');
         }
@@ -86,7 +89,46 @@ export default function SectionKeteranganUpdate() {
       .catch((err) => {
         swal('Oh No!', err.data.message ?? 'Something Happened!', 'error');
       });
-    setisSubmit(true);
+  };
+
+  const OtoritasUpdate = ({ item, field }) => {
+    switch (USER?.profile?.unit) {
+      case 'GOVERNMENT, POLICE & MILITARY BUSINESS':
+        return field === 'catatan_ubis' && <ButtonUpdate item={item} />;
+      case 'ENTERPRISE BUSINESS':
+        return field === 'catatan_ubis' && <ButtonUpdate item={item} />;
+      case 'SERVICE DELIVERY':
+        return field === 'catatan_sdv' && <ButtonUpdate item={item} />;
+
+      case 'OPERATION & SUPPORT':
+        return field === 'catatan_operation' && <ButtonUpdate item={item} />;
+
+      case 'MARKETING & SALES SUPPORT':
+        return field.indexOf('catatan') < 0 && <ButtonUpdate item={item} />;
+
+      case 'TREASURY, COLLECTION & TAX':
+        return field.indexOf('catatan') < 0 ? (
+          <ButtonUpdate item={item} />
+        ) : (
+          field === 'catatan_bilco' && <ButtonUpdate item={item} />
+        );
+
+      default:
+        return '';
+    }
+  };
+
+  const ButtonUpdate = ({ item }) => {
+    return (
+      <Button
+        isAnimated={false}
+        handlerClick={() => handlerUpdateKeterangan(item)}
+        type="edit"
+        name={'update'}
+        moreClass={'gap-2'}>
+        <PencilAltIcon className="h-4" /> Update Keterangan
+      </Button>
+    );
   };
 
   useEffect(() => {
@@ -109,13 +151,7 @@ export default function SectionKeteranganUpdate() {
                 {name[1]}
               </TableContent>
               <TableContent>
-                <Button
-                  handlerClick={() => handlerUpdateKeterangan(name)}
-                  type="edit"
-                  name={'update'}
-                  moreClass={'gap-2'}>
-                  <PencilAltIcon className="h-4" /> Update Keterangan
-                </Button>
+                <OtoritasUpdate item={name} field={name[0]} />
               </TableContent>
             </TableBody>
           ))}
@@ -142,7 +178,7 @@ export default function SectionKeteranganUpdate() {
                 : 'Type here'
             }
           />
-          <Button>Update</Button>
+          <Button isSubmit={isSubmit}>Update</Button>
         </form>
       </Modals>
     </div>

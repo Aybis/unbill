@@ -22,8 +22,8 @@ export default function SectionTableInvoice() {
         {INVOICE.loading ? (
           <TableBody>
             <TableContent
-              rowSpan={INVOICE?.tableHeader.length}
-              colSpan={INVOICE?.tableHeader.length}>
+              rowSpan={INVOICE?.tableHeader.length + 1}
+              colSpan={INVOICE?.tableHeader.length + 1}>
               <div className="flex justify-start items-center">
                 <Loading color={'text-blue-600'} height={6} width={6} />
               </div>
@@ -50,8 +50,8 @@ export default function SectionTableInvoice() {
         ) : (
           <TableBody>
             <TableContent
-              rowSpan={INVOICE?.tableHeader.length}
-              colSpan={INVOICE?.tableHeader.length}>
+              rowSpan={INVOICE?.tableHeader.length + 1}
+              colSpan={INVOICE?.tableHeader.length + 1}>
               Tidak Ada Data
             </TableContent>
           </TableBody>
