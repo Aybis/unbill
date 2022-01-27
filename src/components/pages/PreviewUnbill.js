@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import swal from 'sweetalert';
+import { fetchDataInvioiceByIo } from '../../redux/actions/invoice';
 import { fetchDataPiutangByIO } from '../../redux/actions/piutang';
 import {
   fetchListFileDokumen,
@@ -20,7 +21,9 @@ import {
   SectionFormSearch,
   SectionFormUpdateStatusUnbill,
   SectionFormUpdateUnbill,
+  SectionKeteranganUpdate,
   SectionTableFile,
+  SectionTableInvoice,
   SectionTablePiutang,
 } from '../molecules';
 
@@ -37,7 +40,6 @@ export default function PreviewUnbill() {
     selected: false,
     type: '',
   });
-
   const handlerClikUpdateStatus = (event, item) => {
     dispatch(setStatus(''));
     dispatch(
@@ -129,6 +131,7 @@ export default function PreviewUnbill() {
   useEffect(() => {
     dispatch(setTemporary(''));
     dispatch(fetchDataPiutangByIO(io));
+    dispatch(fetchDataInvioiceByIo(io));
     dispatch(viewUnbillByIo(io));
     dispatch(fetchListFileDokumen(io));
 
@@ -148,6 +151,13 @@ export default function PreviewUnbill() {
         <SectionFormUpdateUnbill />
       </div>
 
+      {/* List Catatan  */}
+      <div className="relative my-8 bg-white rounded-lg p-6">
+        <h1 className="text-zinc-800 font-semibold">Catatan</h1>
+        <SectionKeteranganUpdate />
+      </div>
+
+      {/* List Detail Piutang */}
       <div className="relative my-8 bg-white p-6 rounded-lg">
         <h1 className="text-zinc-800 font-semibold mb-8">
           List Piutang Berdasarkan IO{' '}
@@ -161,6 +171,16 @@ export default function PreviewUnbill() {
         <SectionTablePiutang fromPage="unbill" />
       </div>
 
+      {/* List Detail Piutang */}
+      <div className="relative my-8 bg-white p-6 rounded-lg">
+        <h1 className="text-zinc-800 font-semibold mb-8">
+          List Invoice Berdasarkan IO{' '}
+        </h1>
+
+        <SectionTableInvoice />
+      </div>
+
+      {/* List File */}
       <div className="relative my-8 bg-white p-6 rounded-lg">
         <h1 className="text-zinc-800 font-semibold">List File Unbill</h1>
         <SectionTableFile handlerClikUpdateStatus={handlerClikUpdateStatus} />

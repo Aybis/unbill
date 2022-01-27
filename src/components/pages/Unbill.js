@@ -36,16 +36,13 @@ export default function Unbill() {
 
   return (
     <Layout titlePage={`List Unbill `}>
-      <div className="relative w-full my-8 px-4 py-6 rounded-md bg-white">
-        <div className="relative flex justify-between items-center mb-6">
-          <SectionFormSearch
-            keyword={keyword}
-            setKeyword={setKeyword}
-            handlerRemoveSearch={handlerRemoveSearch}
-            handlerSearch={handlerSearch}
-          />
-        </div>
-
+      <div className="relative w-full my-8 px-4 py-6 rounded-md bg-white overflow-auto">
+        <SectionFormSearch
+          keyword={keyword}
+          setKeyword={setKeyword}
+          handlerRemoveSearch={handlerRemoveSearch}
+          handlerSearch={handlerSearch}
+        />
         <SectionTableUnbill />
       </div>
     </Layout>

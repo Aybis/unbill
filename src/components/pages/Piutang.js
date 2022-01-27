@@ -117,7 +117,7 @@ export default function Piutang() {
         </>
       )}
       <div className="relative w-full my-8 px-4 py-6 rounded-md bg-white overflow-auto">
-        <div className="relative flex justify-between items-center mb-6">
+        <div className="relative flex flex-col lg:flex-row lg:justify-between justify-start lg:items-center items-start mb-6 ">
           <SectionFormSearch
             keyword={keyword}
             setKeyword={setKeyword}
@@ -125,7 +125,9 @@ export default function Piutang() {
             handlerSearch={handlerSearch}
           />
           {!id && (
-            <Button handlerClick={handlerModalUpload}>
+            <Button
+              moreClass={'mt-4 lg:mt-0 gap-2 w-full lg:w-fit'}
+              handlerClick={handlerModalUpload}>
               <DocumentAddIcon className="h-5" />
               Upload File
             </Button>

@@ -16,3 +16,5 @@ export { default as SectionFormUpdateStatusUnbill } from './SectionFormUpdateSta
 export { default as SectionFormSearch } from './SectionFormSearch';
 export { default as SectionTableUnbill } from './SectionTableUnbill';
 export { default as SectionTableFile } from './SectionTableFile';
+export { default as SectionKeteranganUpdate } from './SectionKeteranganUpdate';
+export { default as SectionTableInvoice } from './SectionTableInvoice';

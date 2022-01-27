@@ -41,7 +41,7 @@ export default function Home() {
             year={temp.year}
           />
         </div>
-        <div className="grid grid-cols-4 gap-4 my-12">
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-4 my-12">
           {Array.from({ length: 8 }).map((item) => (
             <motion.div
               whileHover={{ scale: 1.05 }}
@@ -53,7 +53,7 @@ export default function Home() {
           ))}
         </div>
 
-        <div className="grid grid-cols-2 gap-4 my-12">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 my-12">
           {Array.from({ length: 4 }).map((item) => (
             <motion.div
               whileHover={{ scale: 1.05 }}

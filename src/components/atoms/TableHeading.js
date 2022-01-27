@@ -1,8 +1,8 @@
 import React from 'react';
 
-export default function Tables({ theading, children, addClass }) {
+export default function Tables({ theading, children, addClass, footer }) {
   return (
-    <div className=" overflow-visible border-b border-gray-200 sm:rounded-lg transition-all duration-300 ease-in-out shadow-lg shadow-slate-200/50 min-h-full">
+    <div className="overflow-visible border-b border-gray-200 sm:rounded-lg transition-all duration-300 ease-in-out shadow-lg shadow-slate-200/50 min-h-full">
       <table className="min-w-full divide-y divide-gray-200 relative h-64 transition-all duration-300 ease-in-out">
         <thead className="bg-blue-100 sticky top-0">
           <tr className="sticky top-0 h-16 w-full leading-none text-gray-400 border-b-2 border-gray-200">
@@ -20,6 +20,9 @@ export default function Tables({ theading, children, addClass }) {
           </tr>
         </thead>
         <tbody className="bg-white divide-y divide-gray-200">{children}</tbody>
+        <tfoot className="bg-white divide-y divide-zinc-500 sticky bottom-0">
+          {footer}
+        </tfoot>
       </table>
     </div>
   );

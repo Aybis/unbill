@@ -28,7 +28,7 @@ export default function Layout({ children, titlePage }) {
               </h1>
               {/* Your content */}
 
-              <div className="relative p-8">
+              <div className="relative lg:p-8 p-4">
                 <h1 className="text-2xl text-zinc-800 font-semibold capitalize">
                   {titlePage}
                 </h1>

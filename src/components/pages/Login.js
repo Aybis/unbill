@@ -84,14 +84,6 @@ export default function Login({ history }) {
           alt="logo"
           className="transition-all duration-500 ease-in-out h-10 absolute top-4 right-4 xl:hidden"
         />
-        <div className="relative w-full xl:hidden">
-          <div className="flex flex-col justify-center items-center w-full">
-            <h1 className="text-3xl text-zinc-900 font-bold mt-3">SIMAKINS</h1>
-            <p className="font-normal text-zinc-700 text-sm mt-2">
-              Sistem Manajemen Aplikasi Karyawan PINS
-            </p>
-          </div>
-        </div>
 
         {/* Heading Login */}
         <div className="relative inset-x-0 xl:mt-16 mt-8">

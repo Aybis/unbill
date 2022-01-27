@@ -15,7 +15,7 @@ export default function SectionBarPreview({ name, subname }) {
       </span>
 
       <div className="relative mt-8 p-4 rounded-md text-white flex justify-center items-center bg-blue-500 shadow-lg shadow-blue-500/50">
-        <h1 className="text-xl font-semibold">
+        <h1 className="text-xl font-semibold text-center">
           {name} - {subname}
         </h1>
       </div>

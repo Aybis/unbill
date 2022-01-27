@@ -6,6 +6,16 @@ const initialState = {
   temporary: {},
   invoiceSelected: {},
   page: {},
+  tableHeader: [
+    'customer',
+    'tgl_inv',
+    'no_inv',
+    'dpp',
+    'ppn',
+    'jumlah',
+    'tgl_bayar',
+    'diterima',
+  ],
   current_page: {},
   bulan: convertDate('bulan'),
   tahun: convertDate('tahun'),
@@ -21,13 +31,13 @@ export default function (state = initialState, action) {
     case type.LIST_INVOICE:
       return {
         ...state,
-        listUnbill: action.payload ?? {},
+        listInvoice: action.payload ?? {},
       };
 
     case type.INVOICE_SELECTED:
       return {
         ...state,
-        unbillSelected: action.payload ?? {},
+        invoiceSelected: action.payload ?? {},
       };
 
     case type.TEMPORARY:

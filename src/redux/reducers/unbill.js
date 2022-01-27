@@ -47,6 +47,7 @@ const initialState = {
     'catatan_ubis',
     'catatan_operation',
     'catatan_sdv',
+    'keterangan',
   ],
   allPage: {},
   listDokumen: {},

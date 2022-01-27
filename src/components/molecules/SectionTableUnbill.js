@@ -46,71 +46,83 @@ export default function SectionTableUnbill() {
   };
 
   return (
-    <div className="overflow-auto relative max-w-full">
-      <TableHeading
-        theading={['No', 'Action'].concat(
-          UNBILL?.tableHeader?.length > 0
-            ? UNBILL?.tableHeader
-                ?.filter((item) => item !== 'id')
-                .map((item) => item.split('_').join(' '))
-            : '',
-        )}>
-        {UNBILL.loading ? (
-          <TableBody>
-            <TableContent
-              rowSpan={UNBILL?.tableHeader.length + 2}
-              colSpan={UNBILL?.tableHeader.length + 2}>
-              <div className="flex justify-start items-center">
-                <Loading color={'text-blue-600'} height={6} width={6} />
-              </div>
-            </TableContent>
-          </TableBody>
-        ) : UNBILL?.listUnbill?.length > 0 ? (
-          UNBILL?.listUnbill?.map((item) => {
-            return (
-              <TableBody key={Math.random()}>
-                <TableContent>{item.id}</TableContent>
-                <TableContent>
-                  <button
-                    onClick={() => handlerClickDetail(item)}
-                    className="flex gap-2 items-center justify-center bg-indigo-600 shadow-md shadow-indigo-500/50 hover:bg-indigo-500 transition-all duration-300 ease-in-out text-white font-semibold rounded-md px-4 py-2">
-                    <DocumentIcon className="h-4" /> Detail Piutang
-                  </button>
-                </TableContent>
-                {UNBILL.tableHeader
-                  .filter((item) => item !== 'id')
-                  .map((nameField) => {
-                    return (
-                      <TableContent
-                        addClassChild={
-                          filterTable.indexOf(nameField) > -1
-                            ? 'whitespace-pre-line'
-                            : 'whitespace-nowrap'
-                        }
-                        key={Math.random()}>
-                        {rupiahTable.indexOf(nameField) > -1
-                          ? parseInt(item[nameField]) > 0
-                            ? 'Rp ' + item[nameField].toLocaleString('id')
-                            : item[nameField]
-                          : item[nameField] === ''
-                          ? '-'
-                          : item[nameField]}
-                      </TableContent>
-                    );
-                  })}
-              </TableBody>
-            );
-          })
-        ) : (
-          <TableBody>
-            <TableContent
-              rowSpan={UNBILL?.tableHeader.length + 2}
-              colSpan={UNBILL?.tableHeader.length + 2}>
-              Tidak Ada Data
-            </TableContent>
-          </TableBody>
-        )}
-      </TableHeading>
+    <div className="relative w-full my-8 rounded-md bg-white">
+      <div
+        className="overflow-auto relative max-w-full border-b-2 border-zinc-200"
+        style={{ maxHeight: '40rem' }}>
+        <TableHeading
+          theading={['No', 'Action'].concat(
+            UNBILL?.tableHeader?.length > 0
+              ? UNBILL?.tableHeader
+                  ?.filter((item) => item !== 'id')
+                  .map((item) => item.split('_').join(' '))
+              : '',
+          )}>
+          {UNBILL.loading ? (
+            <TableBody>
+              <TableContent
+                rowSpan={UNBILL?.tableHeader.length + 2}
+                colSpan={UNBILL?.tableHeader.length + 2}>
+                <div className="flex justify-start items-center">
+                  <Loading color={'text-blue-600'} height={6} width={6} />
+                </div>
+              </TableContent>
+            </TableBody>
+          ) : UNBILL?.listUnbill?.length > 0 ? (
+            UNBILL?.listUnbill?.map((item, index) => {
+              return (
+                <TableBody key={item.id}>
+                  <TableContent>
+                    {`${
+                      UNBILL?.allPage?.current_page - 1 === 0
+                        ? index + 1
+                        : index + 1 === 10
+                        ? UNBILL?.allPage?.current_page + '' + 0
+                        : UNBILL?.allPage?.current_page - 1 + '' + (index + 1)
+                    }`}
+                  </TableContent>
+                  <TableContent>
+                    <button
+                      onClick={() => handlerClickDetail(item)}
+                      className="flex gap-2 items-center justify-center bg-indigo-600 shadow-md shadow-indigo-500/50 hover:bg-indigo-500 transition-all duration-300 ease-in-out text-white font-semibold rounded-md px-4 py-2">
+                      <DocumentIcon className="h-4" /> Detail Piutang
+                    </button>
+                  </TableContent>
+                  {UNBILL.tableHeader
+                    .filter((item) => item !== 'id')
+                    .map((nameField) => {
+                      return (
+                        <TableContent
+                          addClassChild={
+                            filterTable.indexOf(nameField) > -1
+                              ? 'whitespace-pre-line'
+                              : 'whitespace-nowrap'
+                          }
+                          key={Math.random()}>
+                          {rupiahTable.indexOf(nameField) > -1
+                            ? parseInt(item[nameField]) > 0
+                              ? 'Rp ' + item[nameField].toLocaleString('id')
+                              : item[nameField]
+                            : item[nameField] === ''
+                            ? '-'
+                            : item[nameField]}
+                        </TableContent>
+                      );
+                    })}
+                </TableBody>
+              );
+            })
+          ) : (
+            <TableBody>
+              <TableContent
+                rowSpan={UNBILL?.tableHeader.length + 2}
+                colSpan={UNBILL?.tableHeader.length + 2}>
+                Tidak Ada Data
+              </TableContent>
+            </TableBody>
+          )}
+        </TableHeading>
+      </div>
 
       {UNBILL?.listUnbill?.length > 0 ? (
         <SectionPagination

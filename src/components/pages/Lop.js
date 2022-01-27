@@ -126,30 +126,34 @@ export default function Lop() {
     <Layout titlePage={'List LOP '}>
       <div className="relative bg-white p-6 rounded-lg mt-12">
         <h1 className="text-zinc-800 font-semibold mb-8">List Data</h1>
-        <div className="flex justify-between items-center">
+        <div className="flex flex-col lg:flex-row justify-between lg:items-center items-start">
           <SectionFormSearch
             keyword={keyword}
             setKeyword={setKeyword}
             handlerRemoveSearch={handlerRemoveSearch}
             handlerSearch={handlerSearch}
           />
-          <div className="relative flex gap-4">
+          <div className="relative flex flex-col lg:flex-row mt-4 gap-4 w-full lg:w-fit">
             <Button
               handlerClick={handlerClickData}
               name={'create'}
-              moreClass={'gap-2'}>
+              moreClass={'gap-2 w-full lg:w-fit'}>
               <DocumentAddIcon className="h-5" /> Tambah LOP
             </Button>
 
             <Button
               handlerClick={handlerClickData}
               name={'upload'}
-              moreClass={'gap-2'}>
+              moreClass={'gap-2 w-full lg:w-fit'}>
               <DocumentIcon className="h-5" /> Upload File
             </Button>
           </div>
         </div>
-        <div className="relative mt-4 overflow-auto border-b-2 border-zinc-200">
+        <div
+          className="relative mt-6 overflow-auto border-b-2 border-zinc-200"
+          style={{
+            maxHeight: '40rem',
+          }}>
           <TableHeading
             theading={['No', 'No. IO', 'Deskripsi', 'Unit Bisnis', ' ']}>
             {LOP.loading ? (
@@ -165,7 +169,7 @@ export default function Lop() {
                 <TableBody key={item.id}>
                   <TableContent>{item.id}</TableContent>
                   <TableContent>{item.io}</TableContent>
-                  <TableContent addClassChild={'whitespace-normal'}>
+                  <TableContent addClassChild={'whitespace-pre-line'}>
                     {item.deskripsi_project}
                   </TableContent>
                   <TableContent>{item.unit}</TableContent>

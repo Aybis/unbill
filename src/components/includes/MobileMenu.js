@@ -2,7 +2,7 @@ import { Dialog, Transition } from '@headlessui/react';
 import { XIcon } from '@heroicons/react/outline';
 import { ChartBarIcon, ClipboardListIcon } from '@heroicons/react/solid';
 import { Fragment } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useRouteMatch } from 'react-router-dom';
 import { toAbsoluteUrl } from '../../helpers/Assets';
 
 const sidebarNavigation = [
@@ -32,6 +32,8 @@ function classNames(...classes) {
 }
 
 export default function MobileMenu({ mobileMenuOpen, setMobileMenuOpen }) {
+  const { path } = useRouteMatch();
+
   return (
     <Transition.Root show={mobileMenuOpen} as={Fragment}>
       <Dialog as="div" className="md:hidden" onClose={setMobileMenuOpen}>
@@ -88,15 +90,15 @@ export default function MobileMenu({ mobileMenuOpen, setMobileMenuOpen }) {
                         key={item.name}
                         to={item.href}
                         className={classNames(
-                          item.current
+                          path === item.href
                             ? 'bg-zinc-800 text-white'
                             : 'text-zinc-400 hover:bg-zinc-800 hover:text-white',
                           'group py-2 px-3 rounded-md flex items-center text-sm font-medium',
                         )}
-                        aria-current={item.current ? 'page' : undefined}>
+                        aria-current={path === item.href ? 'page' : undefined}>
                         <item.icon
                           className={classNames(
-                            item.current
+                            path === item.href
                               ? 'text-white'
                               : 'text-zinc-400 group-hover:text-white',
                             'mr-3 h-6 w-6',

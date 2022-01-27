@@ -1,5 +1,6 @@
 export const TEMPORARY = 'TEMPORARY';
 export const LIST_INVOICE = 'LIST_INVOICE';
+export const TABLE_HEADER = 'TABLE_HEADER';
 export const INVOICE_SELECTED = 'INVOICE_SELECTED';
 export const BULAN = 'BULAN';
 export const TAHUN = 'TAHUN';

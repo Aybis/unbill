@@ -2,7 +2,7 @@ import billing from '../../configs/api/billing';
 import * as type from '../types/invoice';
 
 export const setListInvoice = (data) => ({
-  type: type.LIST_UNBILL,
+  type: type.LIST_INVOICE,
   payload: data,
 });
 
@@ -31,25 +31,29 @@ export const setStatus = (data) => ({
   payload: data,
 });
 
-export const fetchInvoiceByIO = async (data) => {
-  try {
-    const result = await billing.listInvoice({
-      params: {
-        io: data,
-      },
-    });
-
-    return result;
-  } catch (error) {
-    return error;
-  }
-};
-
 export const fetchDataTableHeaderInvoice = () => async (dispatch) => {
   try {
     const data = await billing.headerTableInvoice();
     return data.data;
   } catch (err) {
     return err;
+  }
+};
+
+export const fetchDataInvioiceByIo = (io) => async (dispatch) => {
+  dispatch(setLoading(true));
+  try {
+    const result = await billing.listInvoiceByIo({
+      params: {
+        io: io,
+      },
+    });
+    dispatch(setListInvoice(result.data));
+    dispatch(setLoading(false));
+    return result;
+  } catch (error) {
+    dispatch(setLoading(false));
+
+    return error;
   }
 };

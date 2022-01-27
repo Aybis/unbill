@@ -14,6 +14,8 @@ import { Loading, TableBody, TableContent, TableHeading } from '../atoms';
 export default function SectionTablePiutang({ fromPage = 'piutang' }) {
   const history = useHistory();
   const dispatch = useDispatch();
+  let amount_in_dc = [];
+  let amt_in_loc_cur = [];
   const PIUTANG = useSelector((state) => state.piutang);
   const UNBILL = useSelector((state) => state.unbill);
   const handlerPagination = (item) => {
@@ -41,7 +43,11 @@ export default function SectionTablePiutang({ fromPage = 'piutang' }) {
 
   return (
     <div className="relative w-full my-8 rounded-md bg-white">
-      <div className="overflow-auto relative max-w-full border-b-2 border-zinc-200">
+      <div
+        className="overflow-auto  relative max-w-full border-b-2 border-zinc-200"
+        style={{
+          maxHeight: '40rem',
+        }}>
         <TableHeading
           theading={['No', 'Action'].concat(
             PIUTANG.loading
@@ -54,9 +60,49 @@ export default function SectionTablePiutang({ fromPage = 'piutang' }) {
                       item !== 'created_at' &&
                       item !== 'updated_at',
                   )
-                  .map((item) => item.split('_').join(' '))
+                  .map((item) =>
+                    item === 'id_invoice' ? 'id' : item.split('_').join(' '),
+                  )
               : '',
-          )}>
+          )}
+          footer={
+            <TableBody addClass={'border-y-2 border-zinc-400 bg-blue-50'}>
+              <TableContent>Total</TableContent>
+              <TableContent>
+                Rp
+                {PIUTANG.loading
+                  ? 0
+                  : PIUTANG.listPiutang.length > 0
+                  ? PIUTANG.listPiutang.map((item) => {
+                      return amount_in_dc.push(item.amount_in_dc);
+                    })
+                  : 0}
+                {amount_in_dc.length > 0 &&
+                  amount_in_dc
+                    .reduce((curr, next) => curr + next)
+                    .toLocaleString('id')}
+              </TableContent>
+              <TableContent>
+                Rp
+                {PIUTANG.loading
+                  ? 0
+                  : PIUTANG.listPiutang.length > 0
+                  ? PIUTANG.listPiutang.map((item) => {
+                      return amt_in_loc_cur.push(item.amt_in_loc_cur);
+                    })
+                  : 0}
+                {amt_in_loc_cur.length > 0 &&
+                  amt_in_loc_cur
+                    .reduce((curr, next) => curr + next)
+                    .toLocaleString('id')}
+              </TableContent>
+              <TableContent
+                rowSpan={PIUTANG.loading ? 1 : PIUTANG?.tableHeader?.length - 3}
+                colSpan={
+                  PIUTANG.loading ? 1 : PIUTANG?.tableHeader?.length - 3
+                }></TableContent>
+            </TableBody>
+          }>
           {PIUTANG.loading ? (
             <TableBody>
               <TableContent
