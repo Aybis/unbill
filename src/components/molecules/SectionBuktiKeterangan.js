@@ -10,7 +10,6 @@ import {
   setBuktiSerahTerimaSelected,
   setStatus,
   uploadBuktiSerahTerima,
-  uploadStatusDokumen,
 } from '../../redux/actions/unbill';
 import { Button, Modals } from '../atoms';
 
@@ -84,6 +83,7 @@ export default function SectionBuktiKeterangan() {
   useEffect(() => {
     dispatch(setStatus(''));
     dispatch(fetchListBuktiSerahTerima(io));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dispatch]);
 
   return (
