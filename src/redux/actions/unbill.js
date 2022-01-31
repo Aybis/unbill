@@ -11,6 +11,16 @@ export const setTemporary = (data) => ({
   payload: data,
 });
 
+export const setListBuktiSerahTerima = (data) => ({
+  type: type.LIST_BUKTI_SERAH_TERIMA,
+  payload: data,
+});
+
+export const setBuktiSerahTerimaSelected = (data) => ({
+  type: type.BUKTI_SERAH_TERIMA_SELECTED,
+  payload: data,
+});
+
 export const setListDokumen = (data) => ({
   type: type.LIST_DOKUMEN,
   payload: data,
@@ -28,6 +38,21 @@ export const setDokumenSelected = (data) => ({
 
 export const setAllPage = (data) => ({
   type: type.ALL_PAGE,
+  payload: data,
+});
+
+export const setAllPageBuktiSerahTerima = (data) => ({
+  type: type.BUKT_SERAH_TERIMA_ALL_PAGE,
+  payload: data,
+});
+
+export const setListKategori = (data) => ({
+  type: type.LIST_KATEGORI,
+  payload: data,
+});
+
+export const setListKendala = (data) => ({
+  type: type.LIST_KENDALA,
   payload: data,
 });
 
@@ -58,7 +83,7 @@ export const fetchDataUnbill = (keyword, page) => async (dispatch) => {
     const result = await billing.listUnbill({
       params: {
         page: page,
-        keyword: keyword,
+        keyword: keyword ?? '',
       },
     });
     dispatch(setAllPage(result.data));
@@ -100,7 +125,7 @@ export const updateStatusDokumen = (data) => async (dispatch) => {
 
 export const uploadStatusDokumen = (data) => async (dispatch) => {
   try {
-    const result = await billing.uploadDocument(data, {
+    const result = await billing.uploadDocumentMultiple(data, {
       onUploadProgress: (progressEvent) => {
         dispatch(
           setStatus(
@@ -122,6 +147,15 @@ export const uploadStatusDokumen = (data) => async (dispatch) => {
       message: error.data.message ?? 'Something Happened!',
       data: null,
     };
+  }
+};
+
+export const deleteFile = (data) => async (dispatch) => {
+  try {
+    const result = await billing.deleteFile(data);
+    return result;
+  } catch (error) {
+    return error;
   }
 };
 
@@ -154,6 +188,75 @@ export const fetchListFileDokumen = (data) => async (dispatch) => {
     })
     .then((res) => {
       dispatch(setListDokumen(res.data));
+      return res;
+    })
+    .catch((err) => {
+      return err;
+    });
+};
+
+export const fetchListBuktiSerahTerima = (io) => async (dispatch) => {
+  return await billing
+    .listSerahTerima({
+      params: {
+        io: io,
+      },
+    })
+    .then((res) => {
+      dispatch(setListBuktiSerahTerima(res.data.data));
+      return res;
+    })
+    .catch((err) => {
+      return err;
+    });
+};
+
+export const uploadBuktiSerahTerima = (data) => async (dispatch) => {
+  try {
+    const result = await billing.uploadSerahTerima(data, {
+      onUploadProgress: (progressEvent) => {
+        dispatch(
+          setStatus(
+            'Upload Progress ' +
+              Math.round((progressEvent.loaded / progressEvent.total) * 100) +
+              '%',
+          ),
+        );
+      },
+    });
+    console.log(result);
+    return {
+      status: result.status,
+      message: result.data.message,
+      data: {},
+    };
+  } catch (error) {
+    return {
+      status: error.status,
+      message: error.data.message ?? 'Something Happened!',
+      data: null,
+    };
+  }
+};
+
+export const fetchListKategori = () => async (dispatch) => {
+  return await billing
+    .listKategori()
+    .then((res) => {
+      dispatch(setListKategori(res.data));
+      return res;
+    })
+    .catch((err) => {
+      return err;
+    });
+};
+
+export const fetchListKendala = () => async (dispatch) => {
+  return await billing
+    .listKendala()
+    .then((res) => {
+      dispatch(setListKendala(res.data));
+
       return res;
     })
     .catch((err) => {

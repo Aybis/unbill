@@ -94,7 +94,9 @@ export default function SectionTableUnbill() {
                       return (
                         <TableContent
                           addClassChild={
-                            filterTable.indexOf(nameField) > -1
+                            item[nameField] === 'mansol'
+                              ? 'uppercase rounded-md bg-teal-600 text-zinc-50 font-semibold flex justify-center items-center w-fit'
+                              : filterTable.indexOf(nameField) > -1
                               ? 'whitespace-pre-line'
                               : 'whitespace-nowrap'
                           }

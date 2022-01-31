@@ -2,10 +2,11 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import swal from 'sweetalert';
-import { fetchDataInvioiceByIo } from '../../redux/actions/invoice';
 import { fetchDataPiutangByIO } from '../../redux/actions/piutang';
 import {
   fetchListFileDokumen,
+  fetchListKategori,
+  fetchListKendala,
   setDokumenSelected,
   setStatus,
   setTemporary,
@@ -13,11 +14,13 @@ import {
   uploadStatusDokumen,
   viewUnbillByIo,
 } from '../../redux/actions/unbill';
+import { fetchListUnit } from '../../redux/actions/user';
 import { Modals } from '../atoms';
 import { Layout } from '../includes';
 import {
   FormUploadFile,
   SectionBarPreview,
+  SectionBuktiKeterangan,
   SectionFormSearch,
   SectionFormUpdateStatusUnbill,
   SectionFormUpdateUnbill,
@@ -83,7 +86,7 @@ export default function PreviewUnbill() {
   const handlerChangeFile = (event) => {
     setFormFile({
       ...formFile,
-      file: event.target.files[0],
+      file: event.target.files,
       selected: true,
       type: formFile.type,
     });
@@ -97,7 +100,9 @@ export default function PreviewUnbill() {
       'name',
       UNBILL.dokumenSelected.name.toLowerCase().split(' ').join('_') + '_link',
     );
-    formData.append('file', formFile.file, formFile.file.name);
+    for (let i = 0; i < formFile.file.length; i++) {
+      formData.append(`files[${i}]`, formFile.file[i]);
+    }
     setisSubmit(true);
 
     try {
@@ -131,10 +136,12 @@ export default function PreviewUnbill() {
   useEffect(() => {
     dispatch(setTemporary(''));
     dispatch(fetchDataPiutangByIO(io));
-    dispatch(fetchDataInvioiceByIo(io));
     dispatch(viewUnbillByIo(io));
     dispatch(fetchListFileDokumen(io));
 
+    dispatch(fetchListUnit());
+    dispatch(fetchListKendala());
+    dispatch(fetchListKategori());
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -151,12 +158,6 @@ export default function PreviewUnbill() {
         <SectionFormUpdateUnbill />
       </div>
 
-      {/* List Catatan  */}
-      <div className="relative my-8 bg-white rounded-lg p-6">
-        <h1 className="text-zinc-800 font-semibold">Catatan</h1>
-        <SectionKeteranganUpdate />
-      </div>
-
       {/* List Detail Piutang */}
       <div className="relative my-8 bg-white p-6 rounded-lg">
         <h1 className="text-zinc-800 font-semibold mb-8">
@@ -171,20 +172,33 @@ export default function PreviewUnbill() {
         <SectionTablePiutang fromPage="unbill" />
       </div>
 
-      {/* List Detail Piutang */}
+      {/* List Detail Invoice */}
       <div className="relative my-8 bg-white p-6 rounded-lg">
         <h1 className="text-zinc-800 font-semibold mb-8">
           List Invoice Berdasarkan IO{' '}
         </h1>
-
         <SectionTableInvoice />
+      </div>
+
+      {/* List Catatan  */}
+      <div className="relative my-8 bg-white rounded-lg p-6">
+        <h1 className="text-zinc-800 font-semibold">Catatan</h1>
+        <SectionKeteranganUpdate />
       </div>
 
       {/* List File */}
       <div className="relative my-8 bg-white p-6 rounded-lg">
         <h1 className="text-zinc-800 font-semibold">List File Unbill</h1>
-        <SectionTableFile handlerClikUpdateStatus={handlerClikUpdateStatus} />
+        <div className="mb-4">
+          <SectionTableFile
+            handlerClikUpdateStatus={handlerClikUpdateStatus}
+            io={io}
+          />
+        </div>
       </div>
+
+      {/* List Bukti Keterangan */}
+      <SectionBuktiKeterangan />
 
       <Modals
         open={modalUpdateStatus}
@@ -199,16 +213,18 @@ export default function PreviewUnbill() {
                 .toUpperCase()
             : ''
         }`}>
-        {formFile.type === 'upload' ? (
+        {formFile.type === 'upload' && (
           <FormUploadFile
             form={formFile}
             typeFile="application/pdf"
+            mutltiple={true}
             handlerChangeFile={handlerChangeFile}
             handlerSubmit={handlerUploadFile}
             isSubmit={isSubmit}
             status={UNBILL?.status}
           />
-        ) : (
+        )}
+        {formFile.type === 'update' && (
           <SectionFormUpdateStatusUnbill
             handlerModal={setmodalUpdateStatus}
             handlerSubmit={handlerUpdateStatus}

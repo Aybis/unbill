@@ -1,17 +1,40 @@
 import React from 'react';
 import { convertDate } from '../../helpers/ConvertDate';
-import { Loading } from '../atoms';
+import { Loading, Textarea } from '../atoms';
 
 export default function FormUploadFile({
   handlerSubmit,
   isSubmit,
   status,
   form,
+  nameInput = '',
+  valueInput = '',
+  handlerChangInput = undefined,
   handlerChangeFile,
+  children,
+  mutltiple = false,
+  typeForm = 'dokumen',
   typeFile = '.xlsx, .xls, .csv',
 }) {
   return (
     <form className="mt-8" onSubmit={handlerSubmit}>
+      {typeForm === 'image' ? (
+        <div className="my-6 ">
+          <Textarea
+            name={nameInput}
+            value={valueInput}
+            handlerChange={handlerChangInput}
+            addClassRoot="mt-4 text-left"
+            addClassLabel="text-sm"
+            isRequired={true}
+            labelName="Keterangan Bukti"
+            placeholder="Keterangan Bukti Serah Terima"
+          />
+        </div>
+      ) : (
+        ''
+      )}
+
       <div className="relative">
         <label
           htmlFor="cover-photo"
@@ -21,6 +44,7 @@ export default function FormUploadFile({
         <div className="mt-1 flex justify-start px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded">
           <input
             name="file"
+            multiple={mutltiple}
             accept={typeFile}
             type="file"
             onChange={handlerChangeFile}
@@ -28,7 +52,7 @@ export default function FormUploadFile({
           />
         </div>
         {form.selected ? (
-          <div className="text-left relative mt-4 flex flex-col gap-2 ">
+          <div className="text-left relative mt-4 hidden flex-col gap-2">
             <p className="text-sm font-medium text-zinc-600">
               Nama File: {form.file.name}
             </p>
@@ -44,6 +68,7 @@ export default function FormUploadFile({
           ''
         )}
       </div>
+
       {form.selected ? (
         <div className="pt-4 flex gap-4 items-center">
           <button

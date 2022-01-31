@@ -27,6 +27,14 @@ export default {
   uploadDocument: (data, handlerProgress) =>
     axios.post('document/upload', data, handlerProgress),
   listFileDocument: (data) => axios.get('document/detail', data),
+  uploadDocumentMultiple: (data, handlerProgress) =>
+    axios.post('document/upload-many', data, handlerProgress),
+  deleteFile: (data, handlerProgress) =>
+    axios.post('document/delete/link', data, handlerProgress),
+
+  // endpoint list kategori dan kendala dropdown update dokumen
+  listKategori: () => axios.get('kategori'),
+  listKendala: () => axios.get('kendala'),
 
   // endpoint lop
   listLop: (data) => axios.get('lop/list', data),
@@ -34,4 +42,9 @@ export default {
   updateLop: (id, data) => axios.patch(`lop/${id}`, data),
   uploadFileLop: (data, handlerProgress) =>
     axios.post('lop/upload', data, handlerProgress),
+
+  // endpoint bukti serah terima
+  uploadSerahTerima: (data, handlerProgress) =>
+    axios.post('serah-terima/upload', data, handlerProgress),
+  listSerahTerima: (data) => axios.get('serah-terima/by-io', data),
 };

@@ -1,4 +1,5 @@
 export const PROFILE = 'PROFILE';
+export const LIST_UNIT = 'LIST_UNIT';
 export const IMAGE = 'IMAGE';
 export const SESSION = 'SESSION';
 export const REFRESH = 'REFRESH';

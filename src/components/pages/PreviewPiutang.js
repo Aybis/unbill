@@ -67,7 +67,9 @@ export default function PreviewPiutang() {
               return (
                 <Input
                   key={item[0]}
-                  label={item[0].replace(/_/g, ' ')}
+                  label={
+                    item[0] === 'id_invoice' ? 'ID' : item[0].replace(/_/g, ' ')
+                  }
                   value={form[item[0]] ?? ''}
                   name={item[0]}
                   handlerChange={

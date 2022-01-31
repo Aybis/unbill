@@ -3,6 +3,7 @@ import * as type from '../types/user';
 const initialState = {
   session: '',
   avatar: '',
+  listUnit: {},
   isValidation: false,
   refresh: '',
   profile: {},
@@ -31,6 +32,12 @@ export default function (state = initialState, action) {
       return {
         ...state,
         avatar: action.payload,
+      };
+
+    case type.LIST_UNIT:
+      return {
+        ...state,
+        listUnit: action.payload,
       };
 
     case type.PROFILE:

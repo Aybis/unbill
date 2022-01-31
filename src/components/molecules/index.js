@@ -18,3 +18,5 @@ export { default as SectionTableUnbill } from './SectionTableUnbill';
 export { default as SectionTableFile } from './SectionTableFile';
 export { default as SectionKeteranganUpdate } from './SectionKeteranganUpdate';
 export { default as SectionTableInvoice } from './SectionTableInvoice';
+export { default as SectionBuktiKeterangan } from './SectionBuktiKeterangan';
+export { default as SectionDropdownKeteranganUpdate } from './SectionDropdownKeteranganUpdate';

@@ -13,6 +13,7 @@ export default function Textarea({
   addClassLabel,
   readOnly = false,
   disabled = false,
+  isRequired = false,
   handlerInput,
 }) {
   return (
@@ -21,7 +22,7 @@ export default function Textarea({
         <label
           htmlFor={name}
           className={[
-            'font-semibold mb-2',
+            'font-medium text-sm mb-2',
             addClassLabel,
             error ? 'text-red-600' : 'text-zinc-700',
           ].join(' ')}>
@@ -30,6 +31,7 @@ export default function Textarea({
       )}
       <textarea
         name={name}
+        required={isRequired}
         onChange={handlerChange}
         onInput={handlerInput}
         rows="3"

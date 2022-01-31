@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import swal from 'sweetalert';
+import { SectionDropdownKeteranganUpdate } from '.';
 import {
   updateKetaranganUnbill,
   viewUnbillByIo,
@@ -10,6 +11,7 @@ import {
 import {
   Button,
   Modals,
+  SwitchButton,
   TableBody,
   TableContent,
   TableHeading,
@@ -70,6 +72,68 @@ export default function SectionKeteranganUpdate() {
     setform(data);
   };
 
+  const OtoritasUpdate = ({ item, field }) => {
+    switch (USER?.profile?.unit) {
+      case 'GOVERNMENT, POLICE & MILITARY BUSINESS':
+        return field === 'catatan_ubis' && <ButtonUpdate item={item} />;
+      case 'ENTERPRISE BUSINESS':
+        return field === 'catatan_ubis' && <ButtonUpdate item={item} />;
+      case 'SERVICE DELIVERY':
+        return field === 'catatan_sdv' && <ButtonUpdate item={item} />;
+
+      // case 'OPERATION & SUPPORT':
+      //   return field === 'catatan_operation' && <ButtonUpdate item={item} />;
+
+      case 'OPERATION & SUPPORT':
+        return field.indexOf('catatan') < 0 ? (
+          <ButtonUpdate item={item} field={field} />
+        ) : (
+          field === 'catatan_bilco' && <ButtonUpdate item={item} />
+        );
+
+      case 'MARKETING & SALES SUPPORT':
+        return field.indexOf('catatan') < 0 && <ButtonUpdate item={item} />;
+
+      case 'TREASURY, COLLECTION & TAX':
+        return field.indexOf('catatan') < 0 ? (
+          <ButtonUpdate item={item} field={field} />
+        ) : (
+          field === 'catatan_bilco' && <ButtonUpdate item={item} />
+        );
+
+      default:
+        return '';
+    }
+  };
+
+  const ButtonUpdate = ({ item, field = '' }) => {
+    return field === 'keterangan' ? (
+      <SwitchButton form={form} />
+    ) : ['follow_up', 'kendala_unbilled', 'kategori'].indexOf(field) > -1 ? (
+      <SectionDropdownKeteranganUpdate
+        data={
+          field === 'follow_up'
+            ? USER.listUnit
+            : field === 'kategori'
+            ? UNBILL.listKategori
+            : UNBILL.listKendala
+        }
+        io={io}
+        form={form}
+        type={field}
+      />
+    ) : (
+      <Button
+        isAnimated={false}
+        handlerClick={() => handlerUpdateKeterangan(item)}
+        type="edit"
+        name={'update'}
+        moreClass={'gap-2'}>
+        <PencilAltIcon className="h-4" /> Update Keterangan
+      </Button>
+    );
+  };
+
   const handlerSubmit = async (event) => {
     event.preventDefault();
     form.io = io;
@@ -91,46 +155,6 @@ export default function SectionKeteranganUpdate() {
       });
   };
 
-  const OtoritasUpdate = ({ item, field }) => {
-    switch (USER?.profile?.unit) {
-      case 'GOVERNMENT, POLICE & MILITARY BUSINESS':
-        return field === 'catatan_ubis' && <ButtonUpdate item={item} />;
-      case 'ENTERPRISE BUSINESS':
-        return field === 'catatan_ubis' && <ButtonUpdate item={item} />;
-      case 'SERVICE DELIVERY':
-        return field === 'catatan_sdv' && <ButtonUpdate item={item} />;
-
-      case 'OPERATION & SUPPORT':
-        return field === 'catatan_operation' && <ButtonUpdate item={item} />;
-
-      case 'MARKETING & SALES SUPPORT':
-        return field.indexOf('catatan') < 0 && <ButtonUpdate item={item} />;
-
-      case 'TREASURY, COLLECTION & TAX':
-        return field.indexOf('catatan') < 0 ? (
-          <ButtonUpdate item={item} />
-        ) : (
-          field === 'catatan_bilco' && <ButtonUpdate item={item} />
-        );
-
-      default:
-        return '';
-    }
-  };
-
-  const ButtonUpdate = ({ item }) => {
-    return (
-      <Button
-        isAnimated={false}
-        handlerClick={() => handlerUpdateKeterangan(item)}
-        type="edit"
-        name={'update'}
-        moreClass={'gap-2'}>
-        <PencilAltIcon className="h-4" /> Update Keterangan
-      </Button>
-    );
-  };
-
   useEffect(() => {
     getListName();
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -144,10 +168,13 @@ export default function SectionKeteranganUpdate() {
           .map((name, index) => (
             <TableBody key={index}>
               <TableContent>{index + 1}</TableContent>
-              <TableContent addClassChild={'uppercase'}>
+              <TableContent addClassChild={'uppercase whitespace-pre-line'}>
                 {name[0].replace(/_/g, ' ')}
               </TableContent>
-              <TableContent addClassChild={'whitespace-pre-line'}>
+              <TableContent
+                addClassChild={`${
+                  name[1] === 'mansol' ? 'uppercase' : ''
+                } whitespace-pre-line`}>
                 {name[1]}
               </TableContent>
               <TableContent>

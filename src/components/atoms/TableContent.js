@@ -14,7 +14,7 @@ export default function TableContent({
       onClick={handlerClick}
       rowSpan={rowSpan}
       colSpan={colSpan}
-      className={[addClassRow].join(' ')}>
+      className={['h-auto w-fit', addClassRow].join(' ')}>
       <div
         className={[
           'px-6 py-3 text-sm font-medium text-gray-900 whitespace-nowrap',

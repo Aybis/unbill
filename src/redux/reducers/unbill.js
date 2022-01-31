@@ -52,7 +52,11 @@ const initialState = {
   allPage: {},
   listDokumen: {},
   dokumenSelected: {},
-  current_page: {},
+  listBuktiSerahTerima: {},
+  allPageBuktiSerahTerima: {},
+  buktiSerahTerimaSelected: {},
+  listKendala: {},
+  listKategori: {},
   bulan: convertDate('bulan'),
   tahun: convertDate('tahun'),
   loading: false,
@@ -76,6 +80,12 @@ export default function (state = initialState, action) {
         listDokumen: action.payload ?? [],
       };
 
+    case type.LIST_BUKTI_SERAH_TERIMA:
+      return {
+        ...state,
+        listBuktiSerahTerima: action.payload ?? [],
+      };
+
     case type.UNBILL_SELECTED:
       return {
         ...state,
@@ -86,6 +96,11 @@ export default function (state = initialState, action) {
       return {
         ...state,
         dokumenSelected: action.payload ?? {},
+      };
+    case type.BUKTI_SERAH_TERIMA_SELECTED:
+      return {
+        ...state,
+        buktiSerahTerimaSelected: action.payload ?? {},
       };
 
     case type.TEMPORARY:
@@ -98,6 +113,24 @@ export default function (state = initialState, action) {
       return {
         ...state,
         allPage: action.payload,
+      };
+
+    case type.BUKT_SERAH_TERIMA_ALL_PAGE:
+      return {
+        ...state,
+        allPageBuktiSerahTerima: action.payload,
+      };
+
+    case type.LIST_KENDALA:
+      return {
+        ...state,
+        listKendala: action.payload,
+      };
+
+    case type.LIST_KATEGORI:
+      return {
+        ...state,
+        listKategori: action.payload,
       };
 
     case type.TAHUN:

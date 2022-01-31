@@ -28,6 +28,11 @@ export const setProfile = (data) => ({
   payload: data,
 });
 
+export const setListUnit = (data) => ({
+  type: type.LIST_UNIT,
+  payload: data,
+});
+
 export const setLoading = (data) => ({
   type: type.LOADING,
   payload: data,
@@ -115,4 +120,18 @@ export const userLogout = async (data) => {
       data: null,
     };
   }
+};
+
+export const fetchListUnit = () => async (dispatch) => {
+  setHeader();
+
+  return await apis
+    .listUnit()
+    .then((res) => {
+      dispatch(setListUnit(res.data.data));
+      return res.data;
+    })
+    .catch((err) => {
+      return err;
+    });
 };

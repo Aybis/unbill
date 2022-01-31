@@ -1,10 +1,15 @@
 export const TEMPORARY = 'TEMPORARY';
 export const LIST_UNBILL = 'LIST_UNBILL';
+export const ALL_PAGE = 'ALL_PAGE';
 export const TABLE_HEADER = 'TABLE_HEADER';
 export const UNBILL_SELECTED = 'UNBILL_SELECTED';
 export const LIST_DOKUMEN = 'LIST_DOKUMEN';
 export const DOKUMEN_SELECTED = 'DOKUMEN_SELECTED';
-export const ALL_PAGE = 'ALL_PAGE';
+export const LIST_BUKTI_SERAH_TERIMA = 'LIST_BUKTI_SERAH_TERIMA';
+export const BUKTI_SERAH_TERIMA_SELECTED = 'BUKTI_SERAH_TERIMA_SELECTED';
+export const BUKT_SERAH_TERIMA_ALL_PAGE = 'BUKT_SERAH_TERIMA_ALL_PAGE';
+export const LIST_KATEGORI = 'LIST_KATEGORI';
+export const LIST_KENDALA = 'LIST_KENDALA';
 export const BULAN = 'BULAN';
 export const TAHUN = 'TAHUN';
 export const LOADING = 'LOADING';

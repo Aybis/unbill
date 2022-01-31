@@ -2,7 +2,7 @@ import React from 'react';
 import { Route, Redirect, withRouter } from 'react-router-dom';
 
 const Gate = ({ component: Component, location, ...rest }) => {
-  const ok = localStorage.getItem('user');
+  const ok = localStorage.getItem('session');
   const params = location?.search.substring(1).split('&');
   const path = params.find((item) => item.indexOf('path') > -1);
   const redirect = path?.split('=')?.[1];
