@@ -70,6 +70,7 @@ export default function SectionBuktiKeterangan() {
           type: '',
         });
         swal('Yeay!', result.message, 'success');
+        dispatch(fetchListBuktiSerahTerima(io));
       } else {
         swal('Oh No!', result.message, 'error');
       }

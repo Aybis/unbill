@@ -81,15 +81,15 @@ export default function SectionKeteranganUpdate() {
       case 'SERVICE DELIVERY':
         return field === 'catatan_sdv' && <ButtonUpdate item={item} />;
 
-      // case 'OPERATION & SUPPORT':
-      //   return field === 'catatan_operation' && <ButtonUpdate item={item} />;
-
       case 'OPERATION & SUPPORT':
-        return field.indexOf('catatan') < 0 ? (
-          <ButtonUpdate item={item} field={field} />
-        ) : (
-          field === 'catatan_bilco' && <ButtonUpdate item={item} />
-        );
+        return field === 'catatan_operation' && <ButtonUpdate item={item} />;
+
+      // case 'OPERATION & SUPPORT':
+      //   return field.indexOf('catatan') < 0 ? (
+      //     <ButtonUpdate item={item} field={field} />
+      //   ) : (
+      //     field === 'catatan_bilco' && <ButtonUpdate item={item} />
+      //   );
 
       case 'MARKETING & SALES SUPPORT':
         return field.indexOf('catatan') < 0 && <ButtonUpdate item={item} />;
