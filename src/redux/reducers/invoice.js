@@ -8,6 +8,7 @@ const initialState = {
   page: {},
   tableHeader: [
     'customer',
+    'detail',
     'tgl_inv',
     'no_inv',
     'dpp',
