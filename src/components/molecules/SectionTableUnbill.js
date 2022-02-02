@@ -85,7 +85,7 @@ export default function SectionTableUnbill() {
                     <button
                       onClick={() => handlerClickDetail(item)}
                       className="flex gap-2 items-center justify-center bg-indigo-600 shadow-md shadow-indigo-500/50 hover:bg-indigo-500 transition-all duration-300 ease-in-out text-white font-semibold rounded-md px-4 py-2">
-                      <DocumentIcon className="h-4" /> Detail Piutang
+                      <DocumentIcon className="h-4" /> Detail Unbill
                     </button>
                   </TableContent>
                   {UNBILL.tableHeader
