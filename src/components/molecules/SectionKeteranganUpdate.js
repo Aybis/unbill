@@ -76,23 +76,22 @@ export default function SectionKeteranganUpdate() {
     switch (USER?.profile?.unit) {
       case 'GOVERNMENT, POLICE & MILITARY BUSINESS':
         return field === 'catatan_ubis' && <ButtonUpdate item={item} />;
+
       case 'ENTERPRISE BUSINESS':
         return field === 'catatan_ubis' && <ButtonUpdate item={item} />;
+
       case 'SERVICE DELIVERY':
         return field === 'catatan_sdv' && <ButtonUpdate item={item} />;
 
       case 'OPERATION & SUPPORT':
         return field === 'catatan_operation' && <ButtonUpdate item={item} />;
 
-      // case 'OPERATION & SUPPORT':
-      //   return field.indexOf('catatan') < 0 ? (
-      //     <ButtonUpdate item={item} field={field} />
-      //   ) : (
-      //     field === 'catatan_bilco' && <ButtonUpdate item={item} />
-      //   );
-
       case 'MARKETING & SALES SUPPORT':
-        return field.indexOf('catatan') < 0 && <ButtonUpdate item={item} />;
+        return field.indexOf('catatan') < 0 ? (
+          <ButtonUpdate item={item} field={field} />
+        ) : (
+          field === 'catatan_bilco' && <ButtonUpdate item={item} />
+        );
 
       case 'TREASURY, COLLECTION & TAX':
         return field.indexOf('catatan') < 0 ? (
