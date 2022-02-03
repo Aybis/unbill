@@ -36,6 +36,17 @@ export default function SectionTableUnbill() {
     'saldo_unbilled_mtd',
   ];
 
+  const filterJsonTable = [
+    'follow_up',
+    'kendala_unbilled',
+    'kendala_dokumen',
+    'kategori',
+    'catatan_bilco',
+    'catatan_operation',
+    'catatan_sdv',
+    'catatan_ubis',
+  ];
+
   const handlerPagination = async (item) => {
     await dispatch(fetchDataUnbill(UNBILL.temporary, item));
   };
@@ -107,6 +118,10 @@ export default function SectionTableUnbill() {
                               : item[nameField]
                             : item[nameField] === ''
                             ? '-'
+                            : filterJsonTable.indexOf(nameField) > -1
+                            ? item[nameField] === null
+                              ? ''
+                              : JSON.parse(item[nameField]).pop().value
                             : item[nameField]}
                         </TableContent>
                       );
