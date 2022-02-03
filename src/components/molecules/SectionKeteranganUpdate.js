@@ -1,4 +1,4 @@
-import { PencilAltIcon } from '@heroicons/react/solid';
+import { ClipboardIcon, PencilAltIcon } from '@heroicons/react/solid';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
@@ -10,6 +10,7 @@ import {
 } from '../../redux/actions/unbill';
 import {
   Button,
+  Feed,
   Modals,
   SwitchButton,
   TableBody,
@@ -22,6 +23,20 @@ export default function SectionKeteranganUpdate() {
   const { io } = useParams();
   const dispatch = useDispatch();
   const [form, setform] = useState({});
+  const UNBILL = useSelector((state) => state.unbill);
+  const USER = useSelector((state) => state.user);
+  const [showModalHistory, setshowModalHistory] = useState(false);
+  const [dataSelectHistory, setdataSelectHistory] = useState({
+    name: '',
+    data: '',
+  });
+  const [formKeterangan, setformKeterangan] = useState({
+    value: '',
+    io: io,
+    user: USER?.profile?.name,
+    user_id: USER?.profile?.id,
+    name: '',
+  });
   const [isSubmit, setisSubmit] = useState(false);
   const [selectKeterangan, setselectKeterangan] = useState({
     name: '',
@@ -41,11 +56,15 @@ export default function SectionKeteranganUpdate() {
     'keterangan',
   ];
 
-  const UNBILL = useSelector((state) => state.unbill);
-  const USER = useSelector((state) => state.user);
+  const handlerClickHistory = (name, item) => {
+    setshowModalHistory(true);
+    setdataSelectHistory({
+      name: name,
+      data: item,
+    });
+  };
 
   const handlerUpdateKeterangan = (item) => {
-    console.log(item);
     setselectKeterangan({
       name: item[0],
       value: item[1],
@@ -55,8 +74,10 @@ export default function SectionKeteranganUpdate() {
 
   // function change input type
   const handlerChange = (event) => {
-    setform({
-      ...form,
+    setformKeterangan({
+      ...formKeterangan,
+      name: event.target.name,
+      value: event.target.value,
       [event.target.name]: event.target.value,
     });
   };
@@ -143,20 +164,18 @@ export default function SectionKeteranganUpdate() {
       <Button
         isAnimated={false}
         handlerClick={() => handlerUpdateKeterangan(item)}
-        type="edit"
         name={'update'}
         moreClass={'gap-2'}>
-        <PencilAltIcon className="h-4" /> Update Keterangan
+        <PencilAltIcon className="h-4" /> Tambah Catatan
       </Button>
     );
   };
 
   const handlerSubmit = async (event) => {
     event.preventDefault();
-    form.io = io;
 
     setisSubmit(true);
-    await updateKetaranganUnbill(form)
+    await updateKetaranganUnbill(formKeterangan)
       .then((res) => {
         if (res.status === 200) {
           setShowModal(false);
@@ -164,11 +183,13 @@ export default function SectionKeteranganUpdate() {
           dispatch(viewUnbillByIo(io));
           setisSubmit(false);
         } else {
-          swal('Oh No!', res.data.message, 'error');
+          setisSubmit(false);
+          swal('Oh No!', 'Something Happened!', 'error');
         }
       })
       .catch((err) => {
-        swal('Oh No!', err.data.message ?? 'Something Happened!', 'error');
+        swal('Oh No!', 'Something Happened!', 'error');
+        setisSubmit(false);
       });
   };
 
@@ -179,7 +200,7 @@ export default function SectionKeteranganUpdate() {
 
   return (
     <div className="mt-8 overflow-auto">
-      <TableHeading theading={['No', 'Name', 'Catatan', 'Action']}>
+      <TableHeading theading={['No', 'Name', 'History', 'Catatan', 'Action']}>
         {Object.entries(UNBILL.unbillSelected)
           .filter((item) => fieldKeterangan.indexOf(item[0]) > -1)
           .map((name, index) => (
@@ -192,7 +213,27 @@ export default function SectionKeteranganUpdate() {
                 addClassChild={`${
                   name[1] === 'mansol' ? 'uppercase' : ''
                 } whitespace-pre-line`}>
-                {name[1]}
+                {name[0] === 'keterangan' ? (
+                  ''
+                ) : (
+                  <Button
+                    type="view"
+                    moreClass="gap-2"
+                    handlerClick={() =>
+                      handlerClickHistory(name[0], JSON.parse(name[1]))
+                    }>
+                    <ClipboardIcon className="h-5" />
+                    View
+                  </Button>
+                )}
+              </TableContent>
+              <TableContent
+                addClassChild={name[0] === 'keterangan' ? 'uppercase' : ''}>
+                {name[0] === 'keterangan'
+                  ? name[1]
+                  : name[1] === null
+                  ? ''
+                  : JSON.parse(name[1]).pop().value.substring(0, 40)}
               </TableContent>
               <TableContent>
                 <OtoritasUpdate item={name} field={name[0]} />
@@ -213,7 +254,7 @@ export default function SectionKeteranganUpdate() {
           <Textarea
             addClassLabel={'capitalize'}
             labelName={` ${selectKeterangan.name.replace(/_/g, ' ')}`}
-            value={form[selectKeterangan.name] ?? ''}
+            value={formKeterangan[selectKeterangan.name] ?? ''}
             name={selectKeterangan.name ?? ''}
             handlerChange={handlerChange}
             placeholder={
@@ -224,6 +265,24 @@ export default function SectionKeteranganUpdate() {
           />
           <Button isSubmit={isSubmit}>Update</Button>
         </form>
+      </Modals>
+
+      <Modals
+        title={`History ${dataSelectHistory.name}`}
+        open={showModalHistory}
+        handlerClose={setshowModalHistory}>
+        <div className="mt-8 max-h-full overflow-auto">
+          {Object.entries(dataSelectHistory.data).length > 0
+            ? dataSelectHistory.data.map((item) => (
+                <Feed
+                  key={Math.random()}
+                  comment={item.value}
+                  date={item.date}
+                  name={item.user}
+                />
+              ))
+            : ''}
+        </div>
       </Modals>
     </div>
   );

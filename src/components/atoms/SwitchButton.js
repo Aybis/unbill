@@ -17,8 +17,9 @@ export default function SwitchButton({ form }) {
   const dispatch = useDispatch();
 
   const testChange = async (event) => {
-    form.keterangan = event ? 'mansol' : 'bukan';
+    form.value = event ? 'mansol' : 'bukan';
     form.io = io;
+    form.name = 'keterangan';
     await updateKetaranganUnbill(form)
       .then((res) => {
         if (res.status === 200) {
