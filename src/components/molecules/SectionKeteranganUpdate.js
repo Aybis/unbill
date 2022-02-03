@@ -220,7 +220,10 @@ export default function SectionKeteranganUpdate() {
                     type="view"
                     moreClass="gap-2"
                     handlerClick={() =>
-                      handlerClickHistory(name[0], JSON.parse(name[1]))
+                      handlerClickHistory(
+                        name[0],
+                        name[1] === null ? '' : JSON.parse(name[1]),
+                      )
                     }>
                     <ClipboardIcon className="h-5" />
                     View
@@ -268,11 +271,11 @@ export default function SectionKeteranganUpdate() {
       </Modals>
 
       <Modals
-        title={`History ${dataSelectHistory.name}`}
+        title={`History ${dataSelectHistory.name.replace(/_/g, ' ')}`}
         open={showModalHistory}
         handlerClose={setshowModalHistory}>
         <div className="mt-8 max-h-full overflow-auto">
-          {Object.entries(dataSelectHistory.data).length > 0
+          {Object.entries(dataSelectHistory?.data).length > 0
             ? dataSelectHistory.data.map((item) => (
                 <Feed
                   key={Math.random()}
