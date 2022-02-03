@@ -231,7 +231,7 @@ export default function SectionKeteranganUpdate() {
                 addClassChild={name[0] === 'keterangan' ? 'uppercase' : ''}>
                 {name[0] === 'keterangan'
                   ? name[1]
-                  : name[1] === null
+                  : name[1] === null || name[1] === ''
                   ? ''
                   : JSON.parse(name[1]).pop().value.substring(0, 40)}
               </TableContent>

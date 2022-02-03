@@ -42,7 +42,7 @@ export default function SectionDropdownKeteranganUpdate({
       <select
         name={form[type]}
         defaultValue={
-          form[type] === undefined
+          form[type] === undefined || form[type] === ''
             ? ''
             : JSON?.parse(form[type]).pop().value ?? ''
         }
