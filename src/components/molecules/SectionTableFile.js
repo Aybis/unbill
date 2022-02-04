@@ -1,7 +1,13 @@
-import { DocumentAddIcon, PencilAltIcon } from '@heroicons/react/solid';
+import {
+  DocumentAddIcon,
+  DocumentIcon,
+  IdentificationIcon,
+  PencilAltIcon,
+} from '@heroicons/react/solid';
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import swal from 'sweetalert';
+import { convertDate } from '../../helpers/ConvertDate';
 import {
   deleteFile,
   fetchListFileDokumen,
@@ -9,6 +15,7 @@ import {
 } from '../../redux/actions/unbill';
 import {
   Button,
+  Feed,
   Modals,
   TableBody,
   TableContent,
@@ -20,12 +27,20 @@ export default function SectionTableFile({ handlerClikUpdateStatus, io }) {
   const [showModal, setshowModal] = useState(false);
   const [loading, setloading] = useState(false);
   const [fileSelect, setfileSelect] = useState('');
-  const [dataSelected, setdataSelected] = useState({});
+  const [dataSelected, setdataSelected] = useState({
+    type: '',
+    name: '',
+    dataFile: {},
+  });
   const dispatch = useDispatch();
 
-  const handlerClickDetailFile = (item) => {
+  const handlerClickDetailFile = (event, item, data) => {
     setshowModal(true);
-    setdataSelected(item);
+    setdataSelected({
+      type: event.target.name,
+      name: item.name,
+      dataFile: data,
+    });
   };
 
   const handlerDeleteFile = async (item) => {
@@ -65,7 +80,14 @@ export default function SectionTableFile({ handlerClikUpdateStatus, io }) {
         ''
       ) : (
         <TableHeading
-          theading={['No', 'Nama Dokumen', 'Status', 'File', 'Action']}>
+          theading={[
+            'No',
+            'Nama Dokumen',
+            'Status',
+            'History Upload',
+            'File',
+            'Action',
+          ]}>
           {Object.entries(UNBILL?.listDokumen).length > 0
             ? UNBILL?.listDokumen?.map((item, index) => (
                 <TableBody key={index}>
@@ -76,11 +98,31 @@ export default function SectionTableFile({ handlerClikUpdateStatus, io }) {
                     {item.link === null || item.link === '[]' ? (
                       ''
                     ) : (
-                      <p
-                        className="text-blue-500 hover:text-blue-600 transition-all duration-300 ease-in-out cursor-pointer font-semibold"
-                        onClick={() => handlerClickDetailFile(item)}>
-                        View
-                      </p>
+                      <Button
+                        name={'history'}
+                        type="view"
+                        handlerClick={(e) =>
+                          handlerClickDetailFile(e, item, JSON.parse(item.link))
+                        }
+                        moreClass={'gap-2'}>
+                        <IdentificationIcon className="h-5" />
+                        View History
+                      </Button>
+                    )}
+                  </TableContent>
+                  <TableContent>
+                    {item.link === null || item.link === '[]' ? (
+                      ''
+                    ) : (
+                      <Button
+                        name={'view_list'}
+                        handlerClick={(e) =>
+                          handlerClickDetailFile(e, item, JSON.parse(item.link))
+                        }
+                        moreClass={'gap-2'}>
+                        <DocumentIcon className="h-5" />
+                        View File
+                      </Button>
                     )}
                   </TableContent>
                   <TableContent>
@@ -115,41 +157,64 @@ export default function SectionTableFile({ handlerClikUpdateStatus, io }) {
         open={showModal}
         handlerClose={setshowModal}
         dontClose={loading}
+        addClass={'max-w-5xl'}
         title={`List File ${dataSelected.name}`}>
-        <div className="relative mt-6">
-          <TableHeading theading={['No', 'Link', 'Action']}>
-            {dataSelected.link &&
-              JSON.parse(dataSelected.link).map((item, index) => {
-                return (
-                  <TableBody key={index}>
-                    <TableContent>{index + 1}</TableContent>
-                    <TableContent
-                      addClassChild={'text-left'}
-                      addClassRow={'w-lg'}>
-                      <a
-                        rel="noreferrer"
-                        title={`View dokumen ${dataSelected.name}`}
-                        target={'_blank'}
-                        className="text-blue-500 font-semibold hover:text-blue-600 transition-all duration-300 ease-in-out"
-                        href={
-                          process.env.REACT_APP_API_BILLING_STORAGE +
-                          item.replace('public/', '')
-                        }>
-                        View Dokumen
-                      </a>
-                    </TableContent>
-                    <TableContent>
-                      <Button
-                        isSubmit={loading && fileSelect === item}
-                        handlerClick={() => handlerDeleteFile(item)}
-                        type="out">
-                        Delete
-                      </Button>
-                    </TableContent>
-                  </TableBody>
-                );
-              })}
-          </TableHeading>
+        <div
+          className="relative mt-6 overflow-auto"
+          style={{ maxHeight: '40rem' }}>
+          {dataSelected.type === 'history' ? (
+            Object.entries(dataSelected?.dataFile).length > 0 ? (
+              dataSelected?.dataFile?.map((item, index) => (
+                <Feed
+                  key={index + 1}
+                  date={item.date}
+                  name={item.user}
+                  comment={item.value}
+                  type="file"
+                  dokumen={dataSelected.name}
+                />
+              ))
+            ) : (
+              ''
+            )
+          ) : (
+            <TableHeading
+              theading={['No', 'Link', 'Nama', 'Tanggal', 'Action']}>
+              {Object.entries(dataSelected?.dataFile).length > 0
+                ? dataSelected?.dataFile?.map((item, index) => (
+                    <TableBody key={index + 1}>
+                      <TableContent>{index + 1} </TableContent>
+                      <TableContent>
+                        <a
+                          rel="noreferrer"
+                          title={`View dokumen ${dataSelected.name}`}
+                          target={'_blank'}
+                          className="text-blue-500 font-semibold hover:text-blue-600 transition-all duration-300 ease-in-out"
+                          href={
+                            process.env.REACT_APP_API_BILLING_STORAGE +
+                            item.value.replace('public/', '')
+                          }>
+                          View Dokumen
+                        </a>{' '}
+                      </TableContent>
+                      <TableContent>{item.user} </TableContent>
+                      <TableContent>
+                        {convertDate('tanggalHari', item.date)}{' '}
+                      </TableContent>
+                      <TableContent>
+                        {' '}
+                        <Button
+                          isSubmit={loading && fileSelect === item.value}
+                          handlerClick={() => handlerDeleteFile(item.value)}
+                          type="out">
+                          Delete
+                        </Button>{' '}
+                      </TableContent>
+                    </TableBody>
+                  ))
+                : ''}
+            </TableHeading>
+          )}
         </div>
       </Modals>
     </div>

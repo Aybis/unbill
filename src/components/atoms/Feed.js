@@ -2,9 +2,15 @@ import React from 'react';
 import { imageApi } from '../../helpers/Assets';
 import { convertDate } from '../../helpers/ConvertDate';
 
-export default function Feed({ name, comment, date }) {
+export default function Feed({
+  name,
+  comment,
+  date,
+  type = 'comment',
+  dokumen,
+}) {
   return (
-    <div className="relative pb-8 ">
+    <div className="relative pb-8 w-lg">
       <span
         className="absolute top-5 left-5 -ml-px h-full w-0.5 bg-gray-200"
         aria-hidden="true"></span>
@@ -38,12 +44,26 @@ export default function Feed({ name, comment, date }) {
                 {name.toLowerCase()}
               </p>
             </div>
-            <p className="mt-0.5 text-sm text-gray-300">
+            <p className="mt-0.5 text-sm text-gray-500">
               {convertDate('tanggalHari', date)} - {convertDate('jamAM', date)}
             </p>
           </div>
           <div className="mt-2 text-sm text-gray-700">
-            <p>{comment}</p>
+            {type === 'comment' ? (
+              <p>{comment}</p>
+            ) : (
+              <a
+                rel="noreferrer"
+                title={`View dokumen ${dokumen}`}
+                target={'_blank'}
+                className="text-blue-500 font-semibold hover:text-blue-600 transition-all duration-300 ease-in-out"
+                href={
+                  process.env.REACT_APP_API_BILLING_STORAGE +
+                  comment.replace('public/', '')
+                }>
+                View Dokumen
+              </a>
+            )}
           </div>
         </div>
       </div>

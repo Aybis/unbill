@@ -36,6 +36,7 @@ export default function PreviewUnbill() {
   const [keyword, setKeyword] = useState('');
   const [isSubmit, setisSubmit] = useState(false);
   const UNBILL = useSelector((state) => state.unbill);
+  const USER = useSelector((state) => state.user);
   const [statusDokumen, setstatusDokumen] = useState('');
   const [modalUpdateStatus, setmodalUpdateStatus] = useState(false);
   const [formFile, setFormFile] = useState({
@@ -96,6 +97,8 @@ export default function PreviewUnbill() {
     const formData = new FormData();
     event.preventDefault();
     formData.append('io', io);
+    formData.append('user', USER?.profile?.name);
+    formData.append('user_id', USER?.profile?.id);
     formData.append(
       'name',
       UNBILL.dokumenSelected.name.toLowerCase().split(' ').join('_') + '_link',
