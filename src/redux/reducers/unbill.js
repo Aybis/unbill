@@ -24,6 +24,7 @@ const initialState = {
     'ar_current_(<_2_bulan)',
     'billed_mtd',
     'saldo_unbilled_mtd',
+    'paid',
     'kb_status',
     'kl_status',
     'spk_status',

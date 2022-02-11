@@ -2,6 +2,9 @@ import axios from '../route/billing';
 
 // eslint-disable-next-line import/no-anonymous-default-export
 export default {
+  //endpoint summary
+  summaryData: () => axios.get('summary'),
+
   // endpoint piutang
   headerPiutangTable: () => axios.get('detail-piutang/header'),
   updatePiutang: (id, data) => axios.patch(`detail-piutang/${id}`, data),
