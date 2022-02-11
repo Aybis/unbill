@@ -87,7 +87,7 @@ export default function Home() {
                 <TableContent addClassChild={'font-bold'}>
                   Rp{' '}
                   {testData.length > 0
-                    ? testData.map((item) => {
+                    ? testData.forEach((item) => {
                         total1.push(
                           parseFloat(
                             parseFloat(item.grang_total / 1000000000).toFixed(
@@ -106,7 +106,7 @@ export default function Home() {
                   {' '}
                   Rp{' '}
                   {testData.length > 0
-                    ? testData.map((item) => {
+                    ? testData.forEach((item) => {
                         total2.push(
                           parseFloat(
                             parseFloat(
@@ -124,7 +124,7 @@ export default function Home() {
                 <TableContent addClassChild={'font-bold'}>
                   Rp{' '}
                   {testData.length > 0
-                    ? testData.filter((item) => {
+                    ? testData.forEach((item) => {
                         total3.push(
                           parseFloat(
                             parseFloat(
@@ -142,7 +142,7 @@ export default function Home() {
                 <TableContent addClassChild={'font-bold'}>
                   Rp{' '}
                   {testData.length > 0
-                    ? testData.map((item) => {
+                    ? testData.forEach((item) => {
                         total4.push(
                           parseFloat(
                             parseFloat(item.billed_mtd / 1000000000).toFixed(2),
@@ -159,7 +159,7 @@ export default function Home() {
                   {' '}
                   Rp{' '}
                   {testData.length > 0
-                    ? testData.map((item) => {
+                    ? testData.forEach((item) => {
                         total5.push(
                           parseFloat(
                             parseFloat(
@@ -178,7 +178,7 @@ export default function Home() {
                   {' '}
                   Rp{' '}
                   {testData.length > 0
-                    ? testData.map((item) => {
+                    ? testData.forEach((item) => {
                         total6.push(
                           parseFloat(
                             parseFloat(item.paid / 1000000000).toFixed(2),
@@ -193,7 +193,7 @@ export default function Home() {
                 </TableContent>
                 <TableContent addClassChild={'font-bold'}>
                   {testData.length > 0
-                    ? testData.map((item) => {
+                    ? testData.forEach((item) => {
                         total7.push(item.project);
                       })
                     : 0}
