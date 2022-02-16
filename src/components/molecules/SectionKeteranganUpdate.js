@@ -218,7 +218,7 @@ export default function SectionKeteranganUpdate() {
                 ) : (
                   <Button
                     type="view"
-                    moreClass="gap-2"
+                    moreClass="gap-2 w-40"
                     handlerClick={() =>
                       handlerClickHistory(
                         name[0],
@@ -226,7 +226,7 @@ export default function SectionKeteranganUpdate() {
                       )
                     }>
                     <ClipboardIcon className="h-5" />
-                    View
+                    View History
                   </Button>
                 )}
               </TableContent>
@@ -236,7 +236,9 @@ export default function SectionKeteranganUpdate() {
                   ? name[1]
                   : name[1] === null || name[1] === ''
                   ? ''
-                  : JSON.parse(name[1]).pop().value.substring(0, 40)}
+                  : JSON.parse(name[1]).pop().value === null
+                  ? ' '
+                  : JSON.parse(name[1]).pop().value.substring(0, 40) + '...'}
               </TableContent>
               <TableContent>
                 <OtoritasUpdate item={name} field={name[0]} />

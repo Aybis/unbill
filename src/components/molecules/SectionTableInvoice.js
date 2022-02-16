@@ -124,11 +124,9 @@ export default function SectionTableInvoice() {
           )}>
           {loading ? (
             <TableBody>
-              <TableContent
-                rowSpan={INVOICE?.tableHeader.length + 1}
-                colSpan={INVOICE?.tableHeader.length + 1}>
+              <TableContent rowSpan={10} colSpan={10}>
                 <div className="flex justify-center items-center">
-                  <Loading color={'text-blue-600'} />
+                  <Loading color={'text-blue-600'} height={6} width={6} />
                 </div>
               </TableContent>
             </TableBody>
@@ -152,9 +150,7 @@ export default function SectionTableInvoice() {
             })
           ) : (
             <TableBody>
-              <TableContent
-                rowSpan={INVOICE?.tableHeader.length + 1}
-                colSpan={INVOICE?.tableHeader.length + 1}>
+              <TableContent rowSpan={10} colSpan={10}>
                 <div className="flex justify-center items-center">
                   Tidal Ada Data
                 </div>

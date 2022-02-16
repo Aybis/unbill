@@ -1,3 +1,4 @@
+import Cookies from 'js-cookie';
 import React from 'react';
 import { Route, Redirect, withRouter } from 'react-router-dom';
 
@@ -8,7 +9,7 @@ const Authenticated = ({
   location,
   ...rest
 }) => {
-  const ok = localStorage.getItem('session');
+  const ok = Cookies.get('session');
   localStorage.removeItem('redirect');
 
   return (

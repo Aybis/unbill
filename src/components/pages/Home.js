@@ -240,13 +240,16 @@ export default function Home() {
                     Rp{' '}
                     {parseFloat(item.billed_mtd / 1000000000).toLocaleString(
                       'id',
-                    )}{' '}
-                    (
-                    {(
-                      (parseInt(item.billed_mtd) / parseInt(item.grang_total)) *
-                      100
-                    ).toFixed(2)}
-                    %)
+                    )}
+                    <span className="ml-2 text-zinc-800 font-bold">
+                      (
+                      {(
+                        (parseInt(item.billed_mtd) /
+                          parseInt(item.grang_total)) *
+                        100
+                      ).toFixed(2)}
+                      %)
+                    </span>
                   </TableContent>
                   <TableContent addClassChild={'whitespace-normal'}>
                     Rp{' '}
@@ -272,9 +275,7 @@ export default function Home() {
             )}
           </TableHeading>
 
-          <p className="mt-4 text-sm text-zinc-500 pl-4">
-            * Nilai dalam Miliar
-          </p>
+          <p className="mt-4 text-sm text-zinc-500 pl-4">*Nilai dalam Miliar</p>
         </div>
 
         <div className="hidden grid-cols-1 lg:grid-cols-4 gap-4 my-12 ">

@@ -2,6 +2,7 @@ import apis from '../../configs/api/apis';
 import setHeader from '../../configs/route/setHeader';
 import { imageApi } from '../../helpers/Assets';
 import * as type from '../types/user';
+import Cookies from 'js-cookie';
 
 export const setSession = (data) => ({
   type: type.SESSION,
@@ -56,6 +57,7 @@ export const userLogin = (data) => async (dispatch) => {
         'session',
         JSON.stringify(result.data.data.access_token),
       );
+      Cookies.set('session', result.data.data.access_token, { expires: 1 });
       dispatch(setRefresh(result.data.data.refresh_token));
       dispatch(setLoading(false));
       return dispatch(userProfile(result.data.data.access_token));
@@ -108,6 +110,7 @@ export const userLogout = async (data) => {
   try {
     setHeader();
     const result = await apis.logout();
+    Cookies.remove('session');
     return {
       status: result.status,
       message: result.data.data,

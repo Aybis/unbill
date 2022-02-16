@@ -49,7 +49,7 @@ export default function SectionTablePiutang({ fromPage = 'piutang' }) {
         <TableHeading
           theading={['No', 'Action'].concat(
             PIUTANG.loading
-              ? 2
+              ? ' '
               : PIUTANG?.tableHeader?.length > 0
               ? PIUTANG?.tableHeader
                   ?.filter(
@@ -66,10 +66,8 @@ export default function SectionTablePiutang({ fromPage = 'piutang' }) {
           {PIUTANG.loading ? (
             <TableBody>
               <TableContent
-                rowSpan={PIUTANG.loading ? 1 : PIUTANG?.tableHeader?.length + 2}
-                colSpan={
-                  PIUTANG.loading ? 1 : PIUTANG?.tableHeader?.length + 2
-                }>
+                rowSpan={PIUTANG.loading ? 1 : 24}
+                colSpan={PIUTANG.loading ? 1 : 24}>
                 <div className="flex justify-center items-center mt-14">
                   <Loading color={'text-blue-600'} height={6} width={6} />
                 </div>
@@ -114,10 +112,8 @@ export default function SectionTablePiutang({ fromPage = 'piutang' }) {
           ) : (
             <TableBody>
               <TableContent
-                rowSpan={PIUTANG.loading ? 1 : PIUTANG?.tableHeader?.length + 2}
-                colSpan={
-                  PIUTANG.loading ? 1 : PIUTANG?.tableHeader?.length + 2
-                }>
+                rowSpan={PIUTANG.loading ? 1 : 24}
+                colSpan={PIUTANG.loading ? 1 : 24}>
                 Tidak Ada Data
               </TableContent>
             </TableBody>
