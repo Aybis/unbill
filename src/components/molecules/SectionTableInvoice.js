@@ -152,7 +152,7 @@ export default function SectionTableInvoice() {
             <TableBody>
               <TableContent rowSpan={10} colSpan={10}>
                 <div className="flex justify-center items-center">
-                  Tidal Ada Data
+                  Tidak Ada Data
                 </div>
               </TableContent>
             </TableBody>

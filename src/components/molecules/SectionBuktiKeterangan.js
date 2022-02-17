@@ -36,7 +36,6 @@ export default function SectionBuktiKeterangan() {
       name: event.target.name ?? item.name,
     });
     dispatch(setBuktiSerahTerimaSelected(item));
-    console.log(item);
     setshowModal(true);
   };
 

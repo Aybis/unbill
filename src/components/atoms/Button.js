@@ -33,7 +33,7 @@ export default function Button({
       onClick={handlerClick ?? undefined}
       name={name}
       className={[
-        `disabled:bg-opacity-40 font-semibold px-4 py-2 shadow-md text-center rounded-md  text-white flex justify-center items-center transition-all duration-300 ease-in-out`,
+        `disabled:bg-opacity-40 font-semibold px-4 py-2 text-center rounded-md  text-white flex justify-center items-center transition-all duration-300 ease-in-out`,
         isSubmit && 'cursor-not-allowed',
         classBackground,
         moreClass,

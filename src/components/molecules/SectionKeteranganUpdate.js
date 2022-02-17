@@ -238,7 +238,7 @@ export default function SectionKeteranganUpdate() {
                   ? ''
                   : JSON.parse(name[1]).pop().value === null
                   ? ' '
-                  : JSON.parse(name[1]).pop().value.substring(0, 40) + '...'}
+                  : JSON.parse(name[1]).pop().value.substring(0, 40)}
               </TableContent>
               <TableContent>
                 <OtoritasUpdate item={name} field={name[0]} />
@@ -251,10 +251,7 @@ export default function SectionKeteranganUpdate() {
         open={showModal}
         handlerClose={setShowModal}
         dontClose={isSubmit}
-        title={`Update Keterangan Dokumen ${selectKeterangan.name.replace(
-          /_/g,
-          ' ',
-        )}`}>
+        title={`Tambah Catatan ${selectKeterangan.name.replace(/_/g, ' ')}`}>
         <form onSubmit={handlerSubmit} className="relative text-left">
           <Textarea
             addClassLabel={'capitalize'}
@@ -268,15 +265,20 @@ export default function SectionKeteranganUpdate() {
                 : 'Type here'
             }
           />
-          <Button isSubmit={isSubmit}>Update</Button>
+          {formKeterangan.value.length > 1 ? (
+            <Button isSubmit={isSubmit}>Tambah</Button>
+          ) : (
+            ''
+          )}
         </form>
       </Modals>
 
       <Modals
         title={`History ${dataSelectHistory.name.replace(/_/g, ' ')}`}
         open={showModalHistory}
+        addClass={'max-w-5xl'}
         handlerClose={setshowModalHistory}>
-        <div className="mt-8 max-h-full overflow-auto">
+        <div className="mt-8 relative overflow-y-auto">
           {Object.entries(dataSelectHistory?.data).length > 0
             ? dataSelectHistory.data.map((item) => (
                 <Feed

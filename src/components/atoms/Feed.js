@@ -17,14 +17,14 @@ export default function Feed({
       <div className="relative flex items-start space-x-3">
         <div className="relative">
           <img
-            className="h-10 w-10 rounded-full bg-gray-400 flex items-center justify-center ring-8 ring-white"
+            className="h-10 w-10 rounded-full bg-blue-400 flex items-center justify-center ring-8 ring-white"
             src={imageApi(name)}
             alt=""
           />
 
           <span className="absolute -bottom-0.5 -right-1 bg-white rounded-tl px-0.5 py-px">
             <svg
-              className="h-5 w-5 text-gray-400"
+              className="h-5 w-5 text-blue-400"
               x-description="Heroicon name: solid/chat-alt"
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 20 20"
@@ -44,7 +44,7 @@ export default function Feed({
                 {name.toLowerCase()}
               </p>
             </div>
-            <p className="mt-0.5 text-sm text-gray-500">
+            <p className="mt-0.5 text-sm text-zinc-500">
               {convertDate('tanggalHari', date)} - {convertDate('jamAM', date)}
             </p>
           </div>
