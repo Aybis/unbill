@@ -1,3 +1,4 @@
+import apis from '../../configs/api/apis';
 import billing from '../../configs/api/billing';
 import * as type from '../types/unbill';
 
@@ -73,6 +74,11 @@ export const setMessage = (data) => ({
 
 export const setStatus = (data) => ({
   type: type.STATUS,
+  payload: data,
+});
+
+export const setTableHeaderUnbill = (data) => ({
+  type: type.TABLE_HEADER,
   payload: data,
 });
 
@@ -261,5 +267,27 @@ export const fetchListKendala = () => async (dispatch) => {
     })
     .catch((err) => {
       return err;
+    });
+};
+
+export const sendNotifFollowUp = (data) => async (dispatch) => {
+  return await apis
+    .notifFollowUp(data)
+    .then((res) => {
+      return res;
+    })
+    .catch((err) => {
+      return err;
+    });
+};
+
+export const sendNotifPrioritas = (data) => async (dispatch) => {
+  return await apis
+    .notifPriorotas(data)
+    .then((res) => {
+      return res;
+    })
+    .catch((err) => {
+      return err.response;
     });
 };

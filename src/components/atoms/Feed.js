@@ -8,6 +8,7 @@ export default function Feed({
   date,
   type = 'comment',
   dokumen,
+  dokumenName,
 }) {
   return (
     <div className="relative pb-8 w-lg">
@@ -61,7 +62,7 @@ export default function Feed({
                   process.env.REACT_APP_API_BILLING_STORAGE +
                   comment.replace('public/', '')
                 }>
-                View Dokumen
+                View Dokumen - {dokumenName ?? ''}
               </a>
             )}
           </div>

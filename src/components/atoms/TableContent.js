@@ -17,7 +17,7 @@ export default function TableContent({
       className={['h-auto w-fit', addClassRow].join(' ')}>
       <div
         className={[
-          'px-6 py-3 text-sm font-medium text-gray-900 whitespace-nowrap',
+          'px-6 py-3 text-sm font-medium text-gray-900 text-left',
           addClassChild,
         ].join(' ')}>
         {children}

@@ -1,6 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { fetchDataUnbill, setTemporary } from '../../redux/actions/unbill';
+import { fetchDataTableHeaderPiutang } from '../../redux/actions/piutang';
+import {
+  fetchDataUnbill,
+  setTableHeaderUnbill,
+  setTemporary,
+} from '../../redux/actions/unbill';
 import { Layout } from '../includes';
 import { SectionFormSearch, SectionTableUnbill } from '../molecules';
 
@@ -26,6 +31,8 @@ export default function Unbill() {
   };
 
   useEffect(() => {
+    dispatch(setTableHeaderUnbill());
+    dispatch(fetchDataTableHeaderPiutang());
     dispatch(setTemporary(''));
     dispatch(fetchDataUnbill());
     setDidMount(true);

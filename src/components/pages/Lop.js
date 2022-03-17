@@ -149,52 +149,64 @@ export default function Lop() {
             </Button>
           </div>
         </div>
-        <div
-          className="relative mt-6 overflow-auto border-b-2 border-zinc-200"
-          style={{
-            maxHeight: '40rem',
-          }}>
-          <TableHeading
-            theading={['No', 'No. IO', 'Deskripsi', 'Unit Bisnis', ' ']}>
-            {LOP.loading ? (
-              <TableBody>
-                <TableContent colSpan={5} rowSpan={5}>
-                  <div className="flex justify-center items-center mt-14">
-                    <Loading color={'text-blue-600'} height={6} width={6} />
-                  </div>
-                </TableContent>
-              </TableBody>
-            ) : LOP?.listLop?.length > 0 ? (
-              LOP?.listLop?.map((item) => (
-                <TableBody key={item.id}>
-                  <TableContent>{item.id}</TableContent>
-                  <TableContent>{item.io}</TableContent>
-                  <TableContent addClassChild={'whitespace-pre-line'}>
-                    {item.deskripsi_project}
-                  </TableContent>
-                  <TableContent>{item.unit}</TableContent>
-                  <TableContent>
-                    <div className="flex gap-2">
-                      <Button
-                        type={'edit'}
-                        name={'update'}
-                        moreClass={'gap-2'}
-                        handlerClick={(e) => handlerClickData(e, item)}>
-                        <PencilAltIcon className="h-5" /> Ubah LOP
-                      </Button>
+        {LOP?.loading ? (
+          <div className="relative w-full my-8 rounded-md bg-zinc-100 animate-pulse">
+            <div className="inset-x-0 h-14 bg-zinc-200 rounded-md animate-pulse"></div>
+            <div className="inset-x-0 h-14 bg-zinc-200 rounded-md animate-pulse mt-4"></div>
+            <div className="inset-x-0 h-14 bg-zinc-200 rounded-md animate-pulse mt-2"></div>
+            <div className="inset-x-0 h-14 bg-zinc-200 rounded-md animate-pulse mt-2"></div>
+            <div className="inset-x-0 h-14 bg-zinc-200 rounded-md animate-pulse mt-2"></div>
+            <div className="inset-x-0 h-2 bg-zinc-200 rounded-md animate-pulse mt-8"></div>
+            <div className="inset-x-0 h-14 bg-zinc-200 rounded-md animate-pulse mt-2"></div>
+          </div>
+        ) : (
+          <div
+            className="relative mt-6 overflow-auto border-b-2 border-zinc-200"
+            style={{
+              maxHeight: '40rem',
+            }}>
+            <TableHeading
+              theading={['No', 'No. IO', 'Deskripsi', 'Unit Bisnis', ' ']}>
+              {LOP.loading ? (
+                <TableBody>
+                  <TableContent colSpan={5} rowSpan={5}>
+                    <div className="flex justify-center items-center mt-14">
+                      <Loading color={'text-blue-600'} height={6} width={6} />
                     </div>
                   </TableContent>
                 </TableBody>
-              ))
-            ) : (
-              <TableBody>
-                <TableContent colSpan={5} rowSpan={5}>
-                  Tidak Ada Data
-                </TableContent>
-              </TableBody>
-            )}
-          </TableHeading>
-        </div>
+              ) : LOP?.listLop?.length > 0 ? (
+                LOP?.listLop?.map((item) => (
+                  <TableBody key={item.id}>
+                    <TableContent>{item.id}</TableContent>
+                    <TableContent>{item.io}</TableContent>
+                    <TableContent addClassChild={'whitespace-pre-line'}>
+                      {item.deskripsi_project}
+                    </TableContent>
+                    <TableContent>{item.unit}</TableContent>
+                    <TableContent>
+                      <div className="flex gap-2">
+                        <Button
+                          type={'edit'}
+                          name={'update'}
+                          moreClass={'gap-2'}
+                          handlerClick={(e) => handlerClickData(e, item)}>
+                          <PencilAltIcon className="h-5" /> Ubah LOP
+                        </Button>
+                      </div>
+                    </TableContent>
+                  </TableBody>
+                ))
+              ) : (
+                <TableBody>
+                  <TableContent colSpan={5} rowSpan={5}>
+                    Tidak Ada Data
+                  </TableContent>
+                </TableBody>
+              )}
+            </TableHeading>
+          </div>
+        )}
         {LOP?.listLop?.length > 0 ? (
           <SectionPagination
             currentPage={LOP?.allPage?.current_page}

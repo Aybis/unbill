@@ -11,7 +11,7 @@ export const setTemporary = (data) => ({
   payload: data,
 });
 
-export const setTableHeader = (data) => ({
+export const setTableHeaderPiutang = (data) => ({
   type: type.TABLE_HEADER,
   payload: data,
 });
@@ -76,7 +76,7 @@ export const fetchDataPiutang = (keyword, page) => async (dispatch) => {
 export const fetchDataTableHeaderPiutang = () => async (dispatch) => {
   try {
     const data = await billing.headerPiutangTable();
-    dispatch(setTableHeader(data.data));
+    dispatch(setTableHeaderPiutang(data.data));
 
     return data.data;
   } catch (err) {

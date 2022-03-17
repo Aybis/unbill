@@ -24,4 +24,10 @@ export default {
 
   // list jabatan
   getJabatan: () => axios.get('cms/jobprefix/get'),
+
+  //notif unbill
+  // /api/billing/notif/accounting
+  notifPriorotas: (params) => axios.post('billing/notif/accounting', params),
+  // /api/billing/notif/follow-up
+  notifFollowUp: (params) => axios.post('billing/notif/follow-up', params),
 };

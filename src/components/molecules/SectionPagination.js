@@ -31,7 +31,7 @@ export default function SectionPagination({
           nextPageText={
             <ChevronRightIcon className="h-6 text-zinc-500 hover:bg-slate-50 rounded-md transition-all duration-300 ease-in-out" />
           }
-          itemClass="lg:text-zinc-500 text-zinc-400 hover:bg-slate-50 rounded-md transition-all duration-300 ease-in-out lg:px-2 py-1 font-medium "
+          itemClass="lg:text-zinc-500 text-zinc-400 hover:bg-blue-50 hover:text-blue-600 rounded-md transition-all duration-300 ease-in-out lg:px-2 py-2 font-medium "
           activePage={currentPage}
           itemsCountPerPage={perPage}
           totalItemsCount={total}
@@ -40,7 +40,7 @@ export default function SectionPagination({
           firstPageText={
             <ChevronDoubleLeftIcon className="h-6 text-zinc-500 hover:bg-slate-50 rounded-md transition-all duration-300 ease-in-out" />
           }
-          activeClass="lg:text-zinc-50 lg:bg-black text-zinc-900 font-bold lg:font-normal"
+          activeClass="lg:text-zinc-50 lg:bg-blue-500 hover:text-black text-zinc-900 font-bold lg:font-normal"
           lastPageText={
             <ChevronDoubleRightIcon className="h-6 text-zinc-500 hover:bg-slate-50 rounded-md transition-all duration-300 ease-in-out" />
           }

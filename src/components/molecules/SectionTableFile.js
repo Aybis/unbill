@@ -3,6 +3,7 @@ import {
   DocumentIcon,
   IdentificationIcon,
   PencilAltIcon,
+  PaperAirplaneIcon,
 } from '@heroicons/react/solid';
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -11,6 +12,7 @@ import { convertDate } from '../../helpers/ConvertDate';
 import {
   deleteFile,
   fetchListFileDokumen,
+  sendNotifFollowUp,
   setStatus,
 } from '../../redux/actions/unbill';
 import {
@@ -24,8 +26,10 @@ import {
 
 export default function SectionTableFile({ handlerClikUpdateStatus, io }) {
   const UNBILL = useSelector((state) => state.unbill);
+  const USER = useSelector((state) => state.user);
   const [showModal, setshowModal] = useState(false);
   const [loading, setloading] = useState(false);
+  const [loadingNotif, setloadingNotif] = useState(false);
   const [fileSelect, setfileSelect] = useState('');
   const [dataSelected, setdataSelected] = useState({
     type: '',
@@ -70,15 +74,67 @@ export default function SectionTableFile({ handlerClikUpdateStatus, io }) {
     }
   };
 
-  return (
-    <div
-      className="relative mt-8 overflow-auto"
-      style={{
-        maxHeight: '40rem',
-      }}>
-      {UNBILL.loading ? (
-        ''
-      ) : (
+  const handlerNotifikasiFollowUp = async () => {
+    setloadingNotif(true);
+    let userId = USER?.profile?.id;
+    let getNameUnit = JSON.parse(UNBILL?.unbillSelected?.follow_up).pop().value;
+    let getListDokumen = UNBILL?.listDokumen
+      ?.filter((item) => item.status === 'OK')
+      .map((dokumen) => {
+        return dokumen.name;
+      });
+    let getNameOfProject = UNBILL?.unbillSelected?.deskripsi_project;
+
+    let data = {
+      io: io,
+      unit_name: getNameUnit,
+      sender_id: userId,
+      status_dokumen: getListDokumen.toString(),
+      nama_project: getNameOfProject,
+    };
+
+    try {
+      const result = await dispatch(sendNotifFollowUp(data));
+      if (result.status === 200) {
+        setloadingNotif(false);
+        swal('Yeay!', result.data, 'success');
+      } else {
+        setloadingNotif(false);
+        swal('Oh No!', result?.data?.message ?? 'Something Happened!', 'error');
+      }
+    } catch (error) {
+      swal('Oh No!', error ?? 'Something Happened!', 'error');
+      setloadingNotif(false);
+    }
+  };
+
+  return UNBILL?.loading && UNBILL?.listDokumen?.length > 0 ? (
+    <div className="relative w-full my-8 rounded-md bg-zinc-100 animate-pulse">
+      <div className="inset-x-0 h-14 bg-zinc-200 rounded-md animate-pulse"></div>
+      <div className="inset-x-0 h-14 bg-zinc-200 rounded-md animate-pulse mt-4"></div>
+      <div className="inset-x-0 h-14 bg-zinc-200 rounded-md animate-pulse mt-2"></div>
+      <div className="inset-x-0 h-14 bg-zinc-200 rounded-md animate-pulse mt-2"></div>
+      <div className="inset-x-0 h-14 bg-zinc-200 rounded-md animate-pulse mt-2"></div>
+      <div className="inset-x-0 h-2 bg-zinc-200 rounded-md animate-pulse mt-8"></div>
+      <div className="inset-x-0 h-14 bg-zinc-200 rounded-md animate-pulse mt-2"></div>
+    </div>
+  ) : (
+    <div className="relative mt-8 ">
+      <div className=" my-4 sticky top-0">
+        <Button
+          isSubmit={loadingNotif}
+          handlerClick={handlerNotifikasiFollowUp}
+          type="out"
+          moreClass={'gap-2'}>
+          <PaperAirplaneIcon className="h-5 rotate-45" />
+          Follow Up
+        </Button>
+      </div>
+      <div
+        className="relative overflow-auto"
+        style={{
+          maxHeight: '40rem',
+        }}>
         <TableHeading
           theading={[
             'No',
@@ -88,7 +144,7 @@ export default function SectionTableFile({ handlerClikUpdateStatus, io }) {
             'File',
             'Action',
           ]}>
-          {Object.entries(UNBILL?.listDokumen).length > 0
+          {Object.entries(UNBILL?.listDokumen)?.length > 0
             ? UNBILL?.listDokumen?.map((item, index) => (
                 <TableBody key={index}>
                   <TableContent>{index + 1}</TableContent>
@@ -151,7 +207,7 @@ export default function SectionTableFile({ handlerClikUpdateStatus, io }) {
               ))
             : ' '}
         </TableHeading>
-      )}
+      </div>
 
       <Modals
         open={showModal}
@@ -170,6 +226,7 @@ export default function SectionTableFile({ handlerClikUpdateStatus, io }) {
                   date={item.date}
                   name={item.user}
                   comment={item.value}
+                  dokumenName={item.file_name}
                   type="file"
                   dokumen={dataSelected.name}
                 />
@@ -184,17 +241,19 @@ export default function SectionTableFile({ handlerClikUpdateStatus, io }) {
                 ? dataSelected?.dataFile?.map((item, index) => (
                     <TableBody key={index + 1}>
                       <TableContent>{index + 1} </TableContent>
-                      <TableContent>
+                      <TableContent addClassRow={'whitespace-normal'}>
                         <a
                           rel="noreferrer"
-                          title={`View dokumen ${dataSelected.name}`}
+                          title={`View dokumen ${
+                            item.file_name ?? dataSelected.name
+                          }`}
                           target={'_blank'}
                           className="text-blue-500 font-semibold hover:text-blue-600 transition-all duration-300 ease-in-out"
                           href={
                             process.env.REACT_APP_API_BILLING_STORAGE +
                             item.value.replace('public/', '')
                           }>
-                          View Dokumen
+                          {item.file_name ?? 'View Dokumen'}
                         </a>{' '}
                       </TableContent>
                       <TableContent>{item.user} </TableContent>

@@ -2,16 +2,6 @@ import { convertDate } from '../../helpers/ConvertDate';
 import * as type from '../types/piutang';
 
 const initialState = {
-  listPiutang: {},
-  tableHeader: {},
-  temporary: '',
-  piutangSelected: {},
-  progressUpload: 'idle',
-  typePage: '',
-  allPage: {},
-  prevPage: {},
-  nextPage: {},
-  currentPage: {},
   bulan: convertDate('bulan'),
   tahun: convertDate('tahun'),
   loading: false,
@@ -36,7 +26,7 @@ export default function (state = initialState, action) {
     case type.TABLE_HEADER:
       return {
         ...state,
-        tableHeader: action.payload ?? {},
+        tableHeaderPiutang: action.payload ?? {},
       };
     case type.PIUTANG_SELECTED:
       return {

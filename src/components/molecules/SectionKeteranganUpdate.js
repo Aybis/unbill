@@ -1,10 +1,15 @@
-import { ClipboardIcon, PencilAltIcon } from '@heroicons/react/solid';
+import {
+  ClipboardIcon,
+  PaperAirplaneIcon,
+  PencilAltIcon,
+} from '@heroicons/react/solid';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import swal from 'sweetalert';
 import { SectionDropdownKeteranganUpdate } from '.';
 import {
+  sendNotifPrioritas,
   updateKetaranganUnbill,
   viewUnbillByIo,
 } from '../../redux/actions/unbill';
@@ -25,6 +30,7 @@ export default function SectionKeteranganUpdate() {
   const [form, setform] = useState({});
   const UNBILL = useSelector((state) => state.unbill);
   const USER = useSelector((state) => state.user);
+  const [loadingNotif, setloadingNotif] = useState(false);
   const [showModalHistory, setshowModalHistory] = useState(false);
   const [dataSelectHistory, setdataSelectHistory] = useState({
     name: '',
@@ -70,6 +76,32 @@ export default function SectionKeteranganUpdate() {
       value: item[1],
     });
     setShowModal(true);
+  };
+
+  const handlerNotifPrioritas = async () => {
+    setloadingNotif(true);
+    let userId = USER?.profile?.id;
+    let getNameOfProject = UNBILL?.unbillSelected?.deskripsi_project;
+
+    let data = {
+      io: io,
+      unit_name: 'ACCOUNTING & BUDGETING',
+      sender_id: userId,
+      nama_project: getNameOfProject,
+    };
+    try {
+      const result = await dispatch(sendNotifPrioritas(data));
+      if (result.status === 200) {
+        setloadingNotif(false);
+        swal('Yeay!', result.data, 'success');
+      } else {
+        setloadingNotif(false);
+        swal('Oh No!', result?.data?.message ?? 'Something Happened!', 'error');
+      }
+    } catch (error) {
+      setloadingNotif(false);
+      swal('Oh No!', error ?? 'Something Happened!', 'error');
+    }
   };
 
   // function change input type
@@ -148,18 +180,38 @@ export default function SectionKeteranganUpdate() {
     return field === 'keterangan' ? (
       <SwitchButton form={form} />
     ) : ['follow_up', 'kendala_dokumen', 'kategori'].indexOf(field) > -1 ? (
-      <SectionDropdownKeteranganUpdate
-        data={
-          field === 'follow_up'
-            ? USER.listUnit
-            : field === 'kategori'
-            ? UNBILL.listKategori
-            : UNBILL.listKendala
-        }
-        io={io}
-        form={form}
-        type={field}
-      />
+      <div className="flex space-x-4">
+        <SectionDropdownKeteranganUpdate
+          data={
+            field === 'follow_up'
+              ? USER.listUnit
+              : field === 'kategori'
+              ? UNBILL.listKategori
+              : UNBILL.listKendala
+          }
+          io={io}
+          form={form}
+          type={field}
+        />
+        {field === 'kategori' ? (
+          JSON.parse(item[1]).pop().value === 'KOREKSI PENDAPATAN' &&
+          USER?.profile?.unit === 'TREASURY, COLLECTION & TAX' ? (
+            <Button
+              isAnimated={false}
+              isSubmit={loadingNotif}
+              handlerClick={() => handlerNotifPrioritas()}
+              type="out"
+              moreClass={'gap-2'}>
+              <PaperAirplaneIcon className="h-5 rotate-45" />
+              Notif Prioritas
+            </Button>
+          ) : (
+            ''
+          )
+        ) : (
+          ''
+        )}
+      </div>
     ) : (
       <Button
         isAnimated={false}

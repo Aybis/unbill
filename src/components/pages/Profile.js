@@ -15,7 +15,7 @@ function classNames(...classes) {
 
 export default function Profile({ open, handlerOpen }) {
   const [isLoading, setisLoading] = useState(false);
-  const USER = useSelector((state) => state.users);
+  const USER = useSelector((state) => state.user);
   const ref = useRef(null);
 
   const handlerLogout = (event) => {

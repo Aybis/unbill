@@ -56,7 +56,17 @@ export default function SectionTableUnbill() {
     history.push(`/unbill/${item.ref_key}`);
   };
 
-  return (
+  return UNBILL?.loading && UNBILL?.listUnbill?.length > 0 ? (
+    <div className="relative w-full my-8 rounded-md bg-zinc-100 animate-pulse">
+      <div className="inset-x-0 h-14 bg-zinc-200 rounded-md animate-pulse"></div>
+      <div className="inset-x-0 h-14 bg-zinc-200 rounded-md animate-pulse mt-4"></div>
+      <div className="inset-x-0 h-14 bg-zinc-200 rounded-md animate-pulse mt-2"></div>
+      <div className="inset-x-0 h-14 bg-zinc-200 rounded-md animate-pulse mt-2"></div>
+      <div className="inset-x-0 h-14 bg-zinc-200 rounded-md animate-pulse mt-2"></div>
+      <div className="inset-x-0 h-2 bg-zinc-200 rounded-md animate-pulse mt-8"></div>
+      <div className="inset-x-0 h-14 bg-zinc-200 rounded-md animate-pulse mt-2"></div>
+    </div>
+  ) : (
     <div className="relative w-full my-8 rounded-md bg-white">
       <div
         className="overflow-auto relative max-w-full border-b-2 border-zinc-200"
@@ -92,7 +102,7 @@ export default function SectionTableUnbill() {
                         : UNBILL?.allPage?.current_page - 1 + '' + (index + 1)
                     }`}
                   </TableContent>
-                  <TableContent>
+                  <TableContent addClassRow={'whitespace-nowrap'}>
                     <button
                       onClick={() => handlerClickDetail(item)}
                       className="flex gap-2 items-center justify-center bg-indigo-600 hover:bg-indigo-500 transition-all duration-300 ease-in-out text-white font-semibold rounded-md px-4 py-2">

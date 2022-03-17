@@ -134,7 +134,21 @@ export default function Piutang() {
           )}
         </div>
 
-        <SectionTablePiutang />
+        {PIUTANG?.loading &&
+        PIUTANG?.listPiutang?.length > 0 &&
+        PIUTANG?.tableHeaderPiutang?.length > 0 ? (
+          <div className="relative w-full my-8 rounded-md bg-zinc-100 animate-pulse">
+            <div className="inset-x-0 h-14 bg-zinc-200 rounded-md animate-pulse"></div>
+            <div className="inset-x-0 h-14 bg-zinc-200 rounded-md animate-pulse mt-4"></div>
+            <div className="inset-x-0 h-14 bg-zinc-200 rounded-md animate-pulse mt-2"></div>
+            <div className="inset-x-0 h-14 bg-zinc-200 rounded-md animate-pulse mt-2"></div>
+            <div className="inset-x-0 h-14 bg-zinc-200 rounded-md animate-pulse mt-2"></div>
+            <div className="inset-x-0 h-2 bg-zinc-200 rounded-md animate-pulse mt-8"></div>
+            <div className="inset-x-0 h-14 bg-zinc-200 rounded-md animate-pulse mt-2"></div>
+          </div>
+        ) : (
+          <SectionTablePiutang />
+        )}
       </div>
 
       <Modals
