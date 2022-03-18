@@ -24,6 +24,7 @@ export default {
   listUnbill: (data) => axios.get('unbilled', data),
   viewUnbillByIo: (data) => axios.get('unbilled/detail', data),
   updateKeterangan: (data) => axios.post('keterangan-unbilled/update', data),
+  downloadAllDataUnbill: () => axios.get('unbilled/download'),
 
   // endpoint document
   updateDocument: (data) => axios.post('document/update', data),
