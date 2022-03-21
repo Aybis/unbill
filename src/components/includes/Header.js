@@ -6,6 +6,7 @@ import swal from 'sweetalert';
 import { imageApiAvatarUser } from '../../helpers/Assets';
 import { convertDate } from '../../helpers/ConvertDate';
 import { userLogout } from '../../redux/actions/user';
+import Cookies from 'js-cookie';
 
 export default function Header({ setMobileMenuOpen }) {
   const USER = useSelector((state) => state.user);
@@ -15,6 +16,7 @@ export default function Header({ setMobileMenuOpen }) {
       .then((res) => {
         swal('Yeay!', res.message, 'success');
         localStorage.clear();
+        Cookies.remove('session');
         window.location.reload();
       })
       .catch((err) => {

@@ -23,6 +23,7 @@ export default function Piutang() {
   const history = useHistory();
   const dispatch = useDispatch();
   const UNBILL = useSelector((state) => state.unbill);
+  const USER = useSelector((state) => state.user);
   const PIUTANG = useSelector((state) => state.piutang);
   const [keyword, setKeyword] = useState('');
   const [form, setForm] = useState({
@@ -32,6 +33,7 @@ export default function Piutang() {
   const [didMount, setDidMount] = useState(false);
   const [isSubmit, setIsSubmit] = useState(false);
   const [showModal, setShowModal] = useState(false);
+  const isAdmin = ['masdeiri', 'oktriana', 'asrie', 'abdul.muchtar'];
 
   const handlerChangeFile = (event) => {
     setForm({
@@ -124,7 +126,7 @@ export default function Piutang() {
             handlerRemoveSearch={handlerRemoveSearch}
             handlerSearch={handlerSearch}
           />
-          {!id && (
+          {!id && isAdmin.includes(USER?.profile?.username) && (
             <Button
               moreClass={'mt-4 lg:mt-0 gap-2 w-full lg:w-fit'}
               handlerClick={handlerModalUpload}>

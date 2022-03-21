@@ -32,6 +32,7 @@ import {
 
 export default function Lop() {
   const LOP = useSelector((state) => state.lop);
+  const USER = useSelector((state) => state.user);
   const dispatch = useDispatch();
   const [type, settype] = useState('');
   const [keyword, setKeyword] = useState('');
@@ -43,6 +44,7 @@ export default function Lop() {
     file: null,
     selected: false,
   });
+  const isAdmin = ['masdeiri', 'oktriana', 'asrie', 'abdul.muchtar'];
 
   const handlerChangeFile = (event) => {
     setForm({
@@ -133,21 +135,23 @@ export default function Lop() {
             handlerRemoveSearch={handlerRemoveSearch}
             handlerSearch={handlerSearch}
           />
-          <div className="relative flex flex-col lg:flex-row mt-4 gap-4 w-full lg:w-fit">
-            <Button
-              handlerClick={handlerClickData}
-              name={'create'}
-              moreClass={'gap-2 w-full lg:w-fit'}>
-              <DocumentAddIcon className="h-5" /> Tambah LOP
-            </Button>
+          {isAdmin.includes(USER?.profile?.username) && (
+            <div className="relative flex flex-col lg:flex-row mt-4 gap-4 w-full lg:w-fit">
+              <Button
+                handlerClick={handlerClickData}
+                name={'create'}
+                moreClass={'gap-2 w-full lg:w-fit'}>
+                <DocumentAddIcon className="h-5" /> Tambah LOP
+              </Button>
 
-            <Button
-              handlerClick={handlerClickData}
-              name={'upload'}
-              moreClass={'gap-2 w-full lg:w-fit'}>
-              <DocumentIcon className="h-5" /> Upload File
-            </Button>
-          </div>
+              <Button
+                handlerClick={handlerClickData}
+                name={'upload'}
+                moreClass={'gap-2 w-full lg:w-fit'}>
+                <DocumentIcon className="h-5" /> Upload File
+              </Button>
+            </div>
+          )}
         </div>
         {LOP?.loading ? (
           <div className="relative w-full my-8 rounded-md bg-zinc-100 animate-pulse">
@@ -191,7 +195,8 @@ export default function Lop() {
                           name={'update'}
                           moreClass={'gap-2'}
                           handlerClick={(e) => handlerClickData(e, item)}>
-                          <PencilAltIcon className="h-5" /> Ubah LOP
+                          <PencilAltIcon className="h-5" />
+                          Edit
                         </Button>
                       </div>
                     </TableContent>

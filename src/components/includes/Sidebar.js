@@ -1,6 +1,4 @@
 import { ChartBarIcon, ClipboardListIcon } from '@heroicons/react/solid';
-import { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
 import { NavLink, useRouteMatch } from 'react-router-dom';
 import { toAbsoluteUrl } from '../../helpers/Assets';
 
@@ -9,51 +7,29 @@ function classNames(...classes) {
 }
 
 export default function Sidebar() {
-  const USER = useSelector((state) => state.user);
-  const [sidebarNavigation, setsidebarNavigation] = useState([]);
-
   const { path } = useRouteMatch();
 
-  const isAdmin = ['masdeiri', 'oktriana', 'asrie', 'abdul.muchtar'];
-
-  const privileges = async () => {
-    return (await isAdmin.includes(USER?.profile?.username))
-      ? setsidebarNavigation([
-          { name: 'Dashboard', href: '/', icon: ChartBarIcon, current: true },
-          {
-            name: 'Unbill',
-            href: '/unbill',
-            icon: ClipboardListIcon,
-            current: false,
-          },
-          {
-            name: 'Piutang',
-            href: '/piutang',
-            icon: ClipboardListIcon,
-            current: false,
-          },
-          {
-            name: 'LOP',
-            href: '/lop',
-            icon: ClipboardListIcon,
-            current: false,
-          },
-        ])
-      : setsidebarNavigation([
-          { name: 'Dashboard', href: '/', icon: ChartBarIcon, current: true },
-          {
-            name: 'Unbill',
-            href: '/unbill',
-            icon: ClipboardListIcon,
-            current: false,
-          },
-        ]);
-  };
-
-  useEffect(() => {
-    privileges();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  const listMenu = [
+    { name: 'Dashboard', href: '/', icon: ChartBarIcon, current: true },
+    {
+      name: 'Unbill',
+      href: '/unbill',
+      icon: ClipboardListIcon,
+      current: false,
+    },
+    {
+      name: 'Piutang',
+      href: '/piutang',
+      icon: ClipboardListIcon,
+      current: false,
+    },
+    {
+      name: 'LOP',
+      href: '/lop',
+      icon: ClipboardListIcon,
+      current: false,
+    },
+  ];
 
   return (
     <div className="hidden w-0 lg:w-32 bg-white fixed h-screen overflow-y-auto md:block border-r-2 border-zinc-100">
@@ -66,7 +42,7 @@ export default function Sidebar() {
           />
         </div>
         <div className="flex-1 mt-6 w-full px-2 space-y-1">
-          {sidebarNavigation.map((item) => (
+          {listMenu.map((item) => (
             <NavLink
               key={item.name}
               to={item.href}

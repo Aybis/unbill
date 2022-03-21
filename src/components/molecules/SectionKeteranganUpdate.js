@@ -50,6 +50,12 @@ export default function SectionKeteranganUpdate() {
   });
   const [showModal, setShowModal] = useState(false);
 
+  const fieldHandlerNotifikasiPrioritas = [
+    'KOREKSI PENDAPATAN',
+    'REKLAS UANG MUKA',
+    'CANCEL',
+  ];
+
   const fieldKeterangan = [
     'follow_up',
     'kendala_unbilled',
@@ -194,14 +200,15 @@ export default function SectionKeteranganUpdate() {
           type={field}
         />
         {field === 'kategori' ? (
-          JSON.parse(item[1]).pop().value === 'KOREKSI PENDAPATAN' &&
-          USER?.profile?.unit === 'TREASURY, COLLECTION & TAX' ? (
+          fieldHandlerNotifikasiPrioritas.indexOf(
+            JSON.parse(item[1]).pop().value,
+          ) > -1 && USER?.profile?.unit === 'TREASURY, COLLECTION & TAX' ? (
             <Button
               isAnimated={false}
               isSubmit={loadingNotif}
               handlerClick={() => handlerNotifPrioritas()}
               type="out"
-              moreClass={'gap-2'}>
+              moreClass={'gap-2 text-sm'}>
               <PaperAirplaneIcon className="h-5 rotate-45" />
               Notif Prioritas
             </Button>

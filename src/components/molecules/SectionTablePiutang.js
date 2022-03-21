@@ -75,7 +75,7 @@ export default function SectionTablePiutang({ fromPage = 'piutang' }) {
                   )
               : '',
           )}>
-          {PIUTANG?.loading ? (
+          {PIUTANG?.loading && PIUTANG?.listPiutang?.length > 0 ? (
             <TableBody>
               <TableContent
                 rowSpan={PIUTANG?.loading ? 1 : 24}

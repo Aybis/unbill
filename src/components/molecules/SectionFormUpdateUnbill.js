@@ -14,6 +14,20 @@ export default function SectionFormUpdateUnbill() {
     'catatan_ubis',
   ];
 
+  const rupiahTable = [
+    'sum_of_amt_in_loc_acur',
+    '1._<_1',
+    '2._1_-_3',
+    '3._4_-_6',
+    '4._7_-_12',
+    '5._>_12',
+    'grand_total',
+    'ar_unbilled_(>_2_bulan)',
+    'ar_current_(<_2_bulan)',
+    'billed_mtd',
+    'saldo_unbilled_mtd',
+  ];
+
   const UNBILL = useSelector((state) => state.unbill);
 
   useEffect(() => {
@@ -34,7 +48,11 @@ export default function SectionFormUpdateUnbill() {
                   key={item[0]}
                   addClassLabel={'uppercase font-semibold text-zinc-800'}
                   label={item[0].replace(/_/g, ' ')}
-                  value={item[1] ?? ''}
+                  value={
+                    rupiahTable.includes(item[0])
+                      ? item[1].toLocaleString('id')
+                      : item[1] ?? ''
+                  }
                   name={item[0]}
                   required={false}
                   readonly={true}

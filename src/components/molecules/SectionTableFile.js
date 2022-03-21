@@ -1,9 +1,9 @@
 import {
+  ClipboardIcon,
   DocumentAddIcon,
   DocumentIcon,
-  IdentificationIcon,
-  PencilAltIcon,
   PaperAirplaneIcon,
+  PencilAltIcon,
 } from '@heroicons/react/solid';
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -74,7 +74,7 @@ export default function SectionTableFile({ handlerClikUpdateStatus, io }) {
     }
   };
 
-  const handlerNotifikasiFollowUp = async () => {
+  const handlerNotifikasiFollowUp = async (event) => {
     setloadingNotif(true);
     let userId = USER?.profile?.id;
     let getNameUnit = JSON.parse(UNBILL?.unbillSelected?.follow_up).pop().value;
@@ -91,6 +91,7 @@ export default function SectionTableFile({ handlerClikUpdateStatus, io }) {
       sender_id: userId,
       status_dokumen: getListDokumen.toString(),
       nama_project: getNameOfProject,
+      type: event.target.name,
     };
 
     try {
@@ -123,11 +124,18 @@ export default function SectionTableFile({ handlerClikUpdateStatus, io }) {
       <div className=" my-4 sticky top-0">
         <Button
           isSubmit={loadingNotif}
-          handlerClick={handlerNotifikasiFollowUp}
+          handlerClick={(event) => handlerNotifikasiFollowUp(event)}
           type="out"
+          name={
+            USER?.profile?.unit === 'TREASURY, COLLECTION & TAX'
+              ? 'return'
+              : 'followup'
+          }
           moreClass={'gap-2'}>
           <PaperAirplaneIcon className="h-5 rotate-45" />
-          Follow Up
+          {USER?.profile?.unit === 'TREASURY, COLLECTION & TAX'
+            ? 'Return'
+            : 'Follow Up'}
         </Button>
       </div>
       <div
@@ -144,68 +152,73 @@ export default function SectionTableFile({ handlerClikUpdateStatus, io }) {
             'File',
             'Action',
           ]}>
-          {Object.entries(UNBILL?.listDokumen)?.length > 0
-            ? UNBILL?.listDokumen?.map((item, index) => (
-                <TableBody key={index}>
-                  <TableContent>{index + 1}</TableContent>
-                  <TableContent>{item.name}</TableContent>
-                  <TableContent>{item.status}</TableContent>
-                  <TableContent>
-                    {item.link === null || item.link === '[]' ? (
+          {Object.entries(UNBILL?.listDokumen)?.length > 0 ? (
+            UNBILL?.listDokumen?.map((item, index) => (
+              <TableBody key={index}>
+                <TableContent>{index + 1}</TableContent>
+                <TableContent>{item.name}</TableContent>
+                <TableContent>{item.status}</TableContent>
+                <TableContent>
+                  {item.link === null || item.link === '[]' ? (
+                    ''
+                  ) : (
+                    <Button
+                      name={'history'}
+                      type="view"
+                      handlerClick={(e) =>
+                        handlerClickDetailFile(e, item, JSON.parse(item.link))
+                      }
+                      moreClass={'gap-2'}>
+                      <ClipboardIcon className="h-5" />
+                      View History
+                    </Button>
+                  )}
+                </TableContent>
+                <TableContent>
+                  {item.link === null || item.link === '[]' ? (
+                    ''
+                  ) : (
+                    <Button
+                      type="view"
+                      name={'view_list'}
+                      handlerClick={(e) =>
+                        handlerClickDetailFile(e, item, JSON.parse(item.link))
+                      }
+                      moreClass={'gap-2'}>
+                      <DocumentIcon className="h-5" />
+                      View File
+                    </Button>
+                  )}
+                </TableContent>
+                <TableContent>
+                  <div className="flex gap-2">
+                    <Button
+                      handlerClick={(e) => handlerClikUpdateStatus(e, item)}
+                      type="edit"
+                      name={'update'}
+                      moreClass={'gap-2'}>
+                      <PencilAltIcon className="h-4" /> Update Status
+                    </Button>
+                    {item.status === '' || item.status === null ? (
                       ''
                     ) : (
-                      <Button
-                        name={'history'}
-                        type="view"
-                        handlerClick={(e) =>
-                          handlerClickDetailFile(e, item, JSON.parse(item.link))
-                        }
-                        moreClass={'gap-2'}>
-                        <IdentificationIcon className="h-5" />
-                        View History
-                      </Button>
-                    )}
-                  </TableContent>
-                  <TableContent>
-                    {item.link === null || item.link === '[]' ? (
-                      ''
-                    ) : (
-                      <Button
-                        name={'view_list'}
-                        handlerClick={(e) =>
-                          handlerClickDetailFile(e, item, JSON.parse(item.link))
-                        }
-                        moreClass={'gap-2'}>
-                        <DocumentIcon className="h-5" />
-                        View File
-                      </Button>
-                    )}
-                  </TableContent>
-                  <TableContent>
-                    <div className="flex gap-2">
                       <Button
                         handlerClick={(e) => handlerClikUpdateStatus(e, item)}
-                        type="edit"
-                        name={'update'}
+                        type="in"
+                        name={'upload'}
                         moreClass={'gap-2'}>
-                        <PencilAltIcon className="h-4" /> Update Status
+                        <DocumentAddIcon className="h-4" /> Upload File
                       </Button>
-                      {item.status === '' || item.status === null ? (
-                        ''
-                      ) : (
-                        <Button
-                          handlerClick={(e) => handlerClikUpdateStatus(e, item)}
-                          type="in"
-                          name={'upload'}
-                          moreClass={'gap-2'}>
-                          <DocumentAddIcon className="h-4" /> Upload File
-                        </Button>
-                      )}
-                    </div>
-                  </TableContent>
-                </TableBody>
-              ))
-            : ' '}
+                    )}
+                  </div>
+                </TableContent>
+              </TableBody>
+            ))
+          ) : (
+            <TableBody>
+              <TableContent rowSpan={6} colSpan={6}></TableContent>
+            </TableBody>
+          )}
         </TableHeading>
       </div>
 

@@ -46,7 +46,7 @@ export default function PreviewPiutang() {
 
   return (
     <Layout
-      titlePage={`${PIUTANG.typePage} Piutang ${PIUTANG.piutangSelected.ref_key}`}>
+      titlePage={`${PIUTANG.typePage} Piutang - ${PIUTANG.piutangSelected.ref_key}`}>
       <SectionBarPreview
         name={PIUTANG.piutangSelected.ref_key}
         subname={PIUTANG.piutangSelected.project}
