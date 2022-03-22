@@ -1,6 +1,6 @@
 import { DownloadIcon } from '@heroicons/react/solid';
 import React, { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { fetchDataTableHeaderPiutang } from '../../redux/actions/piutang';
 import {
   fetchDataUnbill,
@@ -14,6 +14,7 @@ export default function Unbill() {
   const dispatch = useDispatch();
   const [keyword, setKeyword] = useState(' ');
   const [didMount, setDidMount] = useState(false);
+  const UNBILL = useSelector((state) => state.unbill);
 
   const handlerRemoveSearch = () => {
     setKeyword('');
@@ -27,8 +28,14 @@ export default function Unbill() {
   };
 
   const handlerFilterMansol = () => {
-    dispatch(setTemporary('mansol'));
-    dispatch(fetchDataUnbill('mansol'));
+    if (UNBILL?.temporary === '') {
+      dispatch(setTemporary('mansol'));
+      dispatch(fetchDataUnbill('mansol'));
+    }
+    if (UNBILL?.temporary === 'mansol') {
+      dispatch(setTemporary(''));
+      dispatch(fetchDataUnbill());
+    }
   };
 
   useEffect(() => {
@@ -58,7 +65,12 @@ export default function Unbill() {
         />
         <div
           onClick={() => handlerFilterMansol()}
-          className="relative my-4 bg-zinc-50 px-4 py-2 rounded-md w-fit cursor-pointer hover:bg-zinc-100 transition-all duration-300 ease-in-out border border-zinc-100 focus:border-zinc-200 text-zinc-700 font-medium focus:shadow-md active:shadow-md shadow-zinc-300">
+          className={[
+            'relative my-4 px-4 py-2 rounded-md w-fit cursor-pointer  transition-all duration-300 ease-in-out border border-zinc-100 focus:border-zinc-200  font-medium focus:shadow-md active:shadow-md shadow-zinc-300',
+            UNBILL?.temporary === 'mansol'
+              ? 'bg-blue-600 hover:bg-blue-500 text-white'
+              : 'bg-zinc-50 hover:bg-zinc-100 text-zinc-700',
+          ].join(' ')}>
           Mansol
         </div>
         <div className="relative lg:absolute lg:top-4 lg:right-4">
