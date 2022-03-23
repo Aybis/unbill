@@ -107,9 +107,7 @@ export default function Login({ history }) {
           <h1 className="text-lg font-semibold text-zinc-800">Login.</h1>
         </div>
 
-        <form
-          className="flex flex-col w-full xl:mt-10 mt-2"
-          onSubmit={handlerLogin}>
+        <form className="flex flex-col w-full mt-2" onSubmit={handlerLogin}>
           <div className="relative mb-6">
             <label
               htmlFor="username"
