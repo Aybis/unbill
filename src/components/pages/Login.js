@@ -66,10 +66,19 @@ export default function Login({ history }) {
     return null;
   }
   return (
-    <motion.div className="relative bg-white lg:bg-zinc-50 flex items-center justify-center inset-x-0 h-auto min-h-screen xl:h-full mx-auto">
+    <motion.div className="relative bg-white md:bg-zinc-50 flex items-center justify-center inset-x-0 h-auto min-h-screen xl:h-full mx-auto">
       <motion.div className="flex flex-col w-full md:w-lg xl:w-lg p-8 gap-4 items-start bg-white xl:rounded-lg xl:shadow-lg">
         {/* Logo and Heading Dekstop */}
-        <div className="md:flex justify-between w-full hidden">
+        <div className="md:flex justify-between items-center w-full hidden">
+          <div className="relative flex flex-col space-y-1">
+            <h1 className="text-xl xl:text-2xl font-bold text-zinc-900">
+              SIDARLING
+            </h1>
+            <h4 className="text-base text-center font-normal mt-1 text-zinc-700">
+              Sistem Informasi Data AR Unbilled to Billing
+            </h4>
+          </div>
+
           <img
             src={`${process.env.PUBLIC_URL}/assets/images/pins.png`}
             loading="lazy"
@@ -85,17 +94,22 @@ export default function Login({ history }) {
           className="transition-all duration-500 ease-in-out h-10 absolute top-4 right-4 md:hidden"
         />
 
-        {/* Heading Login */}
-        <div className="relative inset-x-0 xl:mt-16 mt-8">
-          <h1 className="text-xl xl:text-2xl font-semibold text-zinc-900">
-            Login.
+        <div className="relative inset-x-0 -mt-10 md:hidden">
+          <h1 className="text-xl xl:text-2xl font-bold text-zinc-900">
+            SIDARLING.
           </h1>
-          <h2 className="text-sm font-normal mt-1 text-zinc-700">
-            Happy to see you, please login to continue.
+          <h2 className="text-sm font-normal mt-1 text-zinc-700 ">
+            Sistem Informasi Data AR Unbilled to Billing.
           </h2>
         </div>
 
-        <form className="flex flex-col w-full mt-2" onSubmit={handlerLogin}>
+        <div className="relative mt-4 -mb-3">
+          <h1 className="text-lg font-semibold text-zinc-800">Login.</h1>
+        </div>
+
+        <form
+          className="flex flex-col w-full xl:mt-10 mt-2"
+          onSubmit={handlerLogin}>
           <div className="relative mb-6">
             <label
               htmlFor="username"
@@ -108,7 +122,7 @@ export default function Login({ history }) {
                 name="username"
                 value={form.username ?? ''}
                 onChange={handlerForm}
-                className="text-zinc-800 focus:ring-blue-600 focus:border-sky-500 block w-full sm:text-sm border-gray-200 rounded-md py-3 placeholder-opacity-50 placeholder-gray-500"
+                className="text-zinc-800 focus:ring-blue-600 focus:border-sky-500 block w-full border-gray-200 rounded-md py-3 placeholder-opacity-50 placeholder-gray-500"
                 placeholder="your username"
               />
             </div>
@@ -127,7 +141,7 @@ export default function Login({ history }) {
                 onChange={handlerForm}
                 placeholder="your password"
                 name="password"
-                className="text-zinc-800 focus:ring-blue-600 focus:border-sky-500 block w-full sm:text-sm border-gray-200 rounded-md py-3 placeholder-opacity-50 placeholder-gray-500"
+                className="text-zinc-800 focus:ring-blue-600 focus:border-sky-500 block w-full border-gray-200 rounded-md py-3 placeholder-opacity-50 placeholder-gray-500"
               />
               <button
                 type="button"
