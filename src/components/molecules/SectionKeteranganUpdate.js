@@ -182,6 +182,30 @@ export default function SectionKeteranganUpdate() {
     }
   };
 
+  const ButtonPrioritas = (item) => {
+    if (USER?.profile?.unit === 'TREASURY, COLLECTION & TAX') {
+      return item[1] === null || item[1] === undefined ? (
+        ''
+      ) : fieldHandlerNotifikasiPrioritas.includes(
+          JSON.parse(item[1]).pop().value,
+        ) ? (
+        <Button
+          isAnimated={false}
+          isSubmit={loadingNotif}
+          handlerClick={() => handlerNotifPrioritas()}
+          type="out"
+          moreClass={'gap-2 text-sm'}>
+          <PaperAirplaneIcon className="h-5 rotate-45" />
+          Notif Prioritas
+        </Button>
+      ) : (
+        ''
+      );
+    } else {
+      return '';
+    }
+  };
+
   const ButtonUpdate = ({ item, field = '' }) => {
     return field === 'keterangan' ? (
       <SwitchButton form={form} />
@@ -199,25 +223,7 @@ export default function SectionKeteranganUpdate() {
           form={form}
           type={field}
         />
-        {field === 'kategori' ? (
-          fieldHandlerNotifikasiPrioritas.indexOf(
-            JSON.parse(item[1]).pop().value,
-          ) > -1 && USER?.profile?.unit === 'TREASURY, COLLECTION & TAX' ? (
-            <Button
-              isAnimated={false}
-              isSubmit={loadingNotif}
-              handlerClick={() => handlerNotifPrioritas()}
-              type="out"
-              moreClass={'gap-2 text-sm'}>
-              <PaperAirplaneIcon className="h-5 rotate-45" />
-              Notif Prioritas
-            </Button>
-          ) : (
-            ''
-          )
-        ) : (
-          ''
-        )}
+        {field === 'kategori' && <ButtonPrioritas item={item} />}
       </div>
     ) : (
       <Button
