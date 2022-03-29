@@ -182,8 +182,11 @@ export default function SectionKeteranganUpdate() {
     }
   };
 
-  const ButtonPrioritas = (item) => {
-    if (USER?.profile?.unit === 'TREASURY, COLLECTION & TAX') {
+  const ButtonPrioritas = ({ item }) => {
+    if (
+      USER?.profile?.unit === 'TREASURY, COLLECTION & TAX' ||
+      USER?.profile?.username === 'abdul.muchtar'
+    ) {
       return item[1] === null || item[1] === undefined ? (
         ''
       ) : fieldHandlerNotifikasiPrioritas.includes(
@@ -194,7 +197,7 @@ export default function SectionKeteranganUpdate() {
           isSubmit={loadingNotif}
           handlerClick={() => handlerNotifPrioritas()}
           type="out"
-          moreClass={'gap-2 text-sm'}>
+          moreClass={'gap-2 text-sm w-40'}>
           <PaperAirplaneIcon className="h-5 rotate-45" />
           Notif Prioritas
         </Button>
@@ -305,7 +308,7 @@ export default function SectionKeteranganUpdate() {
                   ? ' '
                   : JSON.parse(name[1]).pop().value.substring(0, 40)}
               </TableContent>
-              <TableContent>
+              <TableContent addClassChild={'whitespace-nowrap'}>
                 <OtoritasUpdate item={name} field={name[0]} />
               </TableContent>
             </TableBody>

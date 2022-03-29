@@ -157,8 +157,10 @@ export default function SectionTableFile({ handlerClikUpdateStatus, io }) {
               <TableBody key={index}>
                 <TableContent>{index + 1}</TableContent>
                 <TableContent>{item.name}</TableContent>
-                <TableContent>{item.status}</TableContent>
-                <TableContent>
+                <TableContent addClassChild={'whitespace-nowrap'}>
+                  {item.status}
+                </TableContent>
+                <TableContent addClassChild={'whitespace-nowrap'}>
                   {item.link === null || item.link === '[]' ? (
                     ''
                   ) : (
@@ -174,7 +176,7 @@ export default function SectionTableFile({ handlerClikUpdateStatus, io }) {
                     </Button>
                   )}
                 </TableContent>
-                <TableContent>
+                <TableContent addClassChild={'whitespace-nowrap'}>
                   {item.link === null || item.link === '[]' ? (
                     ''
                   ) : (
@@ -190,7 +192,7 @@ export default function SectionTableFile({ handlerClikUpdateStatus, io }) {
                     </Button>
                   )}
                 </TableContent>
-                <TableContent>
+                <TableContent addClassChild={'whitespace-nowrap'}>
                   <div className="flex gap-2">
                     <Button
                       handlerClick={(e) => handlerClikUpdateStatus(e, item)}
