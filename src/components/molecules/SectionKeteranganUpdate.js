@@ -187,7 +187,7 @@ export default function SectionKeteranganUpdate() {
       USER?.profile?.unit === 'TREASURY, COLLECTION & TAX' ||
       USER?.profile?.username === 'abdul.muchtar'
     ) {
-      return item[1] === null || item[1] === undefined ? (
+      return item[1] === null || item[1] === '' || item[1] === undefined ? (
         ''
       ) : fieldHandlerNotifikasiPrioritas.includes(
           JSON.parse(item[1]).pop().value,
@@ -226,6 +226,7 @@ export default function SectionKeteranganUpdate() {
           form={form}
           type={field}
         />
+
         {field === 'kategori' && <ButtonPrioritas item={item} />}
       </div>
     ) : (
@@ -290,7 +291,9 @@ export default function SectionKeteranganUpdate() {
                     handlerClick={() =>
                       handlerClickHistory(
                         name[0],
-                        name[1] === null ? '' : JSON.parse(name[1]),
+                        name[1] === null || name[1] === ''
+                          ? ''
+                          : JSON.parse(name[1]),
                       )
                     }>
                     <ClipboardIcon className="h-5" />
